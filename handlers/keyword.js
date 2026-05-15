@@ -1,6 +1,8 @@
 //import the config.json file
 const config = require(`${process.cwd()}/botconfig/config.json`);
-var { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const { escapeRegex } = require(`./functions`);
 const map = new Map();
 module.exports = client => {
@@ -36,7 +38,7 @@ module.exports = client => {
                             if (prefixRegex.test(message.content) && !cmd.name.startsWith(prefix)) return;
                             message.channel.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.color)
                                         .setThumbnail(
                                             es.thumb

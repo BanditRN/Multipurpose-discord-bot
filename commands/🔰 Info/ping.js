@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -20,7 +22,7 @@ module.exports = {
             message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setThumbnail(
                                 es.thumb
@@ -39,7 +41,7 @@ module.exports = {
                     if (newtime < 0) newtime *= -1;
                     msg.edit({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -49,13 +51,10 @@ module.exports = {
                                             : client.user.displayAvatarURL()
                                         : null
                                 )
-                                .setFooter(
-                                    "It Takes longer, because i am getting my host ping!",
-                                    es.footericon &&
+                                .setFooter({ text: "It Takes longer, because i am getting my host ping!", iconURL: es.footericon &&
                                         (es.footericon.includes("http://") || es.footericon.includes("https://"))
                                         ? es.footericon
-                                        : client.user.displayAvatarURL()
-                                )
+                                        : client.user.displayAvatarURL() })
                                 .setTitle(
                                     handlemsg(client.la[ls].cmds.info.ping.m2, {
                                         botping: Math.floor(client.ws.ping + newtime),
@@ -70,7 +69,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

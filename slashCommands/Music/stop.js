@@ -1,4 +1,9 @@
-const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
+const {
+    ButtonStyle,
+    MessageActionRow,
+    MessageButton,
+    MessageEmbed,
+} = require("discord.js");
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
 module.exports = {
@@ -77,25 +82,25 @@ module.exports = {
                                         .setCustomId("1")
                                         .setEmoji("⏭")
                                         .setLabel("Skip")
-                                        .setStyle("SECONDARY")
+                                        .setStyle(ButtonStyle.Secondary)
                                         .setDisabled(true),
                                     new MessageButton()
                                         .setCustomId("2")
                                         .setEmoji("⏹️")
                                         .setLabel("Stop")
-                                        .setStyle("SECONDARY")
+                                        .setStyle(ButtonStyle.Secondary)
                                         .setDisabled(true),
                                     new MessageButton()
                                         .setCustomId("3")
                                         .setEmoji("⏸")
                                         .setLabel("Pause")
-                                        .setStyle("SECONDARY")
+                                        .setStyle(ButtonStyle.Secondary)
                                         .setDisabled(true),
                                     new MessageButton()
                                         .setCustomId("4")
                                         .setEmoji("🔁")
                                         .setLabel("Autoplay")
-                                        .setStyle("SECONDARY")
+                                        .setStyle(ButtonStyle.Secondary)
                                         .setDisabled(true),
                                 ]);
                                 msg.edit({
@@ -139,25 +144,25 @@ module.exports = {
                                 .setCustomId("1")
                                 .setEmoji("⏭")
                                 .setLabel("Skip")
-                                .setStyle("SECONDARY")
+                                .setStyle(ButtonStyle.Secondary)
                                 .setDisabled(true),
                             new MessageButton()
                                 .setCustomId("2")
                                 .setEmoji("⏹️")
                                 .setLabel("Stop")
-                                .setStyle("SECONDARY")
+                                .setStyle(ButtonStyle.Secondary)
                                 .setDisabled(true),
                             new MessageButton()
                                 .setCustomId("3")
                                 .setEmoji("⏸")
                                 .setLabel("Pause")
-                                .setStyle("SECONDARY")
+                                .setStyle(ButtonStyle.Secondary)
                                 .setDisabled(true),
                             new MessageButton()
                                 .setCustomId("4")
                                 .setEmoji("🔁")
                                 .setLabel("Autoplay")
-                                .setStyle("SECONDARY")
+                                .setStyle(ButtonStyle.Secondary)
                                 .setDisabled(true),
                         ]);
                         msg.edit({

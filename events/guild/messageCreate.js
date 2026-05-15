@@ -5,7 +5,10 @@
 const config = require(`${process.cwd()}/botconfig/config.json`); //loading config file with token and prefix, and settings
 const ee = require(`${process.cwd()}/botconfig/embed.json`); //Loading all embed settings like color footertext and icon ...
 const Discord = require("discord.js"); //this is the official discord.js wrapper for the Discord Api, which we use!
-const { MessageEmbed } = require("discord.js"); //this is the official discord.js wrapper for the Discord Api, which we use!
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const { escapeRegex, delay, simple_databasing, databasing, handlemsg, check_if_dj } = require(
     `${process.cwd()}/handlers/functions`
 ); //Loading all needed functions
@@ -35,13 +38,13 @@ module.exports = async (client, message) => {
         //now define the right prefix either ping or not ping
         const [, matchedPrefix] = message.content.match(prefixRegex);
         //CHECK PERMISSIONS
-        if (!message.guild.me.permissions.has(Discord.Permissions.FLAGS.USE_EXTERNAL_EMOJIS))
+        if (!message.guild.members.me?.permissions.has(PermissionFlagsBits.UseExternalEmojis))
             return message.reply(`❌ **I am missing the Permission to USE EXTERNAL EMOJIS**`).catch(() => {});
-        if (!message.guild.me.permissions.has(Discord.Permissions.FLAGS.EMBED_LINKS))
+        if (!message.guild.members.me?.permissions.has(PermissionFlagsBits.EmbedLinks))
             return message
                 .reply(`<:no:833101993668771842> **I am missing the Permission to EMBED LINKS (Sending Embeds)**`)
                 .catch(() => {});
-        if (!message.guild.me.permissions.has(Discord.Permissions.FLAGS.ADD_REACTIONS))
+        if (!message.guild.members.me?.permissions.has(PermissionFlagsBits.AddReactions))
             return message
                 .reply(`<:no:833101993668771842> **I am missing the Permission to ADD REACTIONS**`)
                 .catch(() => {});
@@ -49,7 +52,7 @@ module.exports = async (client, message) => {
         //CHECK IF IN A BOT CHANNEL OR NOT
         if (botchannel.toString() !== "") {
             //if its not in a BotChannel, and user not an ADMINISTRATOR
-            if (!botchannel.includes(message.channel.id) && !message.member.permissions.has("ADMINISTRATOR")) {
+            if (!botchannel.includes(message.channel.id) && !message.member.permissions.has(PermissionFlagsBits.Administrator)) {
                 for (const channelId of botchannel) {
                     let channel = message.guild.channels.cache.get(channelId);
                     if (!channel) {
@@ -63,7 +66,7 @@ module.exports = async (client, message) => {
                 return message
                     .reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(client.la[ls].common.botchat.title)
@@ -92,7 +95,7 @@ module.exports = async (client, message) => {
                 return message
                     .reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setTitle(handlemsg(client.la[ls].common.ping, { prefix: prefix })),
                         ],
@@ -112,7 +115,7 @@ module.exports = async (client, message) => {
                 if (cmd.embed) {
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -150,7 +153,7 @@ module.exports = async (client, message) => {
                     message
                         .reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.wrongcolor)
                                     .setFooter(client.getFooter(es))
                                     .setTitle(handlemsg(client.la[ls].common.unknowncmd.title, { prefix: prefix }))
@@ -190,7 +193,7 @@ module.exports = async (client, message) => {
                         return message
                             .reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setTitle(
                                             handlemsg(client.la[ls].common.cooldown, {
@@ -219,7 +222,7 @@ module.exports = async (client, message) => {
                         message
                             .reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(client.la[ls].common.permissions.title)
@@ -249,7 +252,7 @@ module.exports = async (client, message) => {
 
                 if (player && player.node && !player.node.connected) player.node.connect();
 
-                if (message.guild.me.voice.channel && player) {
+                if (message.guild.members.me?.voice?.channel && player) {
                     //destroy the player if there is no one
                     if (!player.queue) await player.destroy();
                     await delay(350);
@@ -263,14 +266,14 @@ module.exports = async (client, message) => {
                     if (command.parameters.type == "music") {
                         //get the channel instance
                         const { channel } = message.member.voice;
-                        const mechannel = message.guild.me.voice.channel;
+                        const mechannel = message.guild.members.me?.voice?.channel;
                         //if not in a voice Channel return error
                         if (!channel) {
                             not_allowed = true;
                             return message
                                 .reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(es.wrongcolor)
                                             .setFooter(client.getFooter(es))
                                             .setTitle(client.la[ls].common.join_vc),
@@ -280,7 +283,7 @@ module.exports = async (client, message) => {
                         }
                         //If there is no player, then kick the bot out of the channel, if connected to
                         if (!player && mechannel) {
-                            await message.guild.me.voice.disconnect().catch(e => {});
+                            await message.guild.members.me?.voice?.disconnect().catch(e => {});
                             await delay(350);
                         }
                         if (player && player.queue && player.queue.current && command.parameters.check_dj) {
@@ -288,7 +291,7 @@ module.exports = async (client, message) => {
                                 return message
                                     .reply({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(ee.wrongcolor)
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(
@@ -310,7 +313,7 @@ module.exports = async (client, message) => {
                                 return message
                                     .reply({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(client.la[ls].common.nothing_playing),
@@ -328,7 +331,7 @@ module.exports = async (client, message) => {
                                 return message
                                     .reply({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(client.la[ls].common.not_connected),
@@ -340,7 +343,7 @@ module.exports = async (client, message) => {
                                 return message
                                     .reply({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.wrongcolor)
                                                 .setTitle("❌ There is no current Queue / Song Playing!"),
                                         ],
@@ -355,7 +358,7 @@ module.exports = async (client, message) => {
                                 return message
                                     .reply({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(client.la[ls].common.nothing_playing),
@@ -369,7 +372,7 @@ module.exports = async (client, message) => {
                             return message
                                 .reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(es.wrongcolor)
                                             .setFooter(client.getFooter(es))
                                             .setTitle(client.la[ls].common.wrong_vc)
@@ -383,7 +386,7 @@ module.exports = async (client, message) => {
                             return message
                                 .reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(es.wrongcolor)
                                             .setFooter(client.getFooter(es))
                                             .setTitle(client.la[ls].common.wrong_vc)
@@ -411,7 +414,7 @@ module.exports = async (client, message) => {
                 return message
                     .reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(client.la[ls].common.somethingwentwrong)
@@ -434,7 +437,7 @@ module.exports = async (client, message) => {
                 message
                     .reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(handlemsg(client.la[ls].common.unknowncmd.title, { prefix: prefix }))
@@ -457,7 +460,7 @@ module.exports = async (client, message) => {
         return message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor("RED")
                         .setTitle("❌ An error occurred")
                         .setDescription(`\`\`\`${e.message ? e.message : String(e).grey.substring(0, 2000)}\`\`\``),

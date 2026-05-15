@@ -1,4 +1,6 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -22,7 +24,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -38,18 +40,12 @@ module.exports = {
                 return message
                     .reply({
                         embeds: [
-                            new MessageEmbed()
-                                .setAuthor(
-                                    `Queue for ${message.guild.name}  -  [ ${player.queue.length} Tracks ]`,
-                                    message.guild.iconURL({
+                            new EmbedBuilder()
+                                .setAuthor({ name: `Queue for ${message.guild.name}  -  [ ${player.queue.length} Tracks ]`, iconURL: message.guild.iconURL({
                                         dynamic: true,
-                                    })
-                                )
+                                    }) })
                                 .setColor(es.color)
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["music"]["queue"]["variablex_1"]),
-                                    eval(client.la[ls]["cmds"]["music"]["queue"]["variable1"])
-                                )
+                                .addFields({ name: eval(client.la[ls]["cmds"]["music"]["queue"]["variablex_1"]), value: eval(client.la[ls]["cmds"]["music"]["queue"]["variable1"]) })
                                 .setDescription(eval(client.la[ls]["cmds"]["music"]["queue"]["variable2"])),
                         ],
                     })
@@ -65,17 +61,11 @@ module.exports = {
                 return message
                     .reply({
                         embeds: [
-                            new MessageEmbed()
-                                .setAuthor(
-                                    `Queue for ${message.guild.name}  -  [ ${player.queue.length} Tracks ]`,
-                                    message.guild.iconURL({
+                            new EmbedBuilder()
+                                .setAuthor({ name: `Queue for ${message.guild.name}  -  [ ${player.queue.length} Tracks ]`, iconURL: message.guild.iconURL({
                                         dynamic: true,
-                                    })
-                                )
-                                .addField(
-                                    `**\` 0. \` __CURRENT TRACK__**`,
-                                    `**${player.queue.current.uri ? `[${player.queue.current.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${player.queue.current.uri})` : player.queue.current.title}** - \`${player.queue.current.isStream ? `LIVE STREAM` : format(player.queue.current.duration).split(` | `)[0]}\`\n> *Requested by: __${player.queue.current.requester.tag}__*`
-                                )
+                                    }) })
+                                .addFields({ name: `**\` 0. \` __CURRENT TRACK__**`, value: `**${player.queue.current.uri ? `[${player.queue.current.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${player.queue.current.uri})` : player.queue.current.title}** - \`${player.queue.current.isStream ? `LIVE STREAM` : format(player.queue.current.duration).split(` | `)[0]}\`\n> *Requested by: __${player.queue.current.requester.tag}__*` })
                                 .setColor(es.color)
                                 .setDescription(
                                     tracks
@@ -113,22 +103,13 @@ module.exports = {
             for (let i = 0; i < limit; i++) {
                 let desc = String(quelist[i]).substring(0, 2048);
                 await embeds.push(
-                    new MessageEmbed()
-                        .setAuthor(
-                            `Queue for ${message.guild.name}  -  [ ${player.queue.length} Tracks ]`,
-                            message.guild.iconURL({
+                    new EmbedBuilder()
+                        .setAuthor({ name: `Queue for ${message.guild.name}  -  [ ${player.queue.length} Tracks ]`, iconURL: message.guild.iconURL({
                                 dynamic: true,
-                            })
-                        )
-                        .addField(
-                            `**\` N. \` *${player.queue.length > maxTracks ? player.queue.length - maxTracks : player.queue.length} other Tracks ...***`,
-                            `\u200b`
-                        )
+                            }) })
+                        .addFields({ name: `**\` N. \` *${player.queue.length > maxTracks ? player.queue.length - maxTracks : player.queue.length} other Tracks ...***`, value: `\u200b` })
                         .setColor(es.color)
-                        .addField(
-                            `**\` 0. \` __CURRENT TRACK__**`,
-                            `**${player.queue.current.uri ? `[${player.queue.current.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${player.queue.current.uri})` : player.queue.current.title}** - \`${player.queue.current.isStream ? `LIVE STREAM` : format(player.queue.current.duration).split(` | `)[0]}\`\n> *Requested by: __${player.queue.current.requester.tag}__*`
-                        )
+                        .addFields({ name: `**\` 0. \` __CURRENT TRACK__**`, value: `**${player.queue.current.uri ? `[${player.queue.current.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${player.queue.current.uri})` : player.queue.current.title}** - \`${player.queue.current.isStream ? `LIVE STREAM` : format(player.queue.current.duration).split(` | `)[0]}\`\n> *Requested by: __${player.queue.current.requester.tag}__*` })
                         .setDescription(desc)
                 );
             }
@@ -138,7 +119,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
 
                         .setTitle(client.la[ls].common.erroroccur)

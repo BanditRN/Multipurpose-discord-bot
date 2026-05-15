@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-youtube",
@@ -73,18 +77,14 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Youtube-Poster",
-                        "https://cdn.discordapp.com/emojis/840260133686870036.png?size=128",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Youtube-Poster", iconURL: "https://cdn.discordapp.com/emojis/840260133686870036.png?size=128", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -123,7 +123,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable4"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable5"]))
@@ -147,7 +147,7 @@ module.exports = {
                                         );
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable6"])
                                                     )
@@ -165,7 +165,7 @@ module.exports = {
                                     console.log(e);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable8"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -180,7 +180,7 @@ module.exports = {
                             if (client.social_log.get(message.guild.id, "youtube.channels").length >= 5)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable9"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Remove some others first...`.substring(0, 2000))
@@ -189,7 +189,7 @@ module.exports = {
                                 });
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable10"]))
                                         .setColor(es.color)
                                         .setDescription(`Example:\nhttps://www.youtube.com/channel/UC1AgotpFHNhzolUtAjPgZqQ`)
@@ -221,7 +221,7 @@ module.exports = {
                                         )
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable11"]
@@ -234,7 +234,7 @@ module.exports = {
                                         client.social_log.push(message.guild.id, msg.content, "youtube.channels");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable12"])
                                                     )
@@ -252,7 +252,7 @@ module.exports = {
                                     console.log(e);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable14"])
                                                 )
@@ -269,7 +269,7 @@ module.exports = {
                             if (client.social_log.get(message.guild.id, "youtube.channels").length <= 0)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable15"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Add some others first...`.substring(0, 2000))
@@ -310,18 +310,14 @@ module.exports = {
                                 );
 
                             //define the embed
-                            let MenuEmbed = new MessageEmbed()
+                            let MenuEmbed = new EmbedBuilder()
                                 .setColor(es.color)
-                                .setAuthor(
-                                    "Youtube-Poster",
-                                    "https://cdn.discordapp.com/emojis/840260133686870036.png?size=128",
-                                    "https://discord.gg/milrato"
-                                )
+                                .setAuthor({ name: "Youtube-Poster", iconURL: "https://cdn.discordapp.com/emojis/840260133686870036.png?size=128", url: "https://discord.gg/milrato" })
                                 .setDescription("Select all Youtube Channels you want to remove!");
                             //send the menu msg
                             let menumsg = await message.reply({
                                 embeds: [MenuEmbed],
-                                components: [new MessageActionRow().addComponents(Selection)],
+                                components: [new ActionRowBuilder().addComponents(Selection)],
                             });
                             //Create the collector
                             const collector = menumsg.createMessageComponentCollector({
@@ -362,7 +358,7 @@ module.exports = {
                             if (client.social_log.get(message.guild.id, "youtube.channels").length <= 0)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable19"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Add some others first...`.substring(0, 2000))
@@ -402,18 +398,14 @@ module.exports = {
                                 );
 
                             //define the embed
-                            let MenuEmbed = new MessageEmbed()
+                            let MenuEmbed = new EmbedBuilder()
                                 .setColor(es.color)
-                                .setAuthor(
-                                    "Youtube-Poster",
-                                    "https://cdn.discordapp.com/emojis/840260133686870036.png?size=128",
-                                    "https://discord.gg/milrato"
-                                )
+                                .setAuthor({ name: "Youtube-Poster", iconURL: "https://cdn.discordapp.com/emojis/840260133686870036.png?size=128", url: "https://discord.gg/milrato" })
                                 .setDescription("Select the Youtube Channel you want to edit!");
                             //send the menu msg
                             let menumsg = await message.reply({
                                 embeds: [MenuEmbed],
-                                components: [new MessageActionRow().addComponents(Selection)],
+                                components: [new ActionRowBuilder().addComponents(Selection)],
                             });
                             //Create the collector
                             const collector = menumsg.createMessageComponentCollector({
@@ -437,7 +429,7 @@ module.exports = {
                                     });
                                     tempmsg = await message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable21"])
                                                 )
@@ -448,10 +440,7 @@ module.exports = {
                                                         2048
                                                     )
                                                 )
-                                                .addField(
-                                                    "**VARIABLES**",
-                                                    `> \`{url}\` ... will be replaced with the video **LINK**\n> \`{author}\` ... will be replaced with the video's **Author**\n> \`{title}\` ... will be replaced with the video's **title**\n> \`{date}\` ... will be replaced with the video's **date**`
-                                                )
+                                                .addFields({ name: "**VARIABLES**", value: `> \`{url}\` ... will be replaced with the video **LINK**\n> \`{author}\` ... will be replaced with the video's **Author**\n> \`{title}\` ... will be replaced with the video's **title**\n> \`{date}\` ... will be replaced with the video's **date**` })
                                                 .setFooter(client.getFooter(es)),
                                         ],
                                     });
@@ -468,7 +457,7 @@ module.exports = {
                                                 client.youtube_log.set(channel, msg.content, "message");
                                                 return message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setTitle(
                                                                 eval(
                                                                     client.la[ls]["cmds"]["setup"]["setup-youtube"][
@@ -490,7 +479,7 @@ module.exports = {
                                             console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-youtube"]["variable23"]
@@ -523,7 +512,7 @@ module.exports = {
                             let channels = client.social_log.get(message.guild.id, "youtube.channels");
                             message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(`Settings of the Youtube Poster`)
                                         .setColor(es.wrongcolor)
                                         .setDescription(
@@ -543,7 +532,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

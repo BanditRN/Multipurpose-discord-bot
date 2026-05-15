@@ -1,4 +1,6 @@
-var { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var { format, delay, arrayMove } = require("../functions");
@@ -27,13 +29,12 @@ async function search(client, message, args, type, slashCommand) {
             //set the variables
             player.set("message", message);
             player.set("playerauthor", message.author.id);
-            player.connect();
+            await player.connect();
             try {
                 message.react("863876115584385074").catch(() => {});
             } catch (e) {
                 console.log(String(e).grey);
             }
-            player.stop();
         }
         try {
             // Search for tracks using a query or url, using a query searches youtube automatically and the track requester object
@@ -57,7 +58,7 @@ async function search(client, message, args, type, slashCommand) {
                     .reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.wrongcolor)
                                 .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["search"]["variable1"]))
                                 .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["search"]["variable2"])),
@@ -67,7 +68,7 @@ async function search(client, message, args, type, slashCommand) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["search"]["variable1"]))
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["search"]["variable2"])),
@@ -93,7 +94,7 @@ async function search(client, message, args, type, slashCommand) {
             toreact = await message.channel
                 .send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(`Search-Result for: 🔎 **\`${search}`.substring(0, 256 - 3) + "`**")
                             .setColor(ee.color)
                             .setDescription(results)
@@ -112,16 +113,16 @@ async function search(client, message, args, type, slashCommand) {
             toreact = await message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(`Search-Result for: 🔎 **\`${search}`.substring(0, 256 - 3) + "`**")
                             .setColor(ee.color)
                             .setDescription(results)
                             .setFooter(
                                 client.getFooter(
-                                    (`Search-Request by: ${track.requester.tag}`,
+                                    `Search-Request by: ${track.requester.tag}`,
                                     track.requester.displayAvatarURL({
                                         dynamic: true,
-                                    }))
+                                    })
                                 )
                             ),
                     ],
@@ -145,7 +146,7 @@ async function search(client, message, args, type, slashCommand) {
                     .reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["search"]["variable3"]))
                                 .setColor(ee.wrongcolor),
                         ],
@@ -154,7 +155,7 @@ async function search(client, message, args, type, slashCommand) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["search"]["variable3"]))
                             .setColor(ee.wrongcolor),
                     ],
@@ -170,7 +171,7 @@ async function search(client, message, args, type, slashCommand) {
                     .reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.wrongcolor)
                                 .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["search"]["variable4"])),
                         ],
@@ -179,7 +180,7 @@ async function search(client, message, args, type, slashCommand) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["search"]["variable4"])),
                     ],
@@ -200,7 +201,7 @@ async function search(client, message, args, type, slashCommand) {
 
         toreact.edit({
             embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setTitle(`Search-Result-PICKED for: 🔎 **\`${search}`.substring(0, 256 - 3) + "`**")
                     .setColor(ee.color)
                     .setDescription(pickedresults)
@@ -221,7 +222,7 @@ async function search(client, message, args, type, slashCommand) {
             //set the variables
             player.set("message", message);
             player.set("playerauthor", message.author.id);
-            player.connect();
+            await player.connect();
             try {
                 message.react("863876115584385074").catch(() => {});
             } catch (e) {
@@ -231,23 +232,23 @@ async function search(client, message, args, type, slashCommand) {
             player.queue.add(track);
             //set the variables
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else if (!player.queue || !player.queue.current) {
             //add track
             player.queue.add(track);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else {
             player.queue.add(track);
-            var embed3 = new MessageEmbed()
+            var embed3 = new EmbedBuilder()
                 .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["search"]["variable5"]))
                 .setColor(ee.color)
                 .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`)
-                .addField("⌛ Duration: ", `\`${track.isStream ? "LIVE STREAM" : format(track.duration)}\``, true)
-                .addField("💯 Song By: ", `\`${track.author}\``, true)
-                .addField("🔂 Queue length: ", `\`${player.queue.length} Songs\``, true);
+                .addFields({ name: "⌛ Duration: ", value: `\`${track.isStream ? "LIVE STREAM" : format(track.duration)}\``, inline: true })
+                .addFields({ name: "💯 Song By: ", value: `\`${track.author}\``, inline: true })
+                .addFields({ name: "🔂 Queue length: ", value: `\`${player.queue.length} Songs\``, inline: true });
             if (slashCommand) slashCommand.reply({ ephemeral: true, embeds: [embed3] }).catch(() => {});
             else message.reply({ embeds: [embed3] }).catch(() => {});
         }
@@ -277,7 +278,7 @@ async function search(client, message, args, type, slashCommand) {
                 .reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**"),
                     ],
@@ -286,7 +287,7 @@ async function search(client, message, args, type, slashCommand) {
         message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**"),
                 ],

@@ -1,6 +1,9 @@
 //import the config.json file
 const Discord = require("discord.js");
-var { MessageEmbed, MessageAttachment, Permissions } = require(`discord.js`);
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const { simple_databasing } = require(`./functions`);
 module.exports = async client => {
     const { default: Enmap } = await import("enmap");
@@ -253,20 +256,17 @@ module.exports = async client => {
             if (!data.all.enabled || !data.antibot.enabled) return;
             if (member.user.bot) {
                 if (
-                    !member.guild.me.permissions.has(Discord.Permissions.FLAGS.MANAGE_GUILD) &&
-                    !member.guild.me.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR)
+                    !member.guild.members.me?.permissions.has(PermissionFlagsBits.ManageGuild) &&
+                    !member.guild.members.me?.permissions.has(PermissionFlagsBits.Administrator)
                 ) {
                     try {
                         let ch = member.guild.channels.cache.get(data.all.logger);
                         if (ch) {
                             ch.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor("YELLOW")
-                                        .setAuthor(
-                                            "This is a Warn",
-                                            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                        )
+                                        .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                         .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable2"]))
                                         .setDescription(
                                             eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable3"])
@@ -299,12 +299,9 @@ module.exports = async client => {
                                 if (ch) {
                                     ch.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("YELLOW")
-                                                .setAuthor(
-                                                    "This is a Warn",
-                                                    "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                                )
+                                                .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                                 .setTitle(
                                                     eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable2"])
                                                 )
@@ -339,12 +336,9 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("YELLOW")
-                                            .setAuthor(
-                                                "This is a Warn",
-                                                "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                            )
+                                            .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                             .setTitle(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable5"])
                                             )
@@ -373,14 +367,11 @@ module.exports = async client => {
                                 if (ch) {
                                     ch.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("#fffff9")
-                                                .setAuthor(
-                                                    `ANTI ADD BOT - ${AddedMember.user.tag}`,
-                                                    AddedMember.user.displayAvatarURL({
+                                                .setAuthor({ name: `ANTI ADD BOT - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                         dynamic: true,
-                                                    })
-                                                )
+                                                    }) })
                                                 .setDescription(
                                                     eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable7"])
                                                 )
@@ -406,8 +397,8 @@ module.exports = async client => {
                     }
                     if (
                         AddedMember.roles.cache.size > 0 &&
-                        AddedMember.guild.me.roles.cache.size > 0 &&
-                        AddedMember.roles.highest.rawPosition >= AddedMember.guild.me.roles.highest.rawPosition
+                        AddedMember.guild.members.me?.roles.cache.size > 0 &&
+                        AddedMember.roles.highest.rawPosition >= AddedMember.guild.members.me?.roles.highest.rawPosition
                     ) {
                         if (data.all.showwhitelistlog && data.all.logger && data.all.logger.length > 5) {
                             try {
@@ -415,14 +406,11 @@ module.exports = async client => {
                                 if (ch) {
                                     ch.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("#fffff9")
-                                                .setAuthor(
-                                                    `ANTI ADD BOT - ${AddedMember.user.tag}`,
-                                                    AddedMember.user.displayAvatarURL({
+                                                .setAuthor({ name: `ANTI ADD BOT - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                         dynamic: true,
-                                                    })
-                                                )
+                                                    }) })
                                                 .setDescription(
                                                     eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable8"])
                                                 )
@@ -453,14 +441,11 @@ module.exports = async client => {
                                 if (ch) {
                                     ch.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("#fffff9")
-                                                .setAuthor(
-                                                    `ANTI ADD BOT - ${AddedMember.user.tag}`,
-                                                    AddedMember.user.displayAvatarURL({
+                                                .setAuthor({ name: `ANTI ADD BOT - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                         dynamic: true,
-                                                    })
-                                                )
+                                                    }) })
                                                 .setDescription(
                                                     eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable9"])
                                                 )
@@ -494,14 +479,11 @@ module.exports = async client => {
                                 if (ch) {
                                     ch.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("#fffff9")
-                                                .setAuthor(
-                                                    `ANTI ADD BOT - ${AddedMember.user.tag}`,
-                                                    AddedMember.user.displayAvatarURL({
+                                                .setAuthor({ name: `ANTI ADD BOT - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                         dynamic: true,
-                                                    })
-                                                )
+                                                    }) })
                                                 .setDescription(
                                                     eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable10"])
                                                 )
@@ -533,14 +515,11 @@ module.exports = async client => {
                                 if (ch) {
                                     ch.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("#fffff9")
-                                                .setAuthor(
-                                                    `ANTI ADD BOT - ${AddedMember.user.tag}`,
-                                                    AddedMember.user.displayAvatarURL({
+                                                .setAuthor({ name: `ANTI ADD BOT - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                         dynamic: true,
-                                                    })
-                                                )
+                                                    }) })
                                                 .setDescription(
                                                     eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable11"])
                                                 )
@@ -574,14 +553,11 @@ module.exports = async client => {
                                 if (ch) {
                                     ch.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("#fffff9")
-                                                .setAuthor(
-                                                    `ANTI ADD BOT - ${AddedMember.user.tag}`,
-                                                    AddedMember.user.displayAvatarURL({
+                                                .setAuthor({ name: `ANTI ADD BOT - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                         dynamic: true,
-                                                    })
-                                                )
+                                                    }) })
                                                 .setDescription(
                                                     eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable12"])
                                                 )
@@ -643,12 +619,9 @@ module.exports = async client => {
                                             if (ch) {
                                                 ch.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("GREEN")
-                                                            .setAuthor(
-                                                                `ANTI BOT - I Kicked: ${member.user.tag}`,
-                                                                "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                            )
+                                                            .setAuthor({ name: `ANTI BOT - I Kicked: ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                             .setThumbnail(
                                                                 member.user.displayAvatarURL({
                                                                     dynamic: true,
@@ -687,12 +660,9 @@ module.exports = async client => {
                                             if (ch) {
                                                 ch.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("GREEN")
-                                                            .setAuthor(
-                                                                `I Banned: ${member.user.tag}`,
-                                                                "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                            )
+                                                            .setAuthor({ name: `I Banned: ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                             .setThumbnail(
                                                                 member.user.displayAvatarURL({
                                                                     dynamic: true,
@@ -758,12 +728,9 @@ module.exports = async client => {
                                             if (ch) {
                                                 ch.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("BLURPLE")
-                                                            .setAuthor(
-                                                                `ANTI ADD BOT - Removed Roles of ${AddedMember.user.tag} for adding ${member.user.tag}`,
-                                                                "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png"
-                                                            )
+                                                            .setAuthor({ name: `ANTI ADD BOT - Removed Roles of ${AddedMember.user.tag} for adding ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png" })
                                                             .setThumbnail(
                                                                 member.user.displayAvatarURL({
                                                                     dynamic: true,
@@ -848,12 +815,9 @@ module.exports = async client => {
                                             if (ch) {
                                                 ch.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("GREEN")
-                                                            .setAuthor(
-                                                                `ANTI BOT - I Kicked: ${member.user.tag}`,
-                                                                "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                            )
+                                                            .setAuthor({ name: `ANTI BOT - I Kicked: ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                             .setThumbnail(
                                                                 member.user.displayAvatarURL({
                                                                     dynamic: true,
@@ -892,12 +856,9 @@ module.exports = async client => {
                                             if (ch) {
                                                 ch.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("GREEN")
-                                                            .setAuthor(
-                                                                `I Banned: ${member.user.tag}`,
-                                                                "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                            )
+                                                            .setAuthor({ name: `I Banned: ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                             .setThumbnail(
                                                                 member.user.displayAvatarURL({
                                                                     dynamic: true,
@@ -948,12 +909,9 @@ module.exports = async client => {
                                             if (ch) {
                                                 ch.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("ORANGE")
-                                                            .setAuthor(
-                                                                `ANTI ADD BOT - Kicked ${AddedMember.user.tag} for adding ${member.user.tag}`,
-                                                                "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png"
-                                                            )
+                                                            .setAuthor({ name: `ANTI ADD BOT - Kicked ${AddedMember.user.tag} for adding ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png" })
                                                             .setDescription(
                                                                 eval(
                                                                     client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -1019,12 +977,9 @@ module.exports = async client => {
                                             if (ch) {
                                                 ch.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("GREEN")
-                                                            .setAuthor(
-                                                                `ANTI BOT - I Kicked: ${member.user.tag}`,
-                                                                "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                            )
+                                                            .setAuthor({ name: `ANTI BOT - I Kicked: ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                             .setThumbnail(
                                                                 member.user.displayAvatarURL({
                                                                     dynamic: true,
@@ -1063,12 +1018,9 @@ module.exports = async client => {
                                             if (ch) {
                                                 ch.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("GREEN")
-                                                            .setAuthor(
-                                                                `I Banned: ${member.user.tag}`,
-                                                                "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                            )
+                                                            .setAuthor({ name: `I Banned: ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                             .setThumbnail(
                                                                 member.user.displayAvatarURL({
                                                                     dynamic: true,
@@ -1121,12 +1073,9 @@ module.exports = async client => {
                                             if (ch) {
                                                 ch.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("RED")
-                                                            .setAuthor(
-                                                                `ANTI ADD BOT - Banned ${AddedMember.user.tag} for adding ${member.user.tag}`,
-                                                                "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png"
-                                                            )
+                                                            .setAuthor({ name: `ANTI ADD BOT - Banned ${AddedMember.user.tag} for adding ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png" })
                                                             .setThumbnail(
                                                                 member.user.displayAvatarURL({
                                                                     dynamic: true,
@@ -1193,20 +1142,17 @@ module.exports = async client => {
             let data = client.Anti_Nuke_System.get(member.guild.id);
             if (!data.all.enabled || !data.antideleteuser.enabled) return;
             if (
-                !member.guild.me.permissions.has(Discord.Permissions.FLAGS.MANAGE_GUILD) &&
-                !member.guild.me.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR)
+                !member.guild.members.me?.permissions.has(PermissionFlagsBits.ManageGuild) &&
+                !member.guild.members.me?.permissions.has(PermissionFlagsBits.Administrator)
             ) {
                 try {
                     let ch = member.guild.channels.cache.get(data.all.logger);
                     if (ch) {
                         ch.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor("YELLOW")
-                                    .setAuthor(
-                                        "This is a Warn",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                    )
+                                    .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                     .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable2"]))
                                     .setDescription(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable3"])),
                             ],
@@ -1237,12 +1183,9 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("YELLOW")
-                                            .setAuthor(
-                                                "This is a Warn",
-                                                "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                            )
+                                            .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                             .setTitle(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable23"])
                                             )
@@ -1279,12 +1222,9 @@ module.exports = async client => {
                         if (ch) {
                             ch.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor("YELLOW")
-                                        .setAuthor(
-                                            "This is a Warn",
-                                            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                        )
+                                        .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                         .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable26"]))
                                         .setDescription(
                                             eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable27"])
@@ -1312,14 +1252,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI KICK - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI KICK - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable28"])
                                             )
@@ -1346,8 +1283,8 @@ module.exports = async client => {
                 //if his highest role is above mine, he is whitelisted
                 if (
                     AddedMember.roles.cache.size > 0 &&
-                    AddedMember.guild.me.roles.cache.size > 0 &&
-                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.me.roles.highest.rawPosition
+                    AddedMember.guild.members.me?.roles.cache.size > 0 &&
+                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.members.me?.roles.highest.rawPosition
                 ) {
                     if (data.all.showwhitelistlog && data.all.logger && data.all.logger.length > 5) {
                         try {
@@ -1355,14 +1292,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI KICK - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI KICK - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable29"])
                                             )
@@ -1394,14 +1328,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI KICK - ${AddedMember.user.tag} kicked ${member.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI KICK - ${AddedMember.user.tag} kicked ${member.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable30"])
                                             )
@@ -1435,14 +1366,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI KICK - ${AddedMember.user.tag} kicked ${member.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI KICK - ${AddedMember.user.tag} kicked ${member.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable31"])
                                             )
@@ -1474,14 +1402,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI KICK - ${AddedMember.user.tag} kicked ${member.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI KICK - ${AddedMember.user.tag} kicked ${member.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable32"])
                                             )
@@ -1515,14 +1440,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI KICK - ${AddedMember.user.tag} kicked ${member.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI KICK - ${AddedMember.user.tag} kicked ${member.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable33"])
                                             )
@@ -1599,12 +1521,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("BLURPLE")
-                                                        .setAuthor(
-                                                            `ANTI KICK - Removed Roles of ${AddedMember.user.tag} for kicking ${member.user.tag}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI KICK - Removed Roles of ${AddedMember.user.tag} for kicking ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png" })
                                                         .setThumbnail(
                                                             member.user.displayAvatarURL({
                                                                 dynamic: true,
@@ -1691,12 +1610,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("ORANGE")
-                                                        .setAuthor(
-                                                            `ANTI KICK - Kicked ${AddedMember.user.tag} for kicking ${member.user.tag}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI KICK - Kicked ${AddedMember.user.tag} for kicking ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png" })
                                                         .setThumbnail(
                                                             member.user.displayAvatarURL({
                                                                 dynamic: true,
@@ -1770,12 +1686,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("RED")
-                                                        .setAuthor(
-                                                            `ANTI KICK - Banned ${AddedMember.user.tag} for kicking ${member.user.tag}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI KICK - Banned ${AddedMember.user.tag} for kicking ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png" })
                                                         .setThumbnail(
                                                             member.user.displayAvatarURL({
                                                                 dynamic: true,
@@ -1841,20 +1754,17 @@ module.exports = async client => {
             let data = client.Anti_Nuke_System.get(member.guild.id);
             if (!data.all.enabled || !data.antideleteuser.enabled) return;
             if (
-                !member.guild.me.permissions.has(Discord.Permissions.FLAGS.MANAGE_GUILD) &&
-                !member.guild.me.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR)
+                !member.guild.members.me?.permissions.has(PermissionFlagsBits.ManageGuild) &&
+                !member.guild.members.me?.permissions.has(PermissionFlagsBits.Administrator)
             ) {
                 try {
                     let ch = member.guild.channels.cache.get(data.all.logger);
                     if (ch) {
                         ch.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor("YELLOW")
-                                    .setAuthor(
-                                        "This is a Warn",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                    )
+                                    .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                     .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable2"]))
                                     .setDescription(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable3"])),
                             ],
@@ -1885,12 +1795,9 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("YELLOW")
-                                            .setAuthor(
-                                                "This is a Warn",
-                                                "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                            )
+                                            .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                             .setTitle(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable38"])
                                             )
@@ -1927,12 +1834,9 @@ module.exports = async client => {
                         if (ch) {
                             ch.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor("YELLOW")
-                                        .setAuthor(
-                                            "This is a Warn",
-                                            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                        )
+                                        .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                         .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable41"]))
                                         .setDescription(
                                             eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable42"])
@@ -1960,14 +1864,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI BAN - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI BAN - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable43"])
                                             )
@@ -1994,8 +1895,8 @@ module.exports = async client => {
                 //if his highest role is above mine, he is whitelisted
                 if (
                     AddedMember.roles.cache.size > 0 &&
-                    AddedMember.guild.me.roles.cache.size > 0 &&
-                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.me.roles.highest.rawPosition
+                    AddedMember.guild.members.me?.roles.cache.size > 0 &&
+                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.members.me?.roles.highest.rawPosition
                 ) {
                     if (data.all.showwhitelistlog && data.all.logger && data.all.logger.length > 5) {
                         try {
@@ -2003,14 +1904,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI BAN - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI BAN - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable44"])
                                             )
@@ -2042,14 +1940,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI BAN - ${AddedMember.user.tag} kicked ${member.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI BAN - ${AddedMember.user.tag} kicked ${member.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable45"])
                                             )
@@ -2083,14 +1978,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI BAN - ${AddedMember.user.tag} kicked ${member.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI BAN - ${AddedMember.user.tag} kicked ${member.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable46"])
                                             )
@@ -2121,14 +2013,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI BAN - ${AddedMember.user.tag} kicked ${member.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI BAN - ${AddedMember.user.tag} kicked ${member.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable47"])
                                             )
@@ -2162,14 +2051,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI BAN - ${AddedMember.user.tag} kicked ${member.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI BAN - ${AddedMember.user.tag} kicked ${member.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable48"])
                                             )
@@ -2246,12 +2132,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("BLURPLE")
-                                                        .setAuthor(
-                                                            `ANTI BAN - Removed Roles of ${AddedMember.user.tag} for banning ${member.user.tag}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI BAN - Removed Roles of ${AddedMember.user.tag} for banning ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png" })
                                                         .setThumbnail(
                                                             member.user.displayAvatarURL({
                                                                 dynamic: true,
@@ -2338,12 +2221,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("ORANGE")
-                                                        .setAuthor(
-                                                            `ANTI BAN - Kicked ${AddedMember.user.tag} for banning ${member.user.tag}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI BAN - Kicked ${AddedMember.user.tag} for banning ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png" })
                                                         .setThumbnail(
                                                             member.user.displayAvatarURL({
                                                                 dynamic: true,
@@ -2417,12 +2297,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("RED")
-                                                        .setAuthor(
-                                                            `ANTI BAN - Banned ${AddedMember.user.tag} for banning ${member.user.tag}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI BAN - Banned ${AddedMember.user.tag} for banning ${member.user.tag}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png" })
                                                         .setThumbnail(
                                                             member.user.displayAvatarURL({
                                                                 dynamic: true,
@@ -2490,7 +2367,7 @@ module.exports = async client => {
                 let therole = channel.guild.roles.cache.get(data.all.quarantine);
                 if (therole && therole.id) {
                     try {
-                        if (channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.MANAGE_CHANNELS)) {
+                        if (channel.permissionsFor(channel.guild.members.me).has(PermissionFlagsBits.ManageChannels)) {
                             channel.permissionOverwrites.edit(therole.id, {
                                 VIEW_CHANNEL: false,
                                 SEND_MESSAGES: false,
@@ -2524,20 +2401,17 @@ module.exports = async client => {
             let data = client.Anti_Nuke_System.get(channel.guild.id);
             if (!data.all.enabled || !data.antichannelcreate.enabled) return;
             if (
-                !channel.guild.me.permissions.has(Discord.Permissions.FLAGS.MANAGE_GUILD) &&
-                !channel.guild.me.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR)
+                !channel.guild.members.me?.permissions.has(PermissionFlagsBits.ManageGuild) &&
+                !channel.guild.members.me?.permissions.has(PermissionFlagsBits.Administrator)
             ) {
                 try {
                     let ch = member.guild.channels.cache.get(data.all.logger);
                     if (ch) {
                         ch.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor("YELLOW")
-                                    .setAuthor(
-                                        "This is a Warn",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                    )
+                                    .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                     .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable2"]))
                                     .setDescription(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable3"])),
                             ],
@@ -2568,12 +2442,9 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("YELLOW")
-                                            .setAuthor(
-                                                "This is a Warn",
-                                                "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                            )
+                                            .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                             .setTitle(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable53"])
                                             )
@@ -2609,12 +2480,9 @@ module.exports = async client => {
                         if (ch) {
                             ch.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor("YELLOW")
-                                        .setAuthor(
-                                            "This is a Warn",
-                                            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                        )
+                                        .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                         .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable56"]))
                                         .setDescription(
                                             eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable57"])
@@ -2642,14 +2510,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL CREATE - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL CREATE - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable58"])
                                             )
@@ -2676,8 +2541,8 @@ module.exports = async client => {
                 //if his highest role is above mine, he is whitelisted
                 if (
                     AddedMember.roles.cache.size > 0 &&
-                    AddedMember.guild.me.roles.cache.size > 0 &&
-                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.me.roles.highest.rawPosition
+                    AddedMember.guild.members.me?.roles.cache.size > 0 &&
+                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.members.me?.roles.highest.rawPosition
                 ) {
                     if (data.all.showwhitelistlog && data.all.logger && data.all.logger.length > 5) {
                         try {
@@ -2685,14 +2550,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL CREATE - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL CREATE - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable59"])
                                             )
@@ -2724,14 +2586,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL CREATE - ${AddedMember.user.tag} created ${channel.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL CREATE - ${AddedMember.user.tag} created ${channel.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable60"])
                                             )
@@ -2765,14 +2624,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL CREATE - ${AddedMember.user.tag} created ${channel.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL CREATE - ${AddedMember.user.tag} created ${channel.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable61"])
                                             )
@@ -2803,14 +2659,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL CREATE - ${AddedMember.user.tag} created ${channel.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL CREATE - ${AddedMember.user.tag} created ${channel.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable62"])
                                             )
@@ -2844,14 +2697,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL CREATE - ${AddedMember.user.tag} created ${channel.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL CREATE - ${AddedMember.user.tag} created ${channel.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable63"])
                                             )
@@ -2912,12 +2762,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            `ANTI CHANNEL-CREATE - I Delete: ${channel.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI CHANNEL-CREATE - I Delete: ${channel.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -2974,12 +2821,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("BLURPLE")
-                                                        .setAuthor(
-                                                            `ANTI CHANNEL CREATE - Removed Roles of ${AddedMember.user.tag} for creating ${channel.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI CHANNEL CREATE - Removed Roles of ${AddedMember.user.tag} for creating ${channel.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -3060,12 +2904,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            `ANTI CHANNEL-CREATE - I Delete: ${channel.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI CHANNEL-CREATE - I Delete: ${channel.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -3107,12 +2948,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("ORANGE")
-                                                        .setAuthor(
-                                                            `ANTI CHANNEL CREATE - Kicked ${AddedMember.user.tag} for creating ${channel.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI CHANNEL CREATE - Kicked ${AddedMember.user.tag} for creating ${channel.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -3178,12 +3016,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            `ANTI CHANNEL-CREATE - I Delete: ${channel.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI CHANNEL-CREATE - I Delete: ${channel.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -3227,12 +3062,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("RED")
-                                                        .setAuthor(
-                                                            `ANTI CHANNEL CREATE - Banned ${AddedMember.user.tag} for creating ${channel.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI CHANNEL CREATE - Banned ${AddedMember.user.tag} for creating ${channel.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -3294,20 +3126,17 @@ module.exports = async client => {
             let data = client.Anti_Nuke_System.get(channel.guild.id);
             if (!data.all.enabled || !data.antichanneldelete.enabled) return;
             if (
-                !channel.guild.me.permissions.has(Discord.Permissions.FLAGS.MANAGE_GUILD) &&
-                !channel.guild.me.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR)
+                !channel.guild.members.me?.permissions.has(PermissionFlagsBits.ManageGuild) &&
+                !channel.guild.members.me?.permissions.has(PermissionFlagsBits.Administrator)
             ) {
                 try {
                     let ch = member.guild.channels.cache.get(data.all.logger);
                     if (ch) {
                         ch.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor("YELLOW")
-                                    .setAuthor(
-                                        "This is a Warn",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                    )
+                                    .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                     .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable2"]))
                                     .setDescription(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable3"])),
                             ],
@@ -3338,12 +3167,9 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("YELLOW")
-                                            .setAuthor(
-                                                "This is a Warn",
-                                                "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                            )
+                                            .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                             .setTitle(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable71"])
                                             )
@@ -3379,12 +3205,9 @@ module.exports = async client => {
                         if (ch) {
                             ch.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor("YELLOW")
-                                        .setAuthor(
-                                            "This is a Warn",
-                                            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                        )
+                                        .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                         .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable74"]))
                                         .setDescription(
                                             eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable75"])
@@ -3412,14 +3235,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL DELETE - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL DELETE - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable76"])
                                             )
@@ -3446,8 +3266,8 @@ module.exports = async client => {
                 //if his highest role is above mine, he is whitelisted
                 if (
                     AddedMember.roles.cache.size > 0 &&
-                    AddedMember.guild.me.roles.cache.size > 0 &&
-                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.me.roles.highest.rawPosition
+                    AddedMember.guild.members.me?.roles.cache.size > 0 &&
+                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.members.me?.roles.highest.rawPosition
                 ) {
                     if (data.all.showwhitelistlog && data.all.logger && data.all.logger.length > 5) {
                         try {
@@ -3455,14 +3275,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL DELETE - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL DELETE - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable77"])
                                             )
@@ -3494,14 +3311,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL DELETE - ${AddedMember.user.tag} delete ${channel.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL DELETE - ${AddedMember.user.tag} delete ${channel.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable78"])
                                             )
@@ -3535,14 +3349,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL DELETE - ${AddedMember.user.tag} delete ${channel.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL DELETE - ${AddedMember.user.tag} delete ${channel.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable79"])
                                             )
@@ -3573,14 +3384,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL DELETE - ${AddedMember.user.tag} delete ${channel.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL DELETE - ${AddedMember.user.tag} delete ${channel.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable80"])
                                             )
@@ -3614,14 +3422,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI CHANNEL DELETE - ${AddedMember.user.tag} delete ${channel.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI CHANNEL DELETE - ${AddedMember.user.tag} delete ${channel.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable81"])
                                             )
@@ -3699,12 +3504,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("BLURPLE")
-                                                        .setAuthor(
-                                                            `ANTI CHANNEL DELETE - Removed Roles of ${AddedMember.user.tag} for deleting ${channel.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI CHANNEL DELETE - Removed Roles of ${AddedMember.user.tag} for deleting ${channel.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -3786,12 +3588,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("ORANGE")
-                                                        .setAuthor(
-                                                            `ANTI CHANNEL DELETE - Kicked ${AddedMember.user.tag} for deleting ${channel.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI CHANNEL DELETE - Kicked ${AddedMember.user.tag} for deleting ${channel.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -3860,12 +3659,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("RED")
-                                                        .setAuthor(
-                                                            `ANTI CHANNEL DELETE - Banned ${AddedMember.user.tag} for deleting ${channel.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI CHANNEL DELETE - Banned ${AddedMember.user.tag} for deleting ${channel.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -3926,20 +3722,17 @@ module.exports = async client => {
             let data = client.Anti_Nuke_System.get(role.guild.id);
             if (!data.all.enabled || !data.anticreaterole.enabled) return;
             if (
-                !role.guild.me.permissions.has(Discord.Permissions.FLAGS.MANAGE_GUILD) &&
-                !role.guild.me.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR)
+                !role.guild.members.me?.permissions.has(PermissionFlagsBits.ManageGuild) &&
+                !role.guild.members.me?.permissions.has(PermissionFlagsBits.Administrator)
             ) {
                 try {
                     let ch = member.guild.channels.cache.get(data.all.logger);
                     if (ch) {
                         ch.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor("YELLOW")
-                                    .setAuthor(
-                                        "This is a Warn",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                    )
+                                    .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                     .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable2"]))
                                     .setDescription(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable3"])),
                             ],
@@ -3970,12 +3763,9 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("YELLOW")
-                                            .setAuthor(
-                                                "This is a Warn",
-                                                "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                            )
+                                            .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                             .setTitle(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable86"])
                                             )
@@ -4011,12 +3801,9 @@ module.exports = async client => {
                         if (ch) {
                             ch.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor("YELLOW")
-                                        .setAuthor(
-                                            "This is a Warn",
-                                            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                        )
+                                        .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                         .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable89"]))
                                         .setDescription(
                                             eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable90"])
@@ -4044,14 +3831,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE CREATE - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE CREATE - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable91"])
                                             )
@@ -4078,8 +3862,8 @@ module.exports = async client => {
                 //if his highest role is above mine, he is whitelisted
                 if (
                     AddedMember.roles.cache.size > 0 &&
-                    AddedMember.guild.me.roles.cache.size > 0 &&
-                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.me.roles.highest.rawPosition
+                    AddedMember.guild.members.me?.roles.cache.size > 0 &&
+                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.members.me?.roles.highest.rawPosition
                 ) {
                     if (data.all.showwhitelistlog && data.all.logger && data.all.logger.length > 5) {
                         try {
@@ -4087,14 +3871,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE CREATE - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE CREATE - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable92"])
                                             )
@@ -4126,14 +3907,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE CREATE - ${AddedMember.user.tag} created ${role.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE CREATE - ${AddedMember.user.tag} created ${role.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable93"])
                                             )
@@ -4167,14 +3945,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE CREATE - ${AddedMember.user.tag} created ${role.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE CREATE - ${AddedMember.user.tag} created ${role.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable94"])
                                             )
@@ -4205,14 +3980,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE CREATE - ${AddedMember.user.tag} created ${role.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE CREATE - ${AddedMember.user.tag} created ${role.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable95"])
                                             )
@@ -4246,14 +4018,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE CREATE - ${AddedMember.user.tag} created ${role.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE CREATE - ${AddedMember.user.tag} created ${role.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable96"])
                                             )
@@ -4314,12 +4083,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            `ANTI ROLE CREATE - I Deleted: ${role.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI ROLE CREATE - I Deleted: ${role.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -4376,12 +4142,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("BLURPLE")
-                                                        .setAuthor(
-                                                            `ANTI ROLE CREATE - Removed Roles of ${AddedMember.user.tag} for creating ${role.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI ROLE CREATE - Removed Roles of ${AddedMember.user.tag} for creating ${role.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -4462,12 +4225,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            `ANTI ROLE CREATE - I Deleted: ${role.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI ROLE CREATE - I Deleted: ${role.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -4509,12 +4269,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("ORANGE")
-                                                        .setAuthor(
-                                                            `ANTI ROLE CREATE - Kicked ${AddedMember.user.tag} for creating ${role.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI ROLE CREATE - Kicked ${AddedMember.user.tag} for creating ${role.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -4580,12 +4337,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            `ANTI ROLE CREATE - I Deleted: ${role.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI ROLE CREATE - I Deleted: ${role.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -4629,12 +4383,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("RED")
-                                                        .setAuthor(
-                                                            `ANTI ROLE CREATE - Banned ${AddedMember.user.tag} for creating ${role.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI ROLE CREATE - Banned ${AddedMember.user.tag} for creating ${role.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -4695,20 +4446,17 @@ module.exports = async client => {
             let data = client.Anti_Nuke_System.get(role.guild.id);
             if (!data.all.enabled || !data.antideleterole.enabled) return;
             if (
-                !role.guild.me.permissions.has(Discord.Permissions.FLAGS.MANAGE_GUILD) &&
-                !role.guild.me.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR)
+                !role.guild.members.me?.permissions.has(PermissionFlagsBits.ManageGuild) &&
+                !role.guild.members.me?.permissions.has(PermissionFlagsBits.Administrator)
             ) {
                 try {
                     let ch = member.guild.channels.cache.get(data.all.logger);
                     if (ch) {
                         ch.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor("YELLOW")
-                                    .setAuthor(
-                                        "This is a Warn",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                    )
+                                    .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                     .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable2"]))
                                     .setDescription(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable3"])),
                             ],
@@ -4739,12 +4487,9 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("YELLOW")
-                                            .setAuthor(
-                                                "This is a Warn",
-                                                "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                            )
+                                            .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                             .setTitle(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable104"])
                                             )
@@ -4780,12 +4525,9 @@ module.exports = async client => {
                         if (ch) {
                             ch.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor("YELLOW")
-                                        .setAuthor(
-                                            "This is a Warn",
-                                            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png"
-                                        )
+                                        .setAuthor({ name: "This is a Warn", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/warning-sign_26a0.png" })
                                         .setTitle(eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable107"]))
                                         .setDescription(
                                             eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable108"])
@@ -4813,14 +4555,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE DELETE - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE DELETE - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable109"])
                                             )
@@ -4847,8 +4586,8 @@ module.exports = async client => {
                 //if his highest role is above mine, he is whitelisted
                 if (
                     AddedMember.roles.cache.size > 0 &&
-                    AddedMember.guild.me.roles.cache.size > 0 &&
-                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.me.roles.highest.rawPosition
+                    AddedMember.guild.members.me?.roles.cache.size > 0 &&
+                    AddedMember.roles.highest.rawPosition >= AddedMember.guild.members.me?.roles.highest.rawPosition
                 ) {
                     if (data.all.showwhitelistlog && data.all.logger && data.all.logger.length > 5) {
                         try {
@@ -4856,14 +4595,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE DELETE - ${AddedMember.user.tag}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE DELETE - ${AddedMember.user.tag}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable110"])
                                             )
@@ -4895,14 +4631,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE DELETE - ${AddedMember.user.tag} delete ${role.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE DELETE - ${AddedMember.user.tag} delete ${role.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable111"])
                                             )
@@ -4936,14 +4669,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE DELETE - ${AddedMember.user.tag} deleted ${role.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE DELETE - ${AddedMember.user.tag} deleted ${role.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable112"])
                                             )
@@ -4975,14 +4705,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE DELETE - ${AddedMember.user.tag} delete ${role.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE DELETE - ${AddedMember.user.tag} delete ${role.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable113"])
                                             )
@@ -5016,14 +4743,11 @@ module.exports = async client => {
                             if (ch) {
                                 ch.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("#fffff9")
-                                            .setAuthor(
-                                                `ANTI ROLE DELETE - ${AddedMember.user.tag} deleted ${role.name}`,
-                                                AddedMember.user.displayAvatarURL({
+                                            .setAuthor({ name: `ANTI ROLE DELETE - ${AddedMember.user.tag} deleted ${role.name}`, iconURL: AddedMember.user.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            )
+                                                }) })
                                             .setDescription(
                                                 eval(client.la[ls]["handlers"]["antinukejs"]["anti_nuke"]["variable114"])
                                             )
@@ -5101,12 +4825,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("BLURPLE")
-                                                        .setAuthor(
-                                                            `ANTI ROLE DELETE - Removed Roles of ${AddedMember.user.tag} for deleting ${role.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI ROLE DELETE - Removed Roles of ${AddedMember.user.tag} for deleting ${role.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869664393783304212/869285770723217488.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -5188,12 +4909,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("ORANGE")
-                                                        .setAuthor(
-                                                            `ANTI ROLE DELETE - Kicked ${AddedMember.user.tag} for deleting ${role.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI ROLE DELETE - Kicked ${AddedMember.user.tag} for deleting ${role.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665099512688670/hammer_1f528.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][
@@ -5262,12 +4980,9 @@ module.exports = async client => {
                                         if (ch) {
                                             ch.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("RED")
-                                                        .setAuthor(
-                                                            `ANTI ROLE DELETE - Banned ${AddedMember.user.tag} for deleting ${role.name}`,
-                                                            "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png"
-                                                        )
+                                                        .setAuthor({ name: `ANTI ROLE DELETE - Banned ${AddedMember.user.tag} for deleting ${role.name}`, iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869665114373095514/811556437284749322.png" })
                                                         .setDescription(
                                                             eval(
                                                                 client.la[ls]["handlers"]["antinukejs"]["anti_nuke"][

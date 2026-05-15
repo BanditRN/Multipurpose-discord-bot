@@ -1,4 +1,6 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -16,7 +18,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -43,7 +45,7 @@ module.exports = {
             player.set("filter", "💣 None");
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -53,14 +55,8 @@ module.exports = {
                                 : null
                         )
                         .setTitle(eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variable1"]))
-                        .addField(
-                            eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variablex_2"]),
-                            eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variable2"])
-                        )
-                        .addField(
-                            eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variablex_3"]),
-                            eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variable2"])
-                        )
+                        .addFields({ name: eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variablex_2"]), value: eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variable2"]) })
+                        .addFields({ name: eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variablex_3"]), value: eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variable2"]) })
                         .setDescription(eval(client.la[ls]["cmds"]["filter"]["clearfilter"]["variable4"])),
                 ],
             });
@@ -68,7 +64,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
 
                         .setTitle(client.la[ls].common.erroroccur)

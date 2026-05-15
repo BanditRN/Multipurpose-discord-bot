@@ -1,4 +1,7 @@
-const { MessageEmbed, Permissions } = require(`discord.js`);
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -36,11 +39,11 @@ module.exports = {
                 !cmdroles.includes(message.author.id) && [...message.member.roles.cache.values()] &&
                 !message.member.roles.cache.some(r => adminroles.includes(r ? r.id : r)) &&
                 ![message.guild.ownerId, config.ownerid].includes(message.author.id) &&
-                !message.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR])
+                !message.member.permissions.has([PermissionFlagsBits.Administrator])
             )
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["suggest"]["variable1"]))
@@ -74,7 +77,7 @@ module.exports = {
             if (!suggestdata.channel || suggestdata.channel.length < 5)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setThumbnail(
@@ -92,7 +95,7 @@ module.exports = {
             if (!args[0])
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setThumbnail(
@@ -111,7 +114,7 @@ module.exports = {
             if (!args[1])
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setThumbnail(
@@ -130,7 +133,7 @@ module.exports = {
             if (args[1].length !== 18)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setThumbnail(
@@ -152,7 +155,7 @@ module.exports = {
             if (!channel)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setThumbnail(
@@ -173,7 +176,7 @@ module.exports = {
             if (!targetMessage)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setThumbnail(
@@ -194,7 +197,7 @@ module.exports = {
             if (!oldEmbed)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setThumbnail(
@@ -219,7 +222,7 @@ module.exports = {
                     statustext = `${approvetext}`;
                     await message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(`GREEN`)
                                 .setThumbnail(
                                     es.thumb
@@ -240,7 +243,7 @@ module.exports = {
                     statustext = `${denytext}`;
                     await message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(`RED`)
                                 .setThumbnail(
                                     es.thumb
@@ -261,7 +264,7 @@ module.exports = {
                     statustext = `${maybetext}`;
                     await message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["suggest"]["variable19"]))
                                 .setDescription(eval(client.la[ls]["cmds"]["administration"]["suggest"]["variable20"])),
@@ -274,7 +277,7 @@ module.exports = {
                     statustext = `${soonmsg}`;
                     await message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["suggest"]["variable21"]))
                                 .setDescription(eval(client.la[ls]["cmds"]["administration"]["suggest"]["variable22"])),
@@ -287,7 +290,7 @@ module.exports = {
                     statustext = `${duplicatemsg}`;
                     await message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["suggest"]["variable23"]))
                                 .setDescription(eval(client.la[ls]["cmds"]["administration"]["suggest"]["variable24"])),
@@ -299,8 +302,8 @@ module.exports = {
                     break;
             }
 
-            const embed = new MessageEmbed()
-                .setAuthor(oldEmbed.author.name, oldEmbed.author.iconURL)
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: oldEmbed.author.name, iconURL: oldEmbed.author.iconURL })
                 .setDescription(oldEmbed.description)
                 .setColor(color)
                 .setFooter(
@@ -314,10 +317,7 @@ module.exports = {
                 embed.fields[2].name == `<:arrow:832598861813776394> __Reason by **${message.author.tag}**:__`;
                 embed.fields[2].value == `>>> ${String(reason).substring(0, 1000)}`;
             } else {
-                embed.addField(
-                    `<:arrow:832598861813776394> __Reason by **${message.author.tag}**__`,
-                    `>>> ${String(reason).substring(0, 1000)}`
-                );
+                embed.addFields({ name: `<:arrow:832598861813776394> __Reason by **${message.author.tag}**__`, value: `>>> ${String(reason).substring(0, 1000)}` });
             }
             targetMessage.edit({ embeds: [embed] });
             try {
@@ -339,7 +339,7 @@ module.exports = {
                     if (!channel2send) return client.settings.set(message.guild.id, "no", `adminlog`);
                     channel2send.send({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -350,19 +350,10 @@ module.exports = {
                                         : null
                                 )
                                 .setFooter(client.getFooter(es))
-                                .setAuthor(
-                                    `${require("path").parse(__filename).name} | ${message.author.tag}`,
-                                    message.author.displayAvatarURL({ dynamic: true })
-                                )
+                                .setAuthor({ name: `${require("path").parse(__filename).name} | ${message.author.tag}`, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                                 .setDescription(eval(client.la[ls]["cmds"]["administration"]["suggest"]["variable26"]))
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"])
-                                )
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"])
-                                )
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"]) })
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"]) })
                                 .setTimestamp()
                                 .setFooter(
                                     client.getFooter(
@@ -380,7 +371,7 @@ module.exports = {
             console.log(e.stack ? String(e.stack).grey : String(e).grey);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

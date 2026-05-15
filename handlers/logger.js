@@ -1,4 +1,7 @@
 const Discord = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const fs = require("fs");
 const moment = require("moment");
 module.exports = c => {
@@ -445,7 +448,7 @@ async function send_log(c, guild, color, title, description, thumb, fieldt, fiel
     try {
         if (!guild || guild?.available == false) return console.log("NO GUILD");
         //CREATE THE EMBED
-        const LogEmbed = new Discord.MessageEmbed()
+        const LogEmbed = new EmbedBuilder()
             .setColor(color ? color : "BLACK")
             .setDescription(description ? description.substring(0, 2048) : "\u200b")
             .setTitle(title ? title.substring(0, 256) : "\u200b")
@@ -467,12 +470,12 @@ async function send_log(c, guild, color, title, description, thumb, fieldt, fiel
             );
         if (fieldt && fieldv) {
             if (fieldv.trim() !== ">>>") {
-                LogEmbed.addField(fieldt.substring(0, 256), fieldv.substring(0, 1024));
+                LogEmbed.addFields({ name: fieldt.substring(0, 256), value: fieldv.substring(0, 1024) });
             }
         }
         if (fieldt2 && fieldv2) {
             if (fieldv2.trim() !== ">>>") {
-                LogEmbed.addField(fieldt2.substring(0, 256), fieldv2.substring(0, 1024));
+                LogEmbed.addFields({ name: fieldt2.substring(0, 256), value: fieldv2.substring(0, 1024) });
             }
         }
         //GET THE CHANNEL

@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 
@@ -1205,15 +1207,12 @@ class HangmanGame {
         this.guesssed = [];
         this.wrongs = 0;
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor("#2f3136")
-            .setAuthor("Hangman Minigame", "https://imgur.com/0guxxtY.png", "https://discord.gg/milrato")
+            .setAuthor({ name: "Hangman Minigame", iconURL: "https://imgur.com/0guxxtY.png", url: "https://discord.gg/milrato" })
             .setDescription(this.getDescription())
-            .addField(
-                eval(client.la[ls]["cmds"]["minigames"]["hangman"]["variablex_1"]),
-                eval(client.la[ls]["cmds"]["minigames"]["hangman"]["variable1"])
-            )
-            .addField("How To Play", "React to this message using the emojis that look like letters (🅰️, 🇹, )");
+            .addFields({ name: eval(client.la[ls]["cmds"]["minigames"]["hangman"]["variablex_1"]), value: eval(client.la[ls]["cmds"]["minigames"]["hangman"]["variable1"]) })
+            .addFields({ name: "How To Play", value: "React to this message using the emojis that look like letters (🅰️, 🇹, )" });
 
         console.log("\n\n\n\n\n\n\n\n\n\nNEW HANGMAN GAME\n\n" + this.word + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
@@ -1250,12 +1249,12 @@ class HangmanGame {
         }
 
         if (this.inGame) {
-            const editEmbed = new Discord.MessageEmbed()
+            const editEmbed = new EmbedBuilder()
                 .setColor("#2f3136")
                 .setTitle(eval(client.la[ls]["cmds"]["minigames"]["hangman"]["variable2"]))
                 .setDescription(this.getDescription())
-                .addField("Letters Guessed", this.guesssed.length == 0 ? "\u200b" : this.guesssed.join(" "))
-                .addField("How To Play", "React to this message using the emojis that look like letters (🅰️, 🇹, )");
+                .addFields({ name: "Letters Guessed", value: this.guesssed.length == 0 ? "\u200b" : this.guesssed.join(" ") })
+                .addFields({ name: "How To Play", value: "React to this message using the emojis that look like letters (🅰️, 🇹, )" });
 
             this.gameEmbed.edit({ embeds: [editEmbed] });
             this.waitForReaction();
@@ -1267,14 +1266,11 @@ class HangmanGame {
         let es = client.settings.get(this.gameEmbed.guild.id, "embed");
         let ls = client.settings.get(this.gameEmbed.guild.id, "language");
         this.inGame = false;
-        const editEmbed = new Discord.MessageEmbed()
+        const editEmbed = new EmbedBuilder()
             .setColor("RED")
-            .setAuthor("Hangman Minigame", "https://imgur.com/0guxxtY.png", "https://discord.gg/milrato")
+            .setAuthor({ name: "Hangman Minigame", iconURL: "https://imgur.com/0guxxtY.png", url: "https://discord.gg/milrato" })
             .setDescription(win ? "**Chat Wins!**" : "**Chat losses**")
-            .addField(
-                eval(client.la[ls]["cmds"]["minigames"]["hangman"]["variablex_3"]),
-                eval(client.la[ls]["cmds"]["minigames"]["hangman"]["variable3"])
-            );
+            .addFields({ name: eval(client.la[ls]["cmds"]["minigames"]["hangman"]["variablex_3"]), value: eval(client.la[ls]["cmds"]["minigames"]["hangman"]["variable3"]) });
         this.gameEmbed.edit({ embeds: [editEmbed] });
 
         this.gameEmbed.reactions.removeAll();
@@ -1331,7 +1327,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MINIGAMES")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)

@@ -1,11 +1,17 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
+
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 const moment = require("moment");
 const { databasing, delay, getLatestVideos, channelInfo } = require("../../handlers/functions");
-const { MessageButton, MessageActionRow } = require("discord.js");
+
 const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
 module.exports = {
     name: "youtubeinfo",
@@ -18,15 +24,15 @@ module.exports = {
         let es = client.settings.get(message.guild.id, "embed");
         let ls = client.settings.get(message.guild.id, "language");
         try {
-            let button_back = new MessageButton().setStyle("PRIMARY").setCustomId("1").setLabel("<< Back");
-            let button_forward = new MessageButton().setStyle("PRIMARY").setCustomId("3").setLabel("Forward >>");
-            const allbuttons = [new MessageActionRow().addComponents([button_back, button_forward])];
+            let button_back = new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("1").setLabel("<< Back");
+            let button_forward = new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("3").setLabel("Forward >>");
+            const allbuttons = [new ActionRowBuilder().addComponents([button_back, button_forward])];
             let url = args[0];
             if (url && typeof url === "string") {
                 if (url.match(/^https?:\/\/(www\.)?youtube\.com\/(channel\/UC[\w-]{21}[AQgw]|(c\/|user\/)?[\w-]+)$/) == null)
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(client.la[ls].cmds.info.youtubeinfo.error1)
@@ -41,7 +47,7 @@ module.exports = {
             } else {
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(client.la[ls].cmds.info.youtubeinfo.error1)
@@ -55,29 +61,25 @@ module.exports = {
             }
             let tempmsg = await message.reply({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
-                        .setAuthor(
-                            client.la[ls].cmds.info.youtubeinfo.loading,
-                            "https://cdn.discordapp.com/emojis/756773010123522058.gif",
-                            "https://discord.gg/milrato"
-                        ),
+                        .setAuthor({ name: client.la[ls].cmds.info.youtubeinfo.loading, iconURL: "https://cdn.discordapp.com/emojis/756773010123522058.gif", url: "https://discord.gg/milrato" }),
                 ],
             });
             let Channel = await channelInfo(url);
-            let embed = new Discord.MessageEmbed()
+            let embed = new EmbedBuilder()
                 .setTitle(Channel.name)
                 .setURL(Channel.url)
                 .setColor("RED")
-                .addField(client.la[ls].cmds.info.youtubeinfo.field1, "`" + Channel.subscribers + "`")
-                .addField(client.la[ls].cmds.info.youtubeinfo.field2, Channel.tags.map(t => `\`${t}\``).join(",  "))
-                .addField(client.la[ls].cmds.info.youtubeinfo.field3, Channel.unlisted ? "✅" : "❌", true)
-                .addField(client.la[ls].cmds.info.youtubeinfo.field4, Channel.familySafe ? "✅" : "❌", true)
-                .setFooter("ID: " + Channel.id)
+                .addFields({ name: client.la[ls].cmds.info.youtubeinfo.field1, value: "`" + Channel.subscribers + "`" })
+                .addFields({ name: client.la[ls].cmds.info.youtubeinfo.field2, value: Channel.tags.map(t => `\`${t}\``).join(",  ") })
+                .addFields({ name: client.la[ls].cmds.info.youtubeinfo.field3, value: Channel.unlisted ? "✅" : "❌", inline: true })
+                .addFields({ name: client.la[ls].cmds.info.youtubeinfo.field4, value: Channel.familySafe ? "✅" : "❌", inline: true })
+                .setFooter({ text: "ID: " + Channel.id })
                 .setImage(Channel.mobileBanner[0] ? Channel.mobileBanner[0].url : null)
                 .setDescription(String(Channel.description).substring(0, 1500));
             let Videos = await getLatestVideos(url);
-            let embed2 = new Discord.MessageEmbed()
+            let embed2 = new EmbedBuilder()
                 .setTitle(
                     handlemsg(client.la[ls].cmds.info.youtubeinfo.videosof, {
                         author: Videos[0].author,
@@ -88,13 +90,10 @@ module.exports = {
             //For Each Video, add a new Field (just the first 10 Videos!)
             Videos.forEach((v, i) => {
                 if (i < 10) {
-                    embed2.addField(
-                        v.title,
-                        handlemsg(client.la[ls].cmds.info.youtubeinfo.videos, {
+                    embed2.addFields({ name: v.title, value: handlemsg(client.la[ls].cmds.info.youtubeinfo.videos, {
                             date: v.pubDate,
                             link: v.link,
-                        })
-                    );
+                        }) });
                 }
             });
             //Send the Message
@@ -161,7 +160,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

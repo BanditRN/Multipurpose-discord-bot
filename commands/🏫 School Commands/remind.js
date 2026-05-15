@@ -1,7 +1,9 @@
 const math = require("math-expression-evaluator");
 const ms = require("ms");
 const moment = require("moment");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -19,7 +21,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "SCHOOL")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -35,7 +37,7 @@ module.exports = {
         if (!args[0])
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["schoolcommands"]["remind"]["variable1"]))
@@ -53,7 +55,7 @@ module.exports = {
         } catch (e) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["schoolcommands"]["remind"]["variable3"]))
@@ -68,7 +70,7 @@ module.exports = {
         if (returntime > 2073600000)
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["schoolcommands"]["remind"]["variable6"]))
@@ -78,7 +80,7 @@ module.exports = {
         if (returntime == 0)
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["schoolcommands"]["remind"]["variable8"]))
@@ -91,7 +93,7 @@ module.exports = {
             .join(", ");
         message.reply({
             embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.color)
                     .setThumbnail(
                         es.thumb

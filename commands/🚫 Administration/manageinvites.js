@@ -2,7 +2,10 @@ const config = require(`${process.cwd()}/botconfig/config.json`);
 const ms = require(`ms`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
-const { MessageEmbed, Permissions, MessageSelectMenu, MessageButton, MessageActionRow } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 const { databasing, GetUser } = require(`${process.cwd()}/handlers/functions`);
 module.exports = {
@@ -118,22 +121,16 @@ module.exports = {
             let { invites, fake, leaves } = memberData;
             let realinvites = invites - fake - leaves;
             //define the embed
-            let MenuEmbed = new MessageEmbed()
+            let MenuEmbed = new EmbedBuilder()
                 .setColor(es.color)
-                .setAuthor(eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variable1"]))
+                .setAuthor({ name: eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variable1"]) })
                 .setDescription(eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variable2"]))
-                .addField(
-                    "**CURRENT INVITES:**",
-                    `<:Like:857334024087011378> ${user} _**has invited __${realinvites} Member${realinvites != 1 ? "s" : ""}__**_!`
-                )
-                .addField(
-                    eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variablex_3"]),
-                    eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variable3"])
-                );
+                .addFields({ name: "**CURRENT INVITES:**", value: `<:Like:857334024087011378> ${user} _**has invited __${realinvites} Member${realinvites != 1 ? "s" : ""}__**_!` })
+                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variablex_3"]), value: eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variable3"]) });
             //send the menu msg
             let menumsg = await message.reply({
                 embeds: [MenuEmbed],
-                components: [new MessageActionRow().addComponents(Selection)],
+                components: [new ActionRowBuilder().addComponents(Selection)],
             });
             //function to handle the menuselection
             async function menuselection(menu) {
@@ -145,13 +142,9 @@ module.exports = {
                     });
                 await menu?.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
-                            .setAuthor(
-                                client.la[ls].cmds.info.botfaq.menuembed.title,
-                                client.user.displayAvatarURL(),
-                                "https://discord.gg/milrato"
-                            )
+                            .setAuthor({ name: client.la[ls].cmds.info.botfaq.menuembed.title, iconURL: client.user.displayAvatarURL(), url: "https://discord.gg/milrato" })
                             .setDescription(menuoptiondata.replymsg),
                     ],
                 });
@@ -208,12 +201,8 @@ module.exports = {
                         realinvites = invites - fake - leaves;
                         message.reply({
                             embeds: [
-                                new MessageEmbed()
-                                    .setAuthor(
-                                        `New Invites of: ${user.tag}`,
-                                        user.displayAvatarURL({ dynamic: true }),
-                                        "https://discord.gg/milrato"
-                                    )
+                                new EmbedBuilder()
+                                    .setAuthor({ name: `New Invites of: ${user.tag}`, iconURL: user.displayAvatarURL({ dynamic: true }), url: "https://discord.gg/milrato" })
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -223,14 +212,8 @@ module.exports = {
                                                 : client.user.displayAvatarURL()
                                             : null
                                     )
-                                    .addField(
-                                        "\u200b",
-                                        `<:Like:857334024087011378> ${user} _**has invited __${realinvites} Member${realinvites != 1 ? "s" : ""}__**_!`
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variablex_6"]),
-                                        eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variable6"])
-                                    )
+                                    .addFields({ name: "\u200b", value: `<:Like:857334024087011378> ${user} _**has invited __${realinvites} Member${realinvites != 1 ? "s" : ""}__**_!` })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variablex_6"]), value: eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variable6"]) })
                                     .setFooter(client.getFooter(es)),
                             ],
                         });
@@ -254,7 +237,7 @@ module.exports = {
                     if (!channel) return client.settings.set(message.guild.id, "no", `adminlog`);
                     channel.send({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -265,21 +248,12 @@ module.exports = {
                                         : null
                                 )
                                 .setFooter(client.getFooter(es))
-                                .setAuthor(
-                                    `${require("path").parse(__filename).name} | ${message.author.tag}`,
-                                    message.author.displayAvatarURL({
+                                .setAuthor({ name: `${require("path").parse(__filename).name} | ${message.author.tag}`, iconURL: message.author.displayAvatarURL({
                                         dynamic: true,
-                                    })
-                                )
+                                    }) })
                                 .setDescription(eval(client.la[ls]["cmds"]["administration"]["manageinvites"]["variable7"]))
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"])
-                                )
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"])
-                                )
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"]) })
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"]) })
                                 .setTimestamp()
                                 .setFooter(
                                     client.getFooter(
@@ -297,7 +271,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

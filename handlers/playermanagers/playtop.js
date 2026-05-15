@@ -1,4 +1,7 @@
-var { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var { format, delay, arrayMove } = require("../functions");
@@ -26,13 +29,12 @@ async function playtop(client, message, args, type, slashCommand) {
         //set the variables
         player.set("message", message);
         player.set("playerauthor", message.author.id);
-        player.connect();
+        await player.connect();
         try {
             message.react("863876115584385074").catch(() => {});
         } catch (e) {
             console.log(String(e).grey);
         }
-        player.stop();
     }
     let res;
     res = await client.manager.search(
@@ -45,9 +47,9 @@ async function playtop(client, message, args, type, slashCommand) {
     // Check the load type as this command is not that advanced for basics
     if (res.loadType === "LOAD_FAILED") throw res.exception;
     else if (res.loadType === "PLAYLIST_LOADED") {
-        playlist_();
+        await playlist_();
     } else {
-        song_();
+        await song_();
     }
     async function song_() {
         //if no tracks found return info msg
@@ -58,7 +60,7 @@ async function playtop(client, message, args, type, slashCommand) {
                     .reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.wrongcolor)
                                 .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                                 .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variable1"])),
@@ -68,7 +70,7 @@ async function playtop(client, message, args, type, slashCommand) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variable1"])),
@@ -88,7 +90,7 @@ async function playtop(client, message, args, type, slashCommand) {
             player.set("messageid", message.id);
             player.set("playerauthor", message.author.id);
             //connect
-            player.connect();
+            await player.connect();
             try {
                 message.react("863876115584385074").catch(() => {});
             } catch (e) {
@@ -97,13 +99,13 @@ async function playtop(client, message, args, type, slashCommand) {
             //add track
             player.queue.add(res.tracks[0]);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else if (!player.queue || !player.queue.current) {
             //add track
             player.queue.add(res.tracks[0]);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         }
         //otherwise
@@ -119,17 +121,13 @@ async function playtop(client, message, args, type, slashCommand) {
             for (const track of oldQueue) player.queue.add(track);
         }
         //send track information
-        var playembed = new MessageEmbed()
+        var playembed = new EmbedBuilder()
             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variable2"]))
             .setColor(ee.color)
             .setThumbnail(`https://img.youtube.com/vi/${res.tracks[0].identifier}/mqdefault.jpg`)
-            .addField(
-                "⌛ Duration: ",
-                `\`${res.tracks[0].isStream ? "LIVE STREAM" : format(res.tracks[0].duration)}\``,
-                true
-            )
-            .addField("💯 Song By: ", `\`${res.tracks[0].author}\``, true)
-            .addField("🔂 Queue length: ", `\`${player.queue.length} Songs\``, true);
+            .addFields({ name: "⌛ Duration: ", value: `\`${res.tracks[0].isStream ? "LIVE STREAM" : format(res.tracks[0].duration)}\``, inline: true })
+            .addFields({ name: "💯 Song By: ", value: `\`${res.tracks[0].author}\``, inline: true })
+            .addFields({ name: "🔂 Queue length: ", value: `\`${player.queue.length} Songs\``, inline: true });
         if (slashCommand) slashCommand.reply({ ephemeral: true, embeds: [playembed] }).catch(() => {});
         else message.reply({ embeds: [playembed] }).catch(() => {});
         if (
@@ -160,7 +158,7 @@ async function playtop(client, message, args, type, slashCommand) {
                     .reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.wrongcolor)
                                 .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                                 .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variable3"])),
@@ -170,7 +168,7 @@ async function playtop(client, message, args, type, slashCommand) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variable3"])),
@@ -190,12 +188,12 @@ async function playtop(client, message, args, type, slashCommand) {
             //add track
             player.queue.add(res.tracks);
             //play track
-            player.play();
+            await player.play();
         } else if (!player.queue || !player.queue.current) {
             //add track
             player.queue.add(res.tracks);
             //play track
-            player.play();
+            await player.play();
         } else {
             //save old tracks on an var
             let oldQueue = [];
@@ -208,14 +206,10 @@ async function playtop(client, message, args, type, slashCommand) {
             for (const track of oldQueue) player.queue.add(track);
         }
         var time = 0;
-        let playlistembed = new Discord.MessageEmbed()
-            .setAuthor(
-                `Playlist added to Queue`,
-                message.author.displayAvatarURL({
+        let playlistembed = new EmbedBuilder()
+            .setAuthor({ name: `Playlist added to Queue`, iconURL: message.author.displayAvatarURL({
                     dynamic: true,
-                }),
-                "https://milrato.eu"
-            )
+                }), url: "https://milrato.eu" })
             .setColor(ee.color)
             .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variable4"]))
             .setThumbnail(`https://img.youtube.com/vi/${res.tracks[0].identifier}/mqdefault.jpg`);
@@ -225,18 +219,11 @@ async function playtop(client, message, args, type, slashCommand) {
         for (const track of res.tracks) time -= track.duration;
 
         playlistembed
-            .addField(
-                eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variablex_5"]),
-                eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variable5"])
-            )
-            .addField(
-                "Position in queue",
-                `${player.queue.length - res.tracks.length + 1 === 0 ? "NOW" : player.queue.length - res.tracks.length + 1}`,
-                true
-            )
-            .addField("Enqueued", `\`${res.tracks.length}\``, true);
+            .addFields({ name: eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variablex_5"]), value: eval(client.la[ls]["handlers"]["playermanagers"]["playtop"]["variable5"]) })
+            .addFields({ name: "Position in queue", value: `${player.queue.length - res.tracks.length + 1 === 0 ? "NOW" : player.queue.length - res.tracks.length + 1}`, inline: true })
+            .addFields({ name: "Enqueued", value: `\`${res.tracks.length}\``, inline: true });
         //if bot allowed to send embed, do it otherwise pure txt msg
-        if (message.guild.me.permissionsIn(message.channel).has("EMBED_LINKS")) {
+        if (message.guild.members.me?.permissionsIn(message.channel).has(PermissionFlagsBits.EmbedLinks)) {
             if (slashCommand) return slashCommand.reply({ ephemeral: true, embeds: [playlistembed] }).catch(() => {});
             message.reply({ embeds: [playlistembed] }).catch(() => {});
         } else {

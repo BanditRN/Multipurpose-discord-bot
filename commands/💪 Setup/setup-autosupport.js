@@ -1,10 +1,16 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { getNumberEmojis, isEmoji, allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-autosupport",
@@ -35,7 +41,7 @@ module.exports = {
                     });
                 }
 
-                let row1 = new MessageActionRow().addComponents(
+                let row1 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -53,7 +59,7 @@ module.exports = {
                             })
                         )
                 );
-                let row2 = new MessageActionRow().addComponents(
+                let row2 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection2")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -71,7 +77,7 @@ module.exports = {
                             })
                         )
                 );
-                let row3 = new MessageActionRow().addComponents(
+                let row3 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection3")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -89,7 +95,7 @@ module.exports = {
                             })
                         )
                 );
-                let row4 = new MessageActionRow().addComponents(
+                let row4 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection4")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -108,15 +114,13 @@ module.exports = {
                         )
                 );
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        client.getAuthor(
+                    .setAuthor({ name: client.getAuthor(
                             "Auto Support Setup",
                             "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/envelope_2709-fe0f.png",
                             "https://discord.gg/milrato"
-                        )
-                    )
+                        ) })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
 
                 //send the menu msg
@@ -127,9 +131,9 @@ module.exports = {
                         row2,
                         row3,
                         row4,
-                        new MessageActionRow().addComponents(
-                            new MessageButton()
-                                .setStyle("LINK")
+                        new ActionRowBuilder().addComponents(
+                            new ButtonBuilder()
+                                .setStyle(ButtonStyle.Link)
                                 .setURL("https://youtu.be/QGESDc31d4U")
                                 .setLabel("Tutorial Video")
                                 .setEmoji(allEmojis.msg.youtube)
@@ -230,18 +234,14 @@ module.exports = {
                         })
                     );
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Auto Support Setup",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/298/question-mark_2753.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Auto Support Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/298/question-mark_2753.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -286,7 +286,7 @@ module.exports = {
                             }
                             let tempmsg = await message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.color)
                                         .setTitle("What should be the Text to display in the Embed?")
                                         .setDescription(
@@ -304,7 +304,7 @@ module.exports = {
                             if (collected && collected.first().content) {
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(es.color)
                                             .setTitle("In where should I send the Auto-Support Message?")
                                             .setDescription(
@@ -323,7 +323,7 @@ module.exports = {
                                     let data = theDB.get(message.guild.id, pre + ".data");
                                     let channel = collected2.first().mentions.channels.first();
                                     let msgContent = collected.first().content;
-                                    let embed = new MessageEmbed()
+                                    let embed = new EmbedBuilder()
                                         .setColor(es.color)
                                         .setThumbnail(
                                             es.thumb
@@ -358,7 +358,7 @@ module.exports = {
                                     channel
                                         .send({
                                             embeds: [embed],
-                                            components: [new MessageActionRow().addComponents([Selection])],
+                                            components: [new ActionRowBuilder().addComponents([Selection])],
                                         })
                                         .catch(() => {
                                             let Selection = new MessageSelectMenu()
@@ -380,7 +380,7 @@ module.exports = {
                                             channel
                                                 .send({
                                                     embeds: [embed],
-                                                    components: [new MessageActionRow().addComponents([Selection])],
+                                                    components: [new ActionRowBuilder().addComponents([Selection])],
                                                 })
                                                 .catch(() => {})
                                                 .then(msg => {
@@ -419,7 +419,7 @@ module.exports = {
                             //ask for value and description
                             let tempmsg = await message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.color)
                                         .setTitle("What should be the VALUE and DESCRIPTION of the Menu-Option?")
                                         .setDescription(
@@ -448,19 +448,19 @@ module.exports = {
                                 let description = collected.first().content.split("++")[1].trim().substring(0, 50);
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(es.color)
                                             .setTitle("Should the Response be inside of an Embed?"),
                                     ],
                                     components: [
-                                        new MessageActionRow().addComponents([
-                                            new MessageButton()
-                                                .setStyle("SUCCESS")
+                                        new ActionRowBuilder().addComponents([
+                                            new ButtonBuilder()
+                                                .setStyle(ButtonStyle.Success)
                                                 .setLabel("In an Embed")
                                                 .setEmoji("✅")
                                                 .setCustomId("yes"),
-                                            new MessageButton()
-                                                .setStyle("DANGER")
+                                            new ButtonBuilder()
+                                                .setStyle(ButtonStyle.Danger)
                                                 .setLabel("Not in an Embed")
                                                 .setEmoji("❌")
                                                 .setCustomId("no"),
@@ -484,7 +484,7 @@ module.exports = {
 
                                         let tempmsg = await message.reply({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setColor(es.color)
                                                     .setTitle(
                                                         "What should be the Reply Message Content when someone Selects an Auto-Support-Option?"
@@ -503,7 +503,7 @@ module.exports = {
                                         if (collected3 && collected3.first().content) {
                                             let replyMsg = collected3.first().content;
 
-                                            var rermbed = new MessageEmbed()
+                                            var rermbed = new EmbedBuilder()
                                                 .setColor(es.color)
                                                 .setTitle("What should be the EMOJI to be displayed?")
                                                 .setDescription(
@@ -589,7 +589,7 @@ module.exports = {
                                                 );
                                                 message.reply({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor(es.color)
                                                             .setTitle("Successfully added the New Data to the List!")
                                                             .setDescription(
@@ -628,7 +628,7 @@ module.exports = {
                                     "<:no:833101993668771842> **There are no Open-Ticket-Options to edit**"
                                 );
                             }
-                            let embed = new MessageEmbed()
+                            let embed = new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -665,7 +665,7 @@ module.exports = {
                             menumsg = await message
                                 .reply({
                                     embeds: [embed],
-                                    components: [new MessageActionRow().addComponents([Selection])],
+                                    components: [new ActionRowBuilder().addComponents([Selection])],
                                 })
                                 .catch(async () => {
                                     let Selection = new MessageSelectMenu()
@@ -686,7 +686,7 @@ module.exports = {
                                         );
                                     menumsg = await message.reply({
                                         embeds: [embed],
-                                        components: [new MessageActionRow().addComponents([Selection])],
+                                        components: [new ActionRowBuilder().addComponents([Selection])],
                                     });
                                 });
                             //Create the collector
@@ -704,7 +704,7 @@ module.exports = {
                                     //ask for value and description
                                     let tempmsg = await message.reply({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.color)
                                                 .setTitle("What should be the VALUE and DESCRIPTION of the Menu-Option?")
                                                 .setDescription(
@@ -733,19 +733,19 @@ module.exports = {
                                         let description = collected.first().content.split("++")[1].trim().substring(0, 50);
                                         let tempmsg = await message.reply({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setColor(es.color)
                                                     .setTitle("Should the Response be inside of an Embed?"),
                                             ],
                                             components: [
-                                                new MessageActionRow().addComponents([
-                                                    new MessageButton()
-                                                        .setStyle("SUCCESS")
+                                                new ActionRowBuilder().addComponents([
+                                                    new ButtonBuilder()
+                                                        .setStyle(ButtonStyle.Success)
                                                         .setLabel("In an Embed")
                                                         .setEmoji("✅")
                                                         .setCustomId("yes"),
-                                                    new MessageButton()
-                                                        .setStyle("DANGER")
+                                                    new ButtonBuilder()
+                                                        .setStyle(ButtonStyle.Danger)
                                                         .setLabel("Not in an Embed")
                                                         .setEmoji("❌")
                                                         .setCustomId("no"),
@@ -769,7 +769,7 @@ module.exports = {
 
                                                 let tempmsg = await message.reply({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor(es.color)
                                                             .setTitle(
                                                                 "What should be the Reply Message Content when someone Selects an Auto-Support-Option?"
@@ -788,7 +788,7 @@ module.exports = {
                                                 if (collected3 && collected3.first().content) {
                                                     let replyMsg = collected3.first().content;
 
-                                                    var rermbed = new MessageEmbed()
+                                                    var rermbed = new EmbedBuilder()
                                                         .setColor(es.color)
                                                         .setTitle("What should be the EMOJI to be displayed?")
                                                         .setDescription(
@@ -923,7 +923,7 @@ module.exports = {
                                     "<:no:833101993668771842> **There are no Auto-Responding-Support-Options to remove**"
                                 );
                             }
-                            let embed = new MessageEmbed()
+                            let embed = new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -960,7 +960,7 @@ module.exports = {
                             menumsg = await message
                                 .reply({
                                     embeds: [embed],
-                                    components: [new MessageActionRow().addComponents([Selection])],
+                                    components: [new ActionRowBuilder().addComponents([Selection])],
                                 })
                                 .catch(async () => {
                                     let Selection = new MessageSelectMenu()
@@ -981,7 +981,7 @@ module.exports = {
                                         );
                                     menumsg = await message.reply({
                                         embeds: [embed],
-                                        components: [new MessageActionRow().addComponents([Selection])],
+                                        components: [new ActionRowBuilder().addComponents([Selection])],
                                     });
                                 });
                             //Create the collector
@@ -1024,7 +1024,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

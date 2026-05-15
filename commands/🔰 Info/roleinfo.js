@@ -1,5 +1,8 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -33,45 +36,26 @@ module.exports = {
             if (!role || role == null || role.id == null || !role.id)
                 return message.reply(client.la[ls].common.rolenotfound);
             //create the EMBED
-            const embeduserinfo = new MessageEmbed();
+            const embeduserinfo = new EmbedBuilder();
             embeduserinfo.setThumbnail(message.guild.iconURL({ dynamic: true, size: 512 }));
-            embeduserinfo.setAuthor(
-                client.la[ls].cmds.info.roleinfo.author + " " + role.name,
-                message.guild.iconURL({ dynamic: true }),
-                "https://discord.gg/milrato"
-            );
-            embeduserinfo.addField(client.la[ls].cmds.info.roleinfo.field1, `\`${role.name}\``, true);
-            embeduserinfo.addField(client.la[ls].cmds.info.roleinfo.field2, `\`${role.id}\``, true);
-            embeduserinfo.addField(client.la[ls].cmds.info.roleinfo.field3, `\`${role.hexColor}\``, true);
-            embeduserinfo.addField(
-                client.la[ls].cmds.info.roleinfo.field4,
-                "`" +
+            embeduserinfo.setAuthor({ name: client.la[ls].cmds.info.roleinfo.author + " " + role.name, iconURL: message.guild.iconURL({ dynamic: true }), url: "https://discord.gg/milrato" });
+            embeduserinfo.addFields({ name: client.la[ls].cmds.info.roleinfo.field1, value: `\`${role.name}\``, inline: true });
+            embeduserinfo.addFields({ name: client.la[ls].cmds.info.roleinfo.field2, value: `\`${role.id}\``, inline: true });
+            embeduserinfo.addFields({ name: client.la[ls].cmds.info.roleinfo.field3, value: `\`${role.hexColor}\``, inline: true });
+            embeduserinfo.addFields({ name: client.la[ls].cmds.info.roleinfo.field4, value: "`" +
                     moment(role.createdAt).format("DD/MM/YYYY") +
                     "`\n" +
                     "`" +
                     moment(role.createdAt).format("hh:mm:ss") +
-                    "`",
-                true
-            );
-            embeduserinfo.addField(
-                client.la[ls].cmds.info.roleinfo.field5,
-                `\`${role.rawPosition}\` / \`${message.guild.roles.highest.rawPosition}\``,
-                true
-            );
-            embeduserinfo.addField(
-                client.la[ls].cmds.info.roleinfo.field6,
-                `\`${role.members.size} Members have it\``,
-                true
-            );
-            embeduserinfo.addField(client.la[ls].cmds.info.roleinfo.field7, `\`${role.hoist ? "✔️" : "❌"}\``, true);
-            embeduserinfo.addField(client.la[ls].cmds.info.roleinfo.field8, `\`${role.mentionable ? "✔️" : "❌"}\``, true);
-            embeduserinfo.addField(
-                client.la[ls].cmds.info.roleinfo.field9,
-                `${role.permissions
+                    "`", inline: true });
+            embeduserinfo.addFields({ name: client.la[ls].cmds.info.roleinfo.field5, value: `\`${role.rawPosition}\` / \`${message.guild.roles.highest.rawPosition}\``, inline: true });
+            embeduserinfo.addFields({ name: client.la[ls].cmds.info.roleinfo.field6, value: `\`${role.members.size} Members have it\``, inline: true });
+            embeduserinfo.addFields({ name: client.la[ls].cmds.info.roleinfo.field7, value: `\`${role.hoist ? "✔️" : "❌"}\``, inline: true });
+            embeduserinfo.addFields({ name: client.la[ls].cmds.info.roleinfo.field8, value: `\`${role.mentionable ? "✔️" : "❌"}\``, inline: true });
+            embeduserinfo.addFields({ name: client.la[ls].cmds.info.roleinfo.field9, value: `${role.permissions
                     .toArray()
                     .map(p => `\`${p}\``)
-                    .join(", ")}`
-            );
+                    .join(", ")}` });
             embeduserinfo.setColor(role.hexColor);
             embeduserinfo.setFooter(client.getFooter(es));
             //send the EMBED
@@ -80,7 +64,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

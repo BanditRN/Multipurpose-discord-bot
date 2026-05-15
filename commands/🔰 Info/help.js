@@ -1,4 +1,11 @@
-const { MessageEmbed, MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+    PermissionFlagsBits,
+    StringSelectMenuBuilder,
+} = require("discord.js");
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -21,7 +28,7 @@ module.exports = {
 
         try {
             if (args[0]) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setColor(es.color)
                     .setThumbnail(
                         es.thumb
@@ -40,7 +47,7 @@ module.exports = {
                     else cuc = cuc.map(cmd => `\`${cmd.name}\``);
                     const items = cuc;
 
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -74,7 +81,7 @@ module.exports = {
                 } else if (cat) {
                     var category = cat;
                     const items = client.commands.filter(cmd => cmd.category === category).map(cmd => `\`${cmd.name}\``);
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -120,28 +127,19 @@ module.exports = {
                     }
                     return message.reply({ embeds: [embed] });
                 }
-                if (cmd.name) embed.addField(handlemsg(client.la[ls].cmds.info.help.detail.name), `\`\`\`${cmd.name}\`\`\``);
+                if (cmd.name) embed.addFields({ name: handlemsg(client.la[ls].cmds.info.help.detail.name), value: `\`\`\`${cmd.name}\`\`\`` });
                 if (cmd.name) embed.setTitle(handlemsg(client.la[ls].cmds.info.help.detail.about, { cmdname: cmd.name }));
                 if (cmd.description)
-                    embed.addField(handlemsg(client.la[ls].cmds.info.help.detail.desc), `\`\`\`${cmd.description}\`\`\``);
+                    embed.addFields({ name: handlemsg(client.la[ls].cmds.info.help.detail.desc), value: `\`\`\`${cmd.description}\`\`\`` });
                 if (cmd.aliases && cmd.aliases.length > 0 && cmd.aliases[0].length > 1)
                     try {
-                        embed.addField(
-                            handlemsg(client.la[ls].cmds.info.help.detail.aliases),
-                            `\`${cmd.aliases.map(a => `${a}`).join("`, `")}\``
-                        );
+                        embed.addFields({ name: handlemsg(client.la[ls].cmds.info.help.detail.aliases), value: `\`${cmd.aliases.map(a => `${a}`).join("`, `")}\`` });
                     } catch {}
                 if (cmd.cooldown)
-                    embed.addField(
-                        handlemsg(client.la[ls].cmds.info.help.detail.cooldown),
-                        `\`\`\`${cmd.cooldown} Seconds\`\`\``
-                    );
-                else embed.addField(handlemsg(client.la[ls].cmds.info.help.detail.cooldown), `\`\`\`3 Seconds\`\`\``);
+                    embed.addFields({ name: handlemsg(client.la[ls].cmds.info.help.detail.cooldown), value: `\`\`\`${cmd.cooldown} Seconds\`\`\`` });
+                else embed.addFields({ name: handlemsg(client.la[ls].cmds.info.help.detail.cooldown), value: `\`\`\`3 Seconds\`\`\`` });
                 if (cmd.usage) {
-                    embed.addField(
-                        handlemsg(client.la[ls].cmds.info.help.detail.usage),
-                        `\`\`\`${prefix}${cmd.usage}\`\`\``
-                    );
+                    embed.addFields({ name: handlemsg(client.la[ls].cmds.info.help.detail.usage), value: `\`\`\`${prefix}${cmd.usage}\`\`\`` });
                     embed.setFooter(
                         handlemsg(client.la[ls].cmds.info.help.detail.syntax),
                         es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
@@ -151,23 +149,23 @@ module.exports = {
                 }
                 return message.reply({ embeds: [embed] });
             }
-            let button_back = new MessageButton()
-                .setStyle("SUCCESS")
+            let button_back = new ButtonBuilder()
+                .setStyle(ButtonStyle.Success)
                 .setCustomId("1")
                 .setEmoji("833802907509719130")
                 .setLabel(handlemsg(client.la[ls].cmds.info.help.buttons.back));
-            let button_home = new MessageButton()
-                .setStyle("DANGER")
+            let button_home = new ButtonBuilder()
+                .setStyle(ButtonStyle.Danger)
                 .setCustomId("2")
                 .setEmoji("🏠")
                 .setLabel(handlemsg(client.la[ls].cmds.info.help.buttons.home));
-            let button_forward = new MessageButton()
-                .setStyle("SUCCESS")
+            let button_forward = new ButtonBuilder()
+                .setStyle(ButtonStyle.Success)
                 .setCustomId("3")
                 .setEmoji("832598861813776394")
                 .setLabel(handlemsg(client.la[ls].cmds.info.help.buttons.forward));
-            let button_tutorial = new MessageButton()
-                .setStyle("LINK")
+            let button_tutorial = new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
                 .setEmoji("840260133686870036")
                 .setLabel("Tutorial")
                 .setURL("https://youtu.be/E0R7d8gS908");
@@ -303,22 +301,22 @@ module.exports = {
                 }
                 //return i // do not return, cause its disabled! to be shown
             });
-            let menuSelection = new MessageSelectMenu()
+            let menuSelection = new StringSelectMenuBuilder()
                 .setCustomId("MenuSelection")
                 .setPlaceholder("Click me to view Help-Menu-Category-Page(s)")
                 .setMinValues(1)
                 .setMaxValues(5)
                 .addOptions(menuOptions.filter(Boolean));
-            let buttonRow = new MessageActionRow().addComponents([
+            let buttonRow = new ActionRowBuilder().addComponents([
                 button_back,
                 button_home,
                 button_forward,
                 button_tutorial,
             ]);
-            let SelectionRow = new MessageActionRow().addComponents([menuSelection]);
+            let SelectionRow = new ActionRowBuilder().addComponents([menuSelection]);
             const allbuttons = [buttonRow, SelectionRow];
             //define default embed
-            let OverviewEmbed = new MessageEmbed()
+            let OverviewEmbed = new EmbedBuilder()
                 .setColor(es.color)
                 .setThumbnail(
                     es.thumb
@@ -330,33 +328,21 @@ module.exports = {
                 //.setFooter("Page Overview\n"+ client.user.username, client.user.displayAvatarURL())
                 .setFooter({ text: "Page Overview\n" + client.user.username, iconURL: client.user.displayAvatarURL() })
                 .setTitle(`Information about __${client.user.username}__`)
-                .addField(
-                    ":muscle: **__My Features__**",
-                    `>>> **58+ Systems**, like: ${allEmojis.msg.twitter} **Twitter-** & ${allEmojis.msg.youtube} **Youtube-Auto-Poster**
+                .addFields({ name: ":muscle: **__My Features__**", value: `>>> **58+ Systems**, like: ${allEmojis.msg.twitter} **Twitter-** & ${allEmojis.msg.youtube} **Youtube-Auto-Poster**
 **Application-**, Ticket-, **Welcome-Images-** and Reaction Role-, ... Systems
 :notes: An advanced ${allEmojis.msg.spotify} **Music System** with **Audio Filtering**
 :video_game: Many **Minigames** and :joystick: **Fun** Commands (150+)
-:no_entry_sign: **Administration** and **Auto-Moderation** and way much more!`
-                )
-                .addField(
-                    ":question: **__How do you use me?__**",
-                    `>>> \`${prefix}setup\` and react with the Emoji for the right action,
-but you can also do \`${prefix}setup-SYSTEM\` e.g. \`${prefix}setup-welcome\``
-                )
-                .addField(
-                    ":chart_with_upwards_trend: **__STATS:__**",
-                    `>>> :gear: **${client.commands.map(a => a).length} Commands**
+:no_entry_sign: **Administration** and **Auto-Moderation** and way much more!` })
+                .addFields({ name: ":question: **__How do you use me?__**", value: `>>> \`${prefix}setup\` and react with the Emoji for the right action,
+but you can also do \`${prefix}setup-SYSTEM\` e.g. \`${prefix}setup-welcome\`` })
+                .addFields({ name: ":chart_with_upwards_trend: **__STATS:__**", value: `>>> :gear: **${client.commands.map(a => a).length} Commands**
 :file_folder: on **${client.guilds.cache.size} Guilds**
 ⌚️ **${duration(client.uptime)
                         .map(i => `\`${i}\``)
                         .join("︲")} Uptime**
 📶 **\`${Math.floor(client.ws.ping)}ms\` Ping**
-${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.gg/milrato)`
-                )
-                .addField(
-                    "How to get help?",
-                    `>>> **\` 1. Way \`** *Use the Buttons, to swap the Pages*\n**\` 2. Way \`** *Use the Menu to select all Help Pages, you want to display*\n**\` 3. Way \`** *Watch the Youtube Tutorial*`
-                );
+${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.gg/milrato)` })
+                .addFields({ name: "How to get help?", value: `>>> **\` 1. Way \`** *Use the Buttons, to swap the Pages*\n**\` 2. Way \`** *Use the Menu to select all Help Pages, you want to display*\n**\` 3. Way \`** *Watch the Youtube Tutorial*` });
 
             let err = false;
             //Send message with buttons
@@ -504,7 +490,7 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
 
             collector.on("end", collected => {
                 //array of all disabled buttons
-                let d_buttonRow = new MessageActionRow().addComponents([
+                let d_buttonRow = new ActionRowBuilder().addComponents([
                     button_back.setDisabled(true),
                     button_home.setDisabled(true),
                     button_forward.setDisabled(true),
@@ -528,7 +514,7 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                 var embeds = [];
 
                 //INFORMATION COMMANDS
-                var embed0 = new MessageEmbed()
+                var embed0 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "🔰 Info").size}\`] 🔰 Information Commands 🔰`
                     )
@@ -539,56 +525,41 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        `🙂 **User Commands**`,
-                        ">>> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: `🙂 **User Commands**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🔰 Info" && cmd.type === "user")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `🕹️ **Games Related Commands**`,
-                        ">>> " +
+                                .join("︲") })
+                    .addFields({ name: `🕹️ **Games Related Commands**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🔰 Info" && cmd.type === "games")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.discord_robot} **Server Related Commands**`,
-                        ">>> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.discord_robot} **Server Related Commands**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🔰 Info" && cmd.type === "server")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.botflag} **Bot Related Commands**`,
-                        ">>> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.botflag} **Bot Related Commands**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🔰 Info" && cmd.type === "bot")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.builder} **Util Related Commands**`,
-                        ">>> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.builder} **Util Related Commands**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🔰 Info" && cmd.type === "util")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    );
+                                .join("︲") });
                 embeds.push(embed0);
 
                 //ECONOMY COMMANDS
-                var embed1 = new MessageEmbed()
+                var embed1 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "💸 Economy").size}\`] 💸 Economy Commands 💸 | ${settings.ECONOMY ? enabledString : disabledString}`
                     )
@@ -599,38 +570,29 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        `🕹️ **Mini Game to earn 💸**`,
-                        ">>> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: `🕹️ **Mini Game to earn 💸**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "💸 Economy" && cmd.type === "game")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `:clock1: **Repeatingly earn 💸 via Event(s)**`,
-                        ">>> " +
+                                .join("︲") })
+                    .addFields({ name: `:clock1: **Repeatingly earn 💸 via Event(s)**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "💸 Economy" && cmd.type === "earn")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.builder} **Information & Manage 💸**`,
-                        ">>> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.builder} **Information & Manage 💸**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "💸 Economy" && cmd.type === "info")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    );
+                                .join("︲") });
                 if (!filterdisabled || settings.ECONOMY || settings.showdisabled) embeds.push(embed1);
 
                 //SCHOOL COMMANDS
-                var embed2 = new MessageEmbed()
+                var embed2 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "🏫 School Commands").size}\`] 🏫 School Commands 🏫 | ${settings.SCHOOL ? enabledString : disabledString}`
                     )
@@ -641,29 +603,23 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        `:school: **Mathematics**`,
-                        ">>> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: `:school: **Mathematics**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🏫 School Commands" && cmd.type === "math")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `:clock1: **Time Management**`,
-                        ">>> " +
+                                .join("︲") })
+                    .addFields({ name: `:clock1: **Time Management**`, value: ">>> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🏫 School Commands" && cmd.type === "time")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    );
+                                .join("︲") });
                 if (!filterdisabled || settings.SCHOOL || settings.showdisabled) embeds.push(embed2);
 
                 //MUSIC COMMANDS type: song, queue, queuesong, bot
-                var embed3 = new MessageEmbed()
+                var embed3 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "🎶 Music").size}\`] 🎶 Music Commands 🎶 | ${settings.MUSIC ? enabledString : disabledString}`
                     )
@@ -674,38 +630,29 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        "📑 **Queue Commands**",
-                        "> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: "📑 **Queue Commands**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🎶 Music" && cmd.type.includes("queue"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.notes} **Song Commands**`,
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.notes} **Song Commands**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🎶 Music" && cmd.type.includes("song"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.botflag} **Bot Commands**`,
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.botflag} **Bot Commands**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🎶 Music" && cmd.type.includes("bot"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    );
+                                .join("︲") });
                 if (!filterdisabled || settings.MUSIC || settings.showdisabled) embeds.push(embed3);
 
                 //FILTER COMMANDS
-                var embed4 = new MessageEmbed()
+                var embed4 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "👀 Filter").size}\`] 👀 Filter Commands 👀 | ${settings.FILTER ? enabledString : disabledString}`
                     )
@@ -719,7 +666,7 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                 if (!filterdisabled || settings.FILTER || settings.showdisabled) embeds.push(embed4);
 
                 //CUSTOM QUEUE COMMANDS
-                var embed5 = new MessageEmbed()
+                var embed5 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "⚜️ Custom Queue(s)").first().extracustomdesc.length}\`] ⚜️ Custom Queue(s) Commands ⚜️ | ${settings.CUSTOMQUEUE ? enabledString : disabledString}`
                     )
@@ -731,15 +678,12 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(i => i?.trim())
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "\u200b")
-                    .addField(
-                        `${allEmojis.msg.SUCCESS} **Usage**`,
-                        "> " + client.commands.filter(cmd => cmd.category === "⚜️ Custom Queue(s)").first().usage
-                    );
+                    .addFields({ name: "\u200b", value: "\u200b" })
+                    .addFields({ name: `${allEmojis.msg.SUCCESS} **Usage**`, value: "> " + client.commands.filter(cmd => cmd.category === "⚜️ Custom Queue(s)").first().usage });
                 if (!filterdisabled || settings.CUSTOMQUEUE || settings.showdisabled) embeds.push(embed5);
 
                 //ADMINISTRATION
-                var embed6 = new MessageEmbed()
+                var embed6 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "🚫 Administration").size}\`] 🚫 Admin Commands 🚫`
                     )
@@ -750,56 +694,41 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        `${allEmojis.msg.discord_robot} **Server Related Commands**`,
-                        "> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: `${allEmojis.msg.discord_robot} **Server Related Commands**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🚫 Administration" && cmd.type.includes("server"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.cancel} **Channel Related Commands**`,
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.cancel} **Channel Related Commands**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🚫 Administration" && cmd.type.includes("channel"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.threadchannel} **Thread Related Commands**`,
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.threadchannel} **Thread Related Commands**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🚫 Administration" && cmd.type.includes("thread"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.roles} **Role Related Commands**`,
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.roles} **Role Related Commands**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🚫 Administration" && cmd.type.includes("role"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        "🙂 **Member Related Commands**",
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: "🙂 **Member Related Commands**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🚫 Administration" && cmd.type.includes("member"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    );
+                                .join("︲") });
                 embeds.push(embed6);
 
                 //SETUP
-                var embed7 = new MessageEmbed()
+                var embed7 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "💪 Setup").size}\`] 💪 Setup Commands 💪`
                     )
@@ -810,47 +739,35 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        "😛 **Setups for Entertainment**",
-                        "> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: "😛 **Setups for Entertainment**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "💪 Setup" && cmd.type.includes("fun"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        "💡 **Information & Manage (Bot/Server) Settings**",
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: "💡 **Information & Manage (Bot/Server) Settings**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "💪 Setup" && cmd.type.includes("info"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.milratodev} **Most used Systems**`,
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.milratodev} **Most used Systems**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "💪 Setup" && cmd.type.includes("system"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.builder} **Security Systems**`,
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.builder} **Security Systems**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "💪 Setup" && cmd.type.includes("security"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    );
+                                .join("︲") });
                 embeds.push(embed7);
 
                 //Settings
-                var embed8 = new MessageEmbed()
+                var embed8 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "⚙️ Settings").size}\`] ⚙️ Settings Commands ⚙️`
                     )
@@ -861,38 +778,29 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        "🙂 **User Related Commands**",
-                        "> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: "🙂 **User Related Commands**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "⚙️ Settings" && cmd.type.includes("user"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.botflag} **Bot Related Commands**`,
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.botflag} **Bot Related Commands**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "⚙️ Settings" && cmd.type.includes("bot"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        "🎶 **Music Related Commands**",
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: "🎶 **Music Related Commands**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "⚙️ Settings" && cmd.type.includes("music"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    );
+                                .join("︲") });
                 embeds.push(embed8);
 
                 //Owner
-                var embed9 = new MessageEmbed()
+                var embed9 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "👑 Owner").size}\`] 👑 Owner Commands 👑`
                     )
@@ -903,29 +811,23 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        `${allEmojis.msg.discord_robot} **Information & Manage**`,
-                        "> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: `${allEmojis.msg.discord_robot} **Information & Manage**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "👑 Owner" && cmd.type.includes("info"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        `${allEmojis.msg.botflag} **Adjust the Bot**`,
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: `${allEmojis.msg.botflag} **Adjust the Bot**`, value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "👑 Owner" && cmd.type.includes("bot"))
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    );
+                                .join("︲") });
                 embeds.push(embed9);
 
                 //Programming Commands
-                var embed10 = new MessageEmbed()
+                var embed10 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "⌨️ Programming").size}\`] ⌨️ Programming Commands ⌨️ | ${settings.PROGRAMMING ? enabledString : disabledString}`
                     )
@@ -939,7 +841,7 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                 if (!filterdisabled || settings.PROGRAMMING || settings.showdisabled) embeds.push(embed10);
 
                 //Ranking
-                var embed11 = new MessageEmbed()
+                var embed11 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "📈 Ranking").size}\`] 📈 Ranking Commands 📈 | ${settings.RANKING ? enabledString : disabledString}`
                     )
@@ -950,27 +852,21 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        `${allEmojis.msg.builder} **Manage Rank**`,
-                        `> ${client.commands
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: `${allEmojis.msg.builder} **Manage Rank**`, value: `> ${client.commands
                             .filter(cmd => cmd.category === "📈 Ranking" && cmd.type === "manage")
                             .sort((a, b) => a.name.localeCompare(b?.name))
                             .map(cmd => `\`${cmd.name}\``)
-                            .join("︲")}`
-                    )
-                    .addField(
-                        "📈 **Rank Information**",
-                        `> ${client.commands
+                            .join("︲")}` })
+                    .addFields({ name: "📈 **Rank Information**", value: `> ${client.commands
                             .filter(cmd => cmd.category === "📈 Ranking" && cmd.type === "info")
                             .sort((a, b) => a.name.localeCompare(b?.name))
                             .map(cmd => `\`${cmd.name}\``)
-                            .join("︲")}`
-                    );
+                            .join("︲")}` });
                 if (!filterdisabled || settings.RANKING || settings.showdisabled) embeds.push(embed11);
 
                 //SOUNDBOARD COMMANDS
-                var embed12 = new MessageEmbed()
+                var embed12 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "🔊 Soundboard").size}\`] 🔊 Soundboard Commands 🔊 | ${settings.SOUNDBOARD ? enabledString : disabledString}`
                     )
@@ -984,7 +880,7 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                 if (!filterdisabled || settings.SOUNDBOARD || settings.showdisabled) embeds.push(embed12);
 
                 //Voice COMMANDS
-                var embed13 = new MessageEmbed()
+                var embed13 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "🎤 Voice").first().extracustomdesc.length}\`] 🎤 Voice Commands 🎤 | ${settings.VOICE ? enabledString : disabledString}`
                     )
@@ -996,15 +892,12 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(i => i?.trim())
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "\u200b")
-                    .addField(
-                        `${allEmojis.msg.SUCCESS} **Usage**`,
-                        "> " + client.commands.filter(cmd => cmd.category === "🎤 Voice").first().usage
-                    );
+                    .addFields({ name: "\u200b", value: "\u200b" })
+                    .addFields({ name: `${allEmojis.msg.SUCCESS} **Usage**`, value: "> " + client.commands.filter(cmd => cmd.category === "🎤 Voice").first().usage });
                 if (!filterdisabled || settings.VOICE || settings.showdisabled) embeds.push(embed13);
 
                 //FUN COMMANDS
-                var embed14 = new MessageEmbed()
+                var embed14 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "🕹️ Fun").size}\`] 🕹️ Fun Commands 🕹️ | ${settings.FUN ? enabledString : disabledString}`
                     )
@@ -1015,69 +908,51 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        "🙂 **Fun User Image Commands**",
-                        "> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: "🙂 **Fun User Image Commands**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🕹️ Fun" && cmd.type === "user")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        "🙂💬 **Fun User Image-Text Commands**",
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: "🙂💬 **Fun User Image-Text Commands**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🕹️ Fun" && cmd.type === "usertext")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        "💬 **Fun Text Commands**",
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: "💬 **Fun Text Commands**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🕹️ Fun" && cmd.type === "text")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    );
+                                .join("︲") });
                 if (!filterdisabled || settings.FUN || settings.showdisabled) embeds.push(embed14);
 
                 //MINIGAMES
-                var embed15 = new MessageEmbed()
+                var embed15 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "🎮 MiniGames").size}\`] 🎮 Mini Games Commands 🎮 | ${settings.MINIGAMES ? enabledString : disabledString}`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        "💬 **Text Based Minigames**",
-                        "> " +
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: "💬 **Text Based Minigames**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🎮 MiniGames" && cmd.type === "text")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        "🔘 **Button(s) Minigames**",
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: "🔘 **Button(s) Minigames**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🎮 MiniGames" && cmd.type === "buttons")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
-                    .addField(
-                        "🎙️ **Voice Minigames**",
-                        "> " +
+                                .join("︲") })
+                    .addFields({ name: "🎙️ **Voice Minigames**", value: "> " +
                             client.commands
                                 .filter(cmd => cmd.category === "🎮 MiniGames" && cmd.type === "voice")
                                 .sort((a, b) => a.name.localeCompare(b?.name))
                                 .map(cmd => `\`${cmd.name}\``)
-                                .join("︲")
-                    )
+                                .join("︲") })
                     .setDescription(
                         `> *${client.commands
                             .filter(cmd => cmd.category === "🎮 MiniGames")
@@ -1088,7 +963,7 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                 if (!filterdisabled || settings.MINIGAMES || settings.showdisabled) embeds.push(embed15);
 
                 //ANIME EMOTIONS
-                var embed16 = new MessageEmbed()
+                var embed16 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "😳 Anime-Emotions").size}\`] 😳 Anime Commands 😳 | ${settings.ANIME ? enabledString : disabledString}`
                     )
@@ -1099,27 +974,21 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        "😳 **Anime-Mention-Emotions (or Self.)**",
-                        `> ${client.commands
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: "😳 **Anime-Mention-Emotions (or Self.)**", value: `> ${client.commands
                             .filter(cmd => cmd.category === "😳 Anime-Emotions" && cmd.type === "mention")
                             .sort((a, b) => a.name.localeCompare(b?.name))
                             .map(cmd => `\`${cmd.name}\``)
-                            .join("︲")}`
-                    )
-                    .addField(
-                        "😳 **Anime-Self-Emotions**",
-                        `> ${client.commands
+                            .join("︲")}` })
+                    .addFields({ name: "😳 **Anime-Self-Emotions**", value: `> ${client.commands
                             .filter(cmd => cmd.category === "😳 Anime-Emotions" && cmd.type === "self")
                             .sort((a, b) => a.name.localeCompare(b?.name))
                             .map(cmd => `\`${cmd.name}\``)
-                            .join("︲")}`
-                    );
+                            .join("︲")}` });
                 if (!filterdisabled || settings.ANIME || settings.showdisabled) embeds.push(embed16);
 
                 //NSFW COMMANDS
-                var embed17 = new MessageEmbed()
+                var embed17 = new EmbedBuilder()
                     .setTitle(
                         `[\`${client.commands.filter(cmd => cmd.category === "🔞 NSFW").size}\`] 🔞 NSFW Commands 🔞 | ${settings.NSFW ? enabledString : disabledString}`
                     )
@@ -1130,27 +999,21 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
                             .map(cmd => `\`${cmd.name}\``)
                             .join("︲")}*`
                     )
-                    .addField("\u200b", "__**Sub-Categorized Commands:**__")
-                    .addField(
-                        "😳 **Animated (Hentai, Neko, SFW, ...)**",
-                        `> ${client.commands
+                    .addFields({ name: "\u200b", value: "__**Sub-Categorized Commands:**__" })
+                    .addFields({ name: "😳 **Animated (Hentai, Neko, SFW, ...)**", value: `> ${client.commands
                             .filter(cmd => cmd.category === "🔞 NSFW" && cmd.type === "anime")
                             .sort((a, b) => a.name.localeCompare(b?.name))
                             .map(cmd => `\`${cmd.name}\``)
-                            .join("︲")}`
-                    )
-                    .addField(
-                        "🔞 **Reallife (Porn, Erotik, etc.)**",
-                        `> ${client.commands
+                            .join("︲")}` })
+                    .addFields({ name: "🔞 **Reallife (Porn, Erotik, etc.)**", value: `> ${client.commands
                             .filter(cmd => cmd.category === "🔞 NSFW" && cmd.type === "real")
                             .sort((a, b) => a.name.localeCompare(b?.name))
                             .map(cmd => `\`${cmd.name}\``)
-                            .join("︲")}`
-                    );
+                            .join("︲")}` });
                 if (!filterdisabled || settings.NSFW || settings.showdisabled) embeds.push(embed17);
 
                 //CUSTOM COMMANDS EMBED
-                var embed18 = new MessageEmbed().setTitle(eval(client.la[ls]["cmds"]["info"]["help"]["variable23"]));
+                var embed18 = new EmbedBuilder().setTitle(eval(client.la[ls]["cmds"]["info"]["help"]["variable23"]));
                 let cuc = client.customcommands.get(message.guild.id, "commands");
                 if (cuc.length < 1) cuc = ["NO CUSTOM COMMANDS DEFINED YET, do it with: `!setup-customcommands`"];
                 else cuc = cuc.map(cmd => `\`${cmd.name}\``);
@@ -1181,7 +1044,7 @@ ${allEmojis.msg.milratodev}  Made by [**Milrato Development**](https://discord.g
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

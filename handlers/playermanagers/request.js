@@ -1,4 +1,6 @@
-var { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var { format, delay, arrayMove } = require("../functions");
@@ -26,17 +28,68 @@ async function request(client, message, args, type, slashCommand) {
         //set the variables
         player.set("message", message);
         player.set("playerauthor", message.author.id);
-        player.connect();
-        player.stop();
+        await player.connect();
     }
-    res = await client.manager.search(search, message.author);
+    try {
+        res = await client.manager.search(search, message.author);
+    } catch (err) {
+        const msg = err?.message || "Search failed due to an unknown Lavalink error";
+        if (slashCommand) {
+            return slashCommand
+                .reply({
+                    ephemeral: true,
+                    embeds: [new EmbedBuilder().setColor(ee.wrongcolor).setTitle(`❌ Error | ${msg}`)],
+                })
+                .catch(() => {});
+        }
+        return message
+            .reply({
+                embeds: [new EmbedBuilder().setColor(ee.wrongcolor).setTitle(`❌ Error | ${msg}`)],
+            })
+            .catch(() => {});
+    }
+
+    if (!res || typeof res !== "object") {
+        if (slashCommand) {
+            return slashCommand
+                .reply({
+                    ephemeral: true,
+                    embeds: [new EmbedBuilder().setColor(ee.wrongcolor).setTitle("❌ Error | Invalid search response")],
+                })
+                .catch(() => {});
+        }
+        return message
+            .reply({
+                embeds: [new EmbedBuilder().setColor(ee.wrongcolor).setTitle("❌ Error | Invalid search response")],
+            })
+            .catch(() => {});
+    }
+
     // Check the load type as this command is not that advanced for basics
     if (res.loadType === "LOAD_FAILED") {
-        throw res.exception;
+        const err = res.exception;
+        const msg =
+            (typeof err === "string" && err) ||
+            err?.message ||
+            err?.cause ||
+            "Failed to load track from Lavalink";
+        if (slashCommand) {
+            return slashCommand
+                .reply({
+                    ephemeral: true,
+                    embeds: [new EmbedBuilder().setColor(ee.wrongcolor).setTitle(`❌ Error | ${msg}`)],
+                })
+                .catch(() => {});
+        }
+        return message
+            .reply({
+                embeds: [new EmbedBuilder().setColor(ee.wrongcolor).setTitle(`❌ Error | ${msg}`)],
+            })
+            .catch(() => {});
     } else if (res.loadType === "PLAYLIST_LOADED") {
-        playlist_();
+        await playlist_();
     } else {
-        song_();
+        await song_();
     }
     //function for calling the song
     async function song_() {
@@ -47,7 +100,7 @@ async function request(client, message, args, type, slashCommand) {
                     .reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.wrongcolor)
                                 .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                                 .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["request"]["variable1"])),
@@ -57,7 +110,7 @@ async function request(client, message, args, type, slashCommand) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["request"]["variable1"])),
@@ -75,17 +128,17 @@ async function request(client, message, args, type, slashCommand) {
             //set the variables
             player.set("message", message);
             player.set("playerauthor", message.author.id);
-            player.connect();
+            await player.connect();
             //add track
             player.queue.add(res.tracks[0]);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else if (!player.queue || !player.queue.current) {
             //add track
             player.queue.add(res.tracks[0]);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         }
         //otherwise
@@ -121,7 +174,7 @@ async function request(client, message, args, type, slashCommand) {
                     .reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.wrongcolor)
                                 .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                                 .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["request"]["variable2"])),
@@ -131,7 +184,7 @@ async function request(client, message, args, type, slashCommand) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["request"]["variable2"])),
@@ -149,17 +202,17 @@ async function request(client, message, args, type, slashCommand) {
             //set the variables
             player.set("message", message);
             player.set("playerauthor", message.author.id);
-            player.connect();
+            await player.connect();
             //add track
             player.queue.add(res.tracks);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else if (!player.queue || !player.queue.current) {
             //add track
             player.queue.add(res.tracks);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else {
             player.queue.add(res.tracks);

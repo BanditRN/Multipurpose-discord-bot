@@ -1,7 +1,9 @@
 const math = require("math-expression-evaluator");
 const ms = require("ms");
 const moment = require("moment");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -19,7 +21,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "SCHOOL")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -40,7 +42,7 @@ module.exports = {
                 .join("");
         return message.reply({
             embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.color)
                     .setThumbnail(
                         es.thumb

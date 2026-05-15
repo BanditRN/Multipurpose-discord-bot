@@ -1,5 +1,7 @@
 const Discord = require(`discord.js`);
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -24,7 +26,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -75,19 +77,16 @@ module.exports = {
             }
             message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
-                        .setAuthor(
-                            `Loading '${args[0] ? args[0] : "Default"}' Music Mix`,
-                            "https://imgur.com/xutrSuq.gif",
-                            link
-                        )
+                        .setAuthor({
+                            name: `Loading '${args[0] ? args[0] : "Default"}' Music Mix`,
+                            iconURL: "https://imgur.com/xutrSuq.gif",
+                            url: link,
+                        })
                         .setTitle(eval(client.la[ls]["cmds"]["music"]["playmusicmix"]["variable1"]))
                         .setDescription(eval(client.la[ls]["cmds"]["music"]["playmusicmix"]["variable2"]))
-                        .addField(
-                            eval(client.la[ls]["cmds"]["music"]["playmusicmix"]["variablex_3"]),
-                            eval(client.la[ls]["cmds"]["music"]["playmusicmix"]["variable3"])
-                        )
+                        .addFields({ name: eval(client.la[ls]["cmds"]["music"]["playmusicmix"]["variablex_3"]), value: eval(client.la[ls]["cmds"]["music"]["playmusicmix"]["variable3"]) })
                         .setFooter(client.getFooter(es)),
                 ],
             });
@@ -97,7 +96,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setTitle(client.la[ls].common.erroroccur)
                         .setDescription(eval(client.la[ls]["cmds"]["music"]["playmusicmix"]["variable4"])),

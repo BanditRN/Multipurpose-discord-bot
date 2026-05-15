@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const canvacord = require("canvacord");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -20,7 +22,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "FUN")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -36,7 +38,7 @@ module.exports = {
         try {
             let owo;
             owo = await neko.sfw.fact();
-            const fact = new Discord.MessageEmbed()
+            const fact = new EmbedBuilder()
                 .setTitle(":postal_horn: **" + eval(client.la[ls]["cmds"]["fun"]["fact"]["variable1"]) + "**")
                 .setDescription(">>> *" + owo.fact + "*")
                 .setColor(es.color)
@@ -46,7 +48,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

@@ -1,4 +1,9 @@
-const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
 function disableButtons(components) {
     for (let x = 0; x < components.length; x++) {
         for (let y = 0; y < components[x].components.length; y++) {
@@ -112,27 +117,27 @@ class RPSGame {
         const emojis = this.options.emojis;
         const choice = { r: emojis.rock, p: emojis.paper, s: emojis.scissors };
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(this.options.embed.title)
             .setDescription(this.options.embed.description)
             .setColor(this.options.embed.color);
 
-        const rock = new MessageButton()
+        const rock = new ButtonBuilder()
             .setCustomId("r_rps")
-            .setStyle("PRIMARY")
+            .setStyle(ButtonStyle.Primary)
             .setLabel(this.options.buttons.rock)
             .setEmoji(emojis.rock);
-        const paper = new MessageButton()
+        const paper = new ButtonBuilder()
             .setCustomId("p_rps")
-            .setStyle("PRIMARY")
+            .setStyle(ButtonStyle.Primary)
             .setLabel(this.options.buttons.paper)
             .setEmoji(emojis.paper);
-        const scissors = new MessageButton()
+        const scissors = new ButtonBuilder()
             .setCustomId("s_rps")
-            .setStyle("PRIMARY")
+            .setStyle(ButtonStyle.Primary)
             .setLabel(this.options.buttons.scissors)
             .setEmoji(emojis.scissors);
-        const row = new MessageActionRow().addComponents(rock, paper, scissors);
+        const row = new ActionRowBuilder().addComponents(rock, paper, scissors);
 
         const msg = await this.sendMessage({ embeds: [embed], components: [row] });
 
@@ -179,7 +184,7 @@ class RPSGame {
 
         collector.on("end", async (c, r) => {
             if (r === "time" && this.inGame == true) {
-                const endEmbed = new MessageEmbed()
+                const endEmbed = new EmbedBuilder()
                     .setTitle(this.options.embed.title)
                     .setColor(this.options.embed.color)
                     .setDescription(this.options.gameEndMessage)
@@ -206,12 +211,12 @@ class RPSGame {
             result = this.options.winMessage.replace("{winner}", this.message.author.toString());
         }
 
-        const finalEmbed = new MessageEmbed()
+        const finalEmbed = new EmbedBuilder()
             .setTitle(this.options.embed.title)
             .setColor(this.options.embed.color)
             .setDescription(result)
-            .addField(this.message.author.username, challenger, true)
-            .addField(this.opponent.username, opponent, true)
+            .addFields({ name: this.message.author.username, value: challenger, inline: true })
+            .addFields({ name: this.opponent.username, value: opponent, inline: true })
             .setTimestamp();
 
         return msg.edit({ embeds: [finalEmbed], components: disableButtons(msg.components) });
@@ -229,7 +234,7 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
         if (!client.settings.get(message.guild.id, "MINIGAMES")) {
             return message.reply(
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.wrongcolor)
                     .setFooter(client.getFooter(es))
                     .setTitle(client.la[ls].common.disabled.title)
@@ -280,7 +285,7 @@ async function verify(options) {
         const message = options.message;
         const opponent = options.opponent;
 
-        const askEmbed = new MessageEmbed()
+        const askEmbed = new EmbedBuilder()
             .setTitle(options.embed.askTitle || options.embed.title)
             .setDescription(
                 options.askMessage
@@ -289,15 +294,15 @@ async function verify(options) {
             )
             .setColor(options.colors?.green || options.embed.color);
 
-        const btn1 = new MessageButton()
+        const btn1 = new ButtonBuilder()
             .setLabel(options.buttons?.accept || "Accept")
-            .setStyle("SUCCESS")
+            .setStyle(ButtonStyle.Success)
             .setCustomId("accept");
-        const btn2 = new MessageButton()
+        const btn2 = new ButtonBuilder()
             .setLabel(options.buttons?.reject || "Reject")
-            .setStyle("DANGER")
+            .setStyle(ButtonStyle.Danger)
             .setCustomId("reject");
-        const row = new MessageActionRow().addComponents(btn1, btn2);
+        const row = new ActionRowBuilder().addComponents(btn1, btn2);
 
         let askMsg;
         if (options.slash_command) askMsg = await message.editReply({ embeds: [askEmbed], components: [row] });
@@ -323,7 +328,7 @@ async function verify(options) {
                 return res(true);
             }
 
-            const cancelEmbed = new MessageEmbed()
+            const cancelEmbed = new EmbedBuilder()
                 .setTitle(options.embed.cancelTitle || options.embed.title)
                 .setDescription(
                     options.cancelMessage

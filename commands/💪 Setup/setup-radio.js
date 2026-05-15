@@ -1,4 +1,7 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -6,7 +9,7 @@ var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var radios = require(`../../botconfig/radiostations.json`);
 var playermanager = require(`../../handlers/playermanager`);
 var { stations, databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-radio",
@@ -37,7 +40,7 @@ module.exports = {
             if (!channel)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-radio"]["variable1"])),
                     ],
@@ -52,14 +55,11 @@ module.exports = {
             if (isNaN(args[0])) {
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(
-                                client.user.username,
-                                es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
+                            .setFooter({ text: client.user.username, iconURL: es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
                                     ? es.footericon
-                                    : client.user.displayAvatarURL()
-                            )
+                                    : client.user.displayAvatarURL() })
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-radio"]["variable2"]))
                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-radio"]["variable3"])),
                     ],
@@ -69,14 +69,11 @@ module.exports = {
             if (Number(args[1]) > 150 || Number(args[1]) < 1)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(
-                                client.user.username,
-                                es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
+                            .setFooter({ text: client.user.username, iconURL: es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
                                     ? es.footericon
-                                    : client.user.displayAvatarURL()
-                            )
+                                    : client.user.displayAvatarURL() })
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-radio"]["variable4"]))
                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-radio"]["variable5"])),
                     ],
@@ -188,7 +185,7 @@ module.exports = {
             else
                 return message.channel.send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(`${emoji.msg.ERROR} Error | Radio Station not found`)
                             .setDescription(
@@ -199,7 +196,7 @@ module.exports = {
             //get song information of it
             var song = { title: args2[0].replace(`-`, ` `), url: args2[1] };
             //define an embed
-            var embed = new MessageEmbed()
+            var embed = new EmbedBuilder()
                 .setColor(es.color)
                 .setFooter(client.getFooter(es))
                 .setTitle(`Searching: ${emoji?.msg.search}` + song.title);
@@ -208,17 +205,14 @@ module.exports = {
             } catch {}
             //send the message of the searching
             message.reply(
-                new Discord.MessageEmbed()
+                new EmbedBuilder()
                     .setTitle(`${allEmojis.msg.notes} Setup Complete for Radio Station:  ` + song.title)
                     .setColor("#7fafe3")
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-radio"]["variable8"]))
                     .setURL(song.url)
-                    .setFooter(
-                        client.user.username,
-                        es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
+                    .setFooter({ text: client.user.username, iconURL: es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
                             ? es.footericon
-                            : client.user.displayAvatarURL()
-                    )
+                            : client.user.displayAvatarURL() })
             );
 
             client.settings.set(message.guild.id, channel.id, `channel`);
@@ -237,7 +231,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -19,7 +21,7 @@ module.exports = {
             let timestamp = date.getTime() - Math.floor(client.uptime);
             message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -31,17 +33,14 @@ module.exports = {
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["info"]["uptime"]["variable1"]))
                         .setDescription(eval(client.la[ls]["cmds"]["info"]["uptime"]["variable2"]))
-                        .addField(
-                            eval(client.la[ls]["cmds"]["info"]["uptime"]["variablex_3"]),
-                            eval(client.la[ls]["cmds"]["info"]["uptime"]["variable3"])
-                        ),
+                        .addFields({ name: eval(client.la[ls]["cmds"]["info"]["uptime"]["variablex_3"]), value: eval(client.la[ls]["cmds"]["info"]["uptime"]["variable3"]) }),
                 ],
             });
         } catch (e) {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

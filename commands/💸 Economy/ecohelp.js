@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -18,7 +20,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "ECONOMY")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -56,7 +58,7 @@ module.exports = {
             //return some message!
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -65,27 +67,18 @@ module.exports = {
                                     : client.user.displayAvatarURL()
                                 : null
                         )
-                        .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                        .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                         .setTitle(eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variable1"]))
-                        .addField(
-                            eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variablex_2"]),
-                            eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variable2"])
-                        )
-                        .addField(
-                            eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variablex_3"]),
-                            eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variable3"])
-                        )
-                        .addField(
-                            eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variablex_4"]),
-                            eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variable4"])
-                        ),
+                        .addFields({ name: eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variablex_2"]), value: eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variable2"]) })
+                        .addFields({ name: eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variablex_3"]), value: eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variable3"]) })
+                        .addFields({ name: eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variablex_4"]), value: eval(client.la[ls]["cmds"]["economy"]["ecohelp"]["variable4"]) }),
                 ],
             });
         } catch (e) {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

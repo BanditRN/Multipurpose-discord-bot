@@ -3,7 +3,10 @@ const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 const { duration, handlemsg } = require(`${process.cwd()}/handlers/functions`);
-const { MessageActionRow, MessageSelectMenu } = require("discord.js");
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
 module.exports = {
     name: "botfaq",
     aliases: ["faq"],
@@ -83,7 +86,7 @@ module.exports = {
                 },
             ];
             //define the selection
-            let Selection = new MessageActionRow().addComponents(
+            let Selection = new ActionRowBuilder().addComponents(
                 new MessageSelectMenu()
                     .setCustomId("MenuSelection")
                     .setPlaceholder(client.la[ls].cmds.info.botfaq.placeholder)
@@ -101,13 +104,9 @@ module.exports = {
                     )
             );
             //define the embed
-            let MenuEmbed = new Discord.MessageEmbed()
+            let MenuEmbed = new EmbedBuilder()
                 .setColor(es.color)
-                .setAuthor(
-                    client.la[ls].cmds.info.botfaq.menuembed.title,
-                    client.user.displayAvatarURL(),
-                    "https://discord.gg/milrato"
-                )
+                .setAuthor({ name: client.la[ls].cmds.info.botfaq.menuembed.title, iconURL: client.user.displayAvatarURL(), url: "https://discord.gg/milrato" })
                 .setDescription(client.la[ls].cmds.info.botfaq.menuembed.description);
             //send the menu msg
             let menumsg = await message.reply({ embeds: [MenuEmbed], components: [Selection] });
@@ -116,13 +115,9 @@ module.exports = {
                 let menuoptiondata = menuoptions.find(v => v.value.substring(0, 25) == interaction?.values[0]);
                 interaction?.reply({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
-                            .setAuthor(
-                                client.la[ls].cmds.info.botfaq.menuembed.title,
-                                client.user.displayAvatarURL(),
-                                "https://discord.gg/milrato"
-                            )
+                            .setAuthor({ name: client.la[ls].cmds.info.botfaq.menuembed.title, iconURL: client.user.displayAvatarURL(), url: "https://discord.gg/milrato" })
                             .setDescription(menuoptiondata.replymsg),
                     ],
                     ephemeral: true,
@@ -145,7 +140,7 @@ module.exports = {
             return message
                 .reply({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(client.la[ls].common.erroroccur)

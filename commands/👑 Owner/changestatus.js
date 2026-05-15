@@ -1,4 +1,8 @@
-var { MessageEmbed, MessageButton, MessageActionRow, MessageMenuOption, MessageSelectMenu } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+    MessageMenuOption,
+} = require("discord.js");
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -21,7 +25,7 @@ module.exports = {
         if (!config.ownerIDS.some(r => r.includes(message.author.id)))
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["changestatus"]["variable1"]))
@@ -82,18 +86,14 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Change Status",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/au-kddi/190/purple-heart_1f49c.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Change Status", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/au-kddi/190/purple-heart_1f49c.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -130,7 +130,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["changestatus"]["variable7"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -139,9 +139,7 @@ module.exports = {
               *Enter the text now!*`
                                         )
                                         .setFooter(client.getFooter(es))
-                                        .addField(
-                                            "KEYWORDS which get replaced:",
-                                            `\`{guildcount}\` .. Shows all guilds
+                                        .addFields({ name: "KEYWORDS which get replaced:", value: `\`{guildcount}\` .. Shows all guilds
               \`{prefix}\` .. Shows the default Prefix
               \`{membercount}\` .. Shows all Members
               \`{created}\` .. Shows when the Bot was Created
@@ -151,8 +149,7 @@ module.exports = {
               \`{tag}\` ... Shows Bot Name#1234
               \`{commands}\` .. Shows all Commands
               \`{usedcommands}\` .. Shows Amount of Used Commands
-              \`{songsplayed}\` .. Shows Amount of Played Songs`
-                                        ),
+              \`{songsplayed}\` .. Shows Amount of Played Songs` }),
                                 ],
                             });
                             await tempmsg.channel
@@ -213,7 +210,7 @@ module.exports = {
                                             console.log(e.stack ? String(e.stack).dim : String(e).dim);
                                             return message.channel.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.wrongcolor)
                                                         .setTitle(
@@ -227,7 +224,7 @@ module.exports = {
                                         }
                                         return message.channel.send({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor(es.color)
                                                     .setTitle(
@@ -241,7 +238,7 @@ module.exports = {
                                     console.log(e);
                                     return message.reply({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["owner"]["changestatus"]["variable11"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(
@@ -260,7 +257,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["changestatus"]["variable7"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -269,9 +266,7 @@ module.exports = {
               *Enter the text now!*`
                                         )
                                         .setFooter(client.getFooter(es))
-                                        .addField(
-                                            "KEYWORDS which get replaced:",
-                                            `\`{guildcount}\` .. Shows all guilds
+                                        .addFields({ name: "KEYWORDS which get replaced:", value: `\`{guildcount}\` .. Shows all guilds
               \`{prefix}\` .. Shows the default Prefix
               \`{membercount}\` .. Shows all Members
               \`{created}\` .. Shows when the Bot was Created
@@ -281,8 +276,7 @@ module.exports = {
               \`{tag}\` ... Shows Bot Name#1234
               \`{commands}\` .. Shows all Commands
               \`{usedcommands}\` .. Shows Amount of Used Commands
-              \`{songsplayed}\` .. Shows Amount of Played Songs`
-                                        ),
+              \`{songsplayed}\` .. Shows Amount of Played Songs` }),
                                 ],
                             });
                             await tempmsg.channel
@@ -343,7 +337,7 @@ module.exports = {
                                             console.log(e.stack ? String(e.stack).dim : String(e).dim);
                                             return message.channel.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.wrongcolor)
                                                         .setTitle(
@@ -357,7 +351,7 @@ module.exports = {
                                         }
                                         return message.channel.send({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor(es.color)
                                                     .setTitle(
@@ -371,7 +365,7 @@ module.exports = {
                                     console.log(e);
                                     return message.reply({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["owner"]["changestatus"]["variable11"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(
@@ -438,18 +432,14 @@ module.exports = {
                                     );
 
                                 //define the embed
-                                let MenuEmbed = new MessageEmbed()
+                                let MenuEmbed = new EmbedBuilder()
                                     .setColor(es.color)
-                                    .setAuthor(
-                                        "Change Status",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/au-kddi/190/purple-heart_1f49c.png",
-                                        "https://discord.gg/milrato"
-                                    )
+                                    .setAuthor({ name: "Change Status", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/au-kddi/190/purple-heart_1f49c.png", url: "https://discord.gg/milrato" })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                                 //send the menu msg
                                 let menumsg = await message.reply({
                                     embeds: [MenuEmbed],
-                                    components: [new MessageActionRow().addComponents(Selection)],
+                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                 });
                                 //Create the collector
                                 const collector = menumsg.createMessageComponentCollector({
@@ -477,7 +467,7 @@ module.exports = {
                                                 console.log(e.stack ? String(e.stack).dim : String(e).dim);
                                                 return message.channel.send({
                                                     embeds: [
-                                                        new MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setFooter(client.getFooter(es))
                                                             .setColor(es.wrongcolor)
                                                             .setTitle(
@@ -499,7 +489,7 @@ module.exports = {
                                             }
                                             return message.channel.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
                                                         .setTitle(
@@ -531,7 +521,7 @@ module.exports = {
                         {
                             tempmsg = await message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["changestatus"]["variable22"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -555,7 +545,7 @@ module.exports = {
                                     if (!isValidURL(msg))
                                         return message.channel.send({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor(es.wrongcolor)
                                                     .setTitle(
@@ -566,7 +556,7 @@ module.exports = {
                                     if (!msg.includes("twitch"))
                                         return message.channel.send({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor(es.wrongcolor)
                                                     .setTitle(
@@ -585,7 +575,7 @@ module.exports = {
                                             console.log(e.stack ? String(e.stack).dim : String(e).dim);
                                             return message.channel.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.wrongcolor)
                                                         .setTitle(
@@ -603,7 +593,7 @@ module.exports = {
                                         }
                                         return message.channel.send({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor(es.color)
                                                     .setTitle(
@@ -617,7 +607,7 @@ module.exports = {
                                     console.log(e);
                                     return message.reply({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["owner"]["changestatus"]["variable28"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(
@@ -679,18 +669,14 @@ module.exports = {
                                     );
 
                                 //define the embed
-                                let MenuEmbed = new MessageEmbed()
+                                let MenuEmbed = new EmbedBuilder()
                                     .setColor(es.color)
-                                    .setAuthor(
-                                        "Change Status",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/au-kddi/190/purple-heart_1f49c.png",
-                                        "https://discord.gg/milrato"
-                                    )
+                                    .setAuthor({ name: "Change Status", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/au-kddi/190/purple-heart_1f49c.png", url: "https://discord.gg/milrato" })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                                 //send the menu msg
                                 let menumsg = await message.reply({
                                     embeds: [MenuEmbed],
-                                    components: [new MessageActionRow().addComponents(Selection)],
+                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                 });
                                 //Create the collector
                                 const collector = menumsg.createMessageComponentCollector({
@@ -710,7 +696,7 @@ module.exports = {
                                         client.user.setStatus(temptype);
                                         return message.channel.send({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor(es.color)
                                                     .setTitle(
@@ -741,7 +727,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

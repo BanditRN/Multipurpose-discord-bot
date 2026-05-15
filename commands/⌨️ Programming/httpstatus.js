@@ -3,7 +3,9 @@ const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const fetch = require("node-fetch");
 const { STATUS_CODES } = require("http");
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 module.exports = {
     //definition
     name: "httpstatus", //the name of the command
@@ -22,7 +24,7 @@ module.exports = {
             if (!status)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["programming"]["httpstatus"]["variable1"]))
@@ -34,18 +36,18 @@ module.exports = {
                 return message.reply({ content: eval(client.la[ls]["cmds"]["programming"]["httpstatus"]["variable3"]) });
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(eval(client.la[ls]["cmds"]["programming"]["httpstatus"]["variable4"]))
                         .setImage(`https://http.cat/${status}.jpg`)
                         .setDescription(status === "599" ? "Network Connect Timeout Error" : STATUS_CODES[status])
-                        .setAuthor(message.author.tag, message.author.displayAvatarURL({ size: 64 })),
+                        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ size: 64 }) }),
                 ],
             });
         } catch (e) {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -22,22 +24,15 @@ module.exports = {
 
             translate(args.slice(2).join(" "), { from: args[0], to: args[1] })
                 .then(res => {
-                    let embed = new MessageEmbed()
+                    let embed = new EmbedBuilder()
                         .setColor(es.color)
-                        .setAuthor(
-                            handlemsg(client.la[ls].cmds.info.translate.to, { to: args[1] }),
-                            "https://imgur.com/0DQuCgg.png",
-                            "https://discord.gg/milrato"
-                        )
-                        .setFooter(
-                            handlemsg(client.la[ls].cmds.info.translate.from, { from: args[0] }),
-                            message.author.displayAvatarURL({ dynamic: true })
-                        )
+                        .setAuthor({ name: handlemsg(client.la[ls].cmds.info.translate.to, { to: args[1] }), iconURL: "https://imgur.com/0DQuCgg.png", url: "https://discord.gg/milrato" })
+                        .setFooter({ text: handlemsg(client.la[ls].cmds.info.translate.from, { from: args[0] }), iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                         .setDescription(eval(client.la[ls]["cmds"]["info"]["translate"]["variable1"]));
                     message.reply({ embeds: [embed] });
                 })
                 .catch(err => {
-                    let embed = new MessageEmbed()
+                    let embed = new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setTitle(client.la[ls].common.erroroccur)
                         .setDescription(String("```" + err.stack + "```").substring(0, 2000));
@@ -48,7 +43,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

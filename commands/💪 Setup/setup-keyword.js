@@ -1,9 +1,13 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
-const { MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { getNumberEmojis, allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-keyword",
@@ -60,18 +64,14 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Keyword Setup",
-                        "https://images-ext-1.discordapp.net/external/HF-XNy3iUP4D95zv2fuTUy1csYWuNa5IZj2HSCSkvhs/https/emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/298/flexed-biceps_1f4aa.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Keyword Setup", iconURL: "https://images-ext-1.discordapp.net/external/HF-XNy3iUP4D95zv2fuTUy1csYWuNa5IZj2HSCSkvhs/https/emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/298/flexed-biceps_1f4aa.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
 
                 //Create the collector
@@ -113,7 +113,7 @@ module.exports = {
                             if (client.keyword.get(message.guild.id, "commands").length > 24)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-keyword"]["variable5"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`You cannot have more then **24** Key Words`.substring(0, 2000))
@@ -122,7 +122,7 @@ module.exports = {
                                 });
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-keyword"]["variable6"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-keyword"]["variable7"]))
@@ -148,7 +148,7 @@ module.exports = {
                                         };
                                         tempmsg = await message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-keyword"]["variable8"])
                                                     )
@@ -172,7 +172,7 @@ module.exports = {
                                                     thekeyword.output = msg;
                                                     tempmsg = await message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-keyword"][
@@ -216,7 +216,7 @@ module.exports = {
                                                                 }
                                                                 tempmsg = await message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setTitle(
                                                                                 eval(
                                                                                     client.la[ls]["cmds"]["setup"][
@@ -261,7 +261,7 @@ module.exports = {
                                                                         }
                                                                         var ttempmsg = await message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -309,7 +309,7 @@ module.exports = {
 
                                                                                     message.reply({
                                                                                         embeds: [
-                                                                                            new Discord.MessageEmbed()
+                                                                                            new EmbedBuilder()
                                                                                                 .setTitle(
                                                                                                     eval(
                                                                                                         client.la[ls][
@@ -338,7 +338,7 @@ module.exports = {
                                                                                     if (reaction.emoji?.name == "✅") {
                                                                                         message.reply({
                                                                                             embeds: [
-                                                                                                new Discord.MessageEmbed()
+                                                                                                new EmbedBuilder()
                                                                                                     .setColor(es.color)
                                                                                                     .setDescription(
                                                                                                         thekeyword.output.replace(
@@ -373,7 +373,7 @@ module.exports = {
                                                                                 );
                                                                                 return message.reply({
                                                                                     embeds: [
-                                                                                        new Discord.MessageEmbed()
+                                                                                        new EmbedBuilder()
                                                                                             .setTitle(
                                                                                                 eval(
                                                                                                     client.la[ls]["cmds"][
@@ -401,7 +401,7 @@ module.exports = {
                                                                         );
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -423,7 +423,7 @@ module.exports = {
                                                             } else {
                                                                 return message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setTitle(
                                                                                 eval(
                                                                                     client.la[ls]["cmds"]["setup"][
@@ -444,7 +444,7 @@ module.exports = {
                                                             console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -468,7 +468,7 @@ module.exports = {
                                                 console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                 return message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setTitle(
                                                                 eval(
                                                                     client.la[ls]["cmds"]["setup"]["setup-keyword"][
@@ -492,7 +492,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-keyword"]["variable22"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -538,18 +538,14 @@ module.exports = {
                                 );
 
                             //define the embed
-                            let MenuEmbed = new Discord.MessageEmbed()
+                            let MenuEmbed = new EmbedBuilder()
                                 .setColor(es.color)
-                                .setAuthor(
-                                    "Custom Command Setup",
-                                    "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/298/flexed-biceps_1f4aa.png",
-                                    "https://discord.gg/milrato"
-                                )
+                                .setAuthor({ name: "Custom Command Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/298/flexed-biceps_1f4aa.png", url: "https://discord.gg/milrato" })
                                 .setDescription(`**Select all \`Custom Commands\` which should get __deleted__**`);
                             //send the menu msg
                             let menumsg = await message.reply({
                                 embeds: [MenuEmbed],
-                                components: [new MessageActionRow().addComponents(Selection)],
+                                components: [new ActionRowBuilder().addComponents(Selection)],
                             });
                             //Create the collector
                             const collector = menumsg.createMessageComponentCollector({
@@ -570,7 +566,7 @@ module.exports = {
                                     }
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(`Deleted ${menu?.values.length} Keywords!`)
                                                 .setDescription(
                                                     `There are now \`${cuc.length - menu?.values.length} Keywords\` left!`
@@ -598,26 +594,20 @@ module.exports = {
                     case "Show Settings":
                         {
                             let cuc = client.keyword.get(message.guild.id, "commands");
-                            var embed = new Discord.MessageEmbed()
+                            var embed = new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-customcommand"]["variable22"]))
                                 .setColor(es.color)
-                                .setFooter(
-                                    ee.footertext,
-                                    es.footericon &&
+                                .setFooter({ text: ee.footertext, iconURL: es.footericon &&
                                         (es.footericon.includes("http://") || es.footericon.includes("https://"))
                                         ? es.footericon
-                                        : client.user.displayAvatarURL()
-                                );
-                            var embed2 = new Discord.MessageEmbed()
+                                        : client.user.displayAvatarURL() });
+                            var embed2 = new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-customcommand"]["variable22"]))
                                 .setColor(es.color)
-                                .setFooter(
-                                    ee.footertext,
-                                    es.footericon &&
+                                .setFooter({ text: ee.footertext, iconURL: es.footericon &&
                                         (es.footericon.includes("http://") || es.footericon.includes("https://"))
                                         ? es.footericon
-                                        : client.user.displayAvatarURL()
-                                );
+                                        : client.user.displayAvatarURL() });
                             var sendembed2 = false;
                             for (let i = 0; i < cuc.length; i++) {
                                 try {
@@ -625,15 +615,9 @@ module.exports = {
                                     if (string.length > 250) string = string.substring(0, 250) + " ...";
                                     if (i > 13) {
                                         sendembed2 = true;
-                                        embed2.addField(
-                                            `<:arrow:832598861813776394> \`${cuc[i].name}\` | ${cuc[i].embed ? "✅ Embed" : "❌ Embed"}`,
-                                            ">>> " + string
-                                        );
+                                        embed2.addFields({ name: `<:arrow:832598861813776394> \`${cuc[i].name}\` | ${cuc[i].embed ? "✅ Embed" : "❌ Embed"}`, value: ">>> " + string });
                                     } else
-                                        embed.addField(
-                                            `<:arrow:832598861813776394> \`${cuc[i].name}\` | ${cuc[i].embed ? "✅ Embed" : "❌ Embed"}`,
-                                            ">>> " + string
-                                        );
+                                        embed.addFields({ name: `<:arrow:832598861813776394> \`${cuc[i].name}\` | ${cuc[i].embed ? "✅ Embed" : "❌ Embed"}`, value: ">>> " + string });
                                 } catch (e) {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                 }
@@ -648,7 +632,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

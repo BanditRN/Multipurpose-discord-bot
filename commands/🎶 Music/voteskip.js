@@ -1,4 +1,6 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -19,7 +21,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
     
     let es = client.settings.get(message.guild.id, "embed");let ls = client.settings.get(message.guild.id, "language")
     if (!client.settings.get(message.guild.id, "MUSIC")) {
-      return message.reply({embeds : [new MessageEmbed()
+      return message.reply({embeds : [new EmbedBuilder()
         .setColor(es.wrongcolor)
         .setFooter(client.getFooter(es))
         .setTitle(client.la[ls].common.disabled.title)
@@ -27,7 +29,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
       ]});
     }
     if (!client.settings.get(message.guild.id, "MUSIC")) {
-      return message.reply({embeds :[new MessageEmbed()
+      return message.reply({embeds :[new EmbedBuilder()
         .setColor(es.wrongcolor)
         .setFooter(client.getFooter(es))
         .setTitle(client.la[ls].common.disabled.title)
@@ -47,7 +49,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
           player.set(`vote-${message.author.id}`, true);
           player.set(`votes`, String(Number(player.get(`votes`)) + 1));
           if (voteamount <= Number(player.get(`votes`))) {
-            message.reply({embeds : [new MessageEmbed()
+            message.reply({embeds : [new EmbedBuilder()
               .setColor(es.color)
               .setFooter(client.getFooter(es))
               .setTitle(eval(client.la[ls]["cmds"]["music"]["voteskip"]["variable1"]))
@@ -59,7 +61,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
               player.stop();
             }
           } else {
-            return message.reply({embeds : [new MessageEmbed()
+            return message.reply({embeds : [new EmbedBuilder()
               .setColor(es.color)
               .setFooter(client.getFooter(es))
               .setTitle(eval(client.la[ls]["cmds"]["music"]["voteskip"]["variable3"]))
@@ -67,7 +69,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
             ]});
           }
         } else {
-          return message.reply({embeds : [new MessageEmbed()
+          return message.reply({embeds : [new EmbedBuilder()
             .setColor(es.wrongcolor)
             .setFooter(client.getFooter(es))
             .setTitle(eval(client.la[ls]["cmds"]["music"]["voteskip"]["variable5"]))
@@ -82,7 +84,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
           //stop playing
           player.destroy();
           //send success message
-          return message.reply({embeds :[new MessageEmbed()
+          return message.reply({embeds :[new EmbedBuilder()
             .setTitle(eval(client.la[ls]["cmds"]["music"]["voteskip"]["variable7"]))
             .setColor(es.color)
             .setFooter(client.getFooter(es))
@@ -91,7 +93,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
         //skip the track
         player.stop();
         //send success message
-        return message.reply({embeds : [new MessageEmbed()
+        return message.reply({embeds : [new EmbedBuilder()
           .setTitle(eval(client.la[ls]["cmds"]["music"]["voteskip"]["variable8"]))
           .setColor(es.color)
           .setFooter(client.getFooter(es))
@@ -99,7 +101,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
       }
     } catch (e) {
       console.log(String(e.stack).dim.bgRed)
-      return message.reply({embeds : [new MessageEmbed()
+      return message.reply({embeds : [new EmbedBuilder()
         .setColor(es.wrongcolor)
         .setFooter(client.getFooter(es))
         .setTitle(client.la[ls].common.erroroccur)

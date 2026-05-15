@@ -1,4 +1,6 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -19,7 +21,7 @@ module.exports = {
         if (!config.ownerIDS.some(r => r.includes(message.author.id)))
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["reloadbot"]["variable1"]))
@@ -65,14 +67,10 @@ ${clientapp.description ? clientapp.description : "❌ NO DESCRIPTION YET!"}
             await client.destroy();
             let tempmsg = await message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setFooter(client.getFooter(es))
-                        .setAuthor(
-                            `Reloading ...`,
-                            `https://images-ext-1.discordapp.net/external/ANU162U1fDdmQhim_BcbQ3lf4dLaIQl7p0HcqzD5wJA/https/cdn.discordapp.com/emojis/756773010123522058.gif`,
-                            `https://discord.gg/milrato`
-                        )
+                        .setAuthor({ name: `Reloading ...`, iconURL: `https://images-ext-1.discordapp.net/external/ANU162U1fDdmQhim_BcbQ3lf4dLaIQl7p0HcqzD5wJA/https/cdn.discordapp.com/emojis/756773010123522058.gif`, url: `https://discord.gg/milrato` })
                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["reloadbot"]["variable4"])),
                 ],
             });
@@ -147,14 +145,10 @@ ${clientapp.description ? clientapp.description : "❌ NO DESCRIPTION YET!"}
             await delay(3000);
             await tempmsg.edit({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setFooter(client.getFooter(es))
-                        .setAuthor(
-                            `Successfully Reloaded:`,
-                            `https://cdn.discordapp.com/emojis/833101995723194437.gif?v=1`,
-                            `https://discord.gg/milrato`
-                        )
+                        .setAuthor({ name: `Successfully Reloaded:`, iconURL: `https://cdn.discordapp.com/emojis/833101995723194437.gif?v=1`, url: `https://discord.gg/milrato` })
                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["reloadbot"]["variable6"])),
                 ],
             });
@@ -162,7 +156,7 @@ ${clientapp.description ? clientapp.description : "❌ NO DESCRIPTION YET!"}
             console.log(String(e.stack).dim.bgRed);
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

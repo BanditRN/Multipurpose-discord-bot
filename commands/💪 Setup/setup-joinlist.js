@@ -1,4 +1,8 @@
-const { MessageEmbed, UserFlags } = require("discord.js");
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+    UserFlags,
+} = require("discord.js");
 const { isValidSnowflakeId } = require("../../handlers/functions");
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 const config = require(`${process.cwd()}/botconfig/config.json`);
@@ -36,15 +40,15 @@ module.exports = {
             if (type === "help") {
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle("Help for joinlist")
                             .setDescription(
                                 `The Joinlist Command allows you to setup specific Rules for users to succeed, when they join!\n> **The Usage is**: \`${prefix}joinlist <type> <action> <data>\``
                             )
-                            .addField("Valid Types:", `> ${validtypes.map(d => `\`${d}\``).join(", ")}`)
-                            .addField("Valid Actions:", `> ${validactions.map(d => `\`${d}\``).join(", ")}`),
-                        new MessageEmbed()
+                            .addFields({ name: "Valid Types:", value: `> ${validtypes.map(d => `\`${d}\``).join(", ")}` })
+                            .addFields({ name: "Valid Actions:", value: `> ${validactions.map(d => `\`${d}\``).join(", ")}` }),
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle(
                                 "`username_contain` is used when the joined user's name contains something\n**Examples for the Type: `username_contain`**"
@@ -57,7 +61,7 @@ module.exports = {
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist username_contain kick bitch\`` +
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist username_contain timeout bitch 1day+6hours\``
                             ),
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle(
                                 "`username_equal` is used when the joined user has the exact same name\n**Examples for the Type: `username_equal`**"
@@ -70,7 +74,7 @@ module.exports = {
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist username_equal ban Raider420\`` +
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist username_equal timeout Raider420 1day+6hours\``
                             ),
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle(
                                 "`userid` is used when the joined user has the exact same id\n**Examples for the Type: `userid`**"
@@ -83,7 +87,7 @@ module.exports = {
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist userid kick 310463389736632340\`` +
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist userid timeout 310463389736632340 1day+6hours\``
                             ),
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle(
                                 "`server_in_common` is used when the joined user is on a specific server\n**Examples for the Type: `server_in_common`**"
@@ -96,7 +100,7 @@ module.exports = {
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist userid ban 859482075575746610\`` +
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist userid timeout 859482075575746610 1day+6hours\``
                             ),
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle(
                                 "`server_not_in_common` is used when the joined user is not on a specific server\n**Examples for the Type: `server_not_in_common`**"
@@ -109,7 +113,7 @@ module.exports = {
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist userid kick 859482075575746610\`` +
                                     `\n**ONE EXAMPLE:**\n> \`${prefix}joinlist userid timeout 859482075575746610 1day+6hours\``
                             ),
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle(
                                 "`noavatar` is used when the joined user is not having an avatar (default discord avatar)\n**Examples for the Type: `noavatar`**"
@@ -556,7 +560,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setFooter(client.getFooter(es))
                         .setColor(es.wrongcolor)
                         .setTitle(client.la[ls].common.erroroccur)

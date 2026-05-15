@@ -1,5 +1,6 @@
 const request = require("request"),
     Discord = require("discord.js"),
+    { EmbedBuilder } = require("discord.js"),
     CronJob = require("cron").CronJob,
     config = require(`../social_log/streamconfig.json`),
     fs = require("fs");
@@ -16,13 +17,14 @@ module.exports = async client => {
                 ` [TWITCH] | ${moment().format("ddd DD-MM-YYYY HH:mm:ss.SSSS")} ::  Checking Accounts - ${moment().format(`LLLL`)}`
                     .magenta
             );
-            var guilds = client.social_log
-                .filterArray(
+            var guilds = Array.from(client.social_log.keys())
+                .map(guildId => client.social_log.get(guildId))
+                .filter(
                     v =>
+                        v &&
                         v.twitch &&
                         v.twitch.channels &&
                         v.twitch.channels.length > 0 &&
-                        v.twitch &&
                         v.twitch.channelId &&
                         v.twitch.channelId.length > 1
                 )
@@ -163,14 +165,16 @@ module.exports = async client => {
                 );
 
             //structure for the embed
-            var embed = new Discord.MessageEmbed()
-                .setColor(`BLUE`)
+            var embed = new EmbedBuilder()
+                .setColor(`Blue`)
                 .setURL(`https://www.twitch.tv/${StreamData.user_login}`)
                 .setDescription(StreamData.title ? StreamData.title : `\u200b`)
                 .setTitle(`🔴 ${StreamData.user_name} is now live`)
-                .addField(`Playing:`, `\`${StreamData.game_name ? StreamData.game_name : `Unknown Game`}\``, true)
-                .addField(`Viewers:`, `${StreamData.viewer_count ? `\`${StreamData.viewer_count}\`` : `~~\`0\`~~`}`, true)
-                .addField(`Twitch:`, `[Watch Stream](https://www.twitch.tv/${StreamData.user_login})`, true)
+                .addFields(
+                    { name: `Playing:`, value: `\`${StreamData.game_name ? StreamData.game_name : `Unknown Game`}\``, inline: true },
+                    { name: `Viewers:`, value: `${StreamData.viewer_count ? `\`${StreamData.viewer_count}\`` : `~~\`0\`~~`}`, inline: true },
+                    { name: `Twitch:`, value: `[Watch Stream](https://www.twitch.tv/${StreamData.user_login})`, inline: true }
+                )
                 .setFooter(client.getFooter(`Check his Stream out ;)`))
                 .setImage(
                     `https://static-cdn.jtvnw.net/previews-ttv/live_user_${StreamData.user_login}-640x360.jpg?cacheBypass=${Math.random().toString()}`

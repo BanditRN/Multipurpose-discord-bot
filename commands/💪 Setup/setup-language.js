@@ -1,10 +1,16 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-language",
@@ -78,19 +84,15 @@ module.exports = {
                         })
                     );
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Language System Setup",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/flag-united-kingdom_1f1ec-1f1e7.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Language System Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/flag-united-kingdom_1f1ec-1f1e7.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-language"]["variable1"]));
                 let used1 = false;
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //function to handle the menuselection
                 function menuselection(menu) {
@@ -125,66 +127,66 @@ module.exports = {
             async function handle_the_picks(menuoptionindex, menuoptiondata) {
                 switch (menuoptionindex) {
                     case 0: {
-                        let button_en = new MessageButton()
-                            .setStyle("PRIMARY")
+                        let button_en = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_en")
                             .setEmoji("🇬🇧")
                             .setLabel("English")
                             .setDisabled(false);
-                        let button_de = new MessageButton()
-                            .setStyle("PRIMARY")
+                        let button_de = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_de")
                             .setEmoji("🇩🇪")
                             .setLabel("German")
                             .setDisabled(false);
-                        let button_fr = new MessageButton()
-                            .setStyle("PRIMARY")
+                        let button_fr = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_fr")
                             .setEmoji("🇫🇷")
                             .setLabel("French")
                             .setDisabled(false);
-                        let button_it = new MessageButton()
-                            .setStyle("PRIMARY")
+                        let button_it = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_it")
                             .setEmoji("🇮🇹")
                             .setLabel("Italian")
                             .setDisabled(false);
-                        let button_sp = new MessageButton()
-                            .setStyle("PRIMARY")
+                        let button_sp = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_sp")
                             .setEmoji("🇪🇸")
                             .setLabel("Spanish")
                             .setDisabled(false);
-                        let button_ae = new MessageButton()
-                            .setStyle("PRIMARY")
+                        let button_ae = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_in")
                             .setEmoji("🇮🇳")
                             .setLabel("India (Hindi)")
                             .setDisabled(false);
-                        let button_nl = new MessageButton()
-                            .setStyle("PRIMARY")
+                        let button_nl = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_nl")
                             .setEmoji("🇳🇱")
                             .setLabel("Dutch")
                             .setDisabled(false);
-                        let button_tr = new MessageButton()
-                            .setStyle("PRIMARY")
+                        let button_tr = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_tr")
                             .setEmoji("🇹🇷")
                             .setLabel("Turkish")
                             .setDisabled(false);
-                        let button_ir = new MessageButton()
-                            .setStyle("PRIMARY")
+                        let button_ir = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_ir")
                             .setEmoji("🇮🇷")
                             .setLabel("Iran")
                             .setDisabled(false);
 
-                        let buttonRow1 = new MessageActionRow().addComponents(
+                        let buttonRow1 = new ActionRowBuilder().addComponents(
                             button_en,
                             button_de /*button_fr, button_it, button_sp*/
                         );
-                        let buttonRow2 = new MessageActionRow().addComponents([
+                        let buttonRow2 = new ActionRowBuilder().addComponents([
                             button_ae /*button_nl, button_tr, button_ir*/,
                         ]);
                         let allbuttons = [buttonRow1, buttonRow2];
@@ -192,7 +194,7 @@ module.exports = {
                         let helpmsg = await message.reply({
                             content: `***Click on the __Buttons__ to select the Language***`,
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-language"]["variable3"]))
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-language"]["variable4"]))
                                     .setColor(es.color)
@@ -201,65 +203,65 @@ module.exports = {
                             components: allbuttons,
                         });
 
-                        button_en = new MessageButton()
-                            .setStyle("PRIMARY")
+                        button_en = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_en")
                             .setEmoji("🇬🇧")
                             .setLabel("English")
                             .setDisabled(true);
-                        button_de = new MessageButton()
-                            .setStyle("PRIMARY")
+                        button_de = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_de")
                             .setEmoji("🇩🇪")
                             .setLabel("German")
                             .setDisabled(true);
-                        button_fr = new MessageButton()
-                            .setStyle("PRIMARY")
+                        button_fr = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_fr")
                             .setEmoji("🇫🇷")
                             .setLabel("French")
                             .setDisabled(true);
-                        button_it = new MessageButton()
-                            .setStyle("PRIMARY")
+                        button_it = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_it")
                             .setEmoji("🇮🇹")
                             .setLabel("Italian")
                             .setDisabled(true);
-                        button_sp = new MessageButton()
-                            .setStyle("PRIMARY")
+                        button_sp = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_sp")
                             .setEmoji("🇪🇸")
                             .setLabel("Spanish")
                             .setDisabled(true);
-                        button_ae = new MessageButton()
-                            .setStyle("PRIMARY")
+                        button_ae = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_in")
                             .setEmoji("🇮🇳")
                             .setLabel("India (Hindi)")
                             .setDisabled(true);
-                        button_nl = new MessageButton()
-                            .setStyle("PRIMARY")
+                        button_nl = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_nl")
                             .setEmoji("🇳🇱")
                             .setLabel("Dutch")
                             .setDisabled(true);
-                        button_tr = new MessageButton()
-                            .setStyle("PRIMARY")
+                        button_tr = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_tr")
                             .setEmoji("🇹🇷")
                             .setLabel("Turkish")
                             .setDisabled(true);
-                        button_ir = new MessageButton()
-                            .setStyle("PRIMARY")
+                        button_ir = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setCustomId("language_ir")
                             .setEmoji("🇮🇷")
                             .setLabel("Iran")
                             .setDisabled(true);
-                        buttonRow1 = new MessageActionRow().addComponents(
+                        buttonRow1 = new ActionRowBuilder().addComponents(
                             button_en,
                             button_de /*button_fr, button_it, button_sp*/
                         );
-                        buttonRow2 = new MessageActionRow().addComponents([button_ae /*button_nl, button_tr, button_ir*/]);
+                        buttonRow2 = new ActionRowBuilder().addComponents([button_ae /*button_nl, button_tr, button_ir*/]);
                         let alldisabledbuttons = [buttonRow1, buttonRow2];
                         //create a collector for the thinggy
                         const collector = helpmsg.createMessageComponentCollector({
@@ -286,7 +288,7 @@ module.exports = {
                                 client.settings.set(message.guild.id, lang, "language");
                                 message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-language"]["variable5"]))
                                             .setColor(es.color)
                                             .setFooter(client.getFooter(es)),
@@ -326,7 +328,7 @@ module.exports = {
                         client.settings.set(message.guild.id, "en", "language");
                         return message.reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-language"]["variable6"]))
                                     .setColor(es.color)
                                     .setFooter(client.getFooter(es)),
@@ -337,7 +339,7 @@ module.exports = {
                         let thesettings = client.settings.get(message.guild.id, `language`);
                         return message.reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-language"]["variable7"]))
                                     .setColor(es.color)
                                     .setFooter(client.getFooter(es)),
@@ -354,7 +356,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

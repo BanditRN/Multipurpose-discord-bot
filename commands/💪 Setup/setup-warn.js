@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-warn",
@@ -74,19 +78,15 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Warn Setup",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/prohibited_1f6ab?.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Warn Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/prohibited_1f6ab?.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable2"]));
                 let used1 = false;
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //function to handle the menuselection
                 function menuselection(menu) {
@@ -120,7 +120,7 @@ module.exports = {
             async function handle_the_picks(menuoptionindex, menuoptiondata) {
                 switch (menuoptionindex) {
                     case 0:
-                        var msg6 = new MessageEmbed()
+                        var msg6 = new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable4"]))
                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable5"]))
                             .setFooter(client.getFooter(es))
@@ -138,7 +138,7 @@ module.exports = {
                                     if (!amount)
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable6"])
                                                     )
@@ -151,7 +151,7 @@ module.exports = {
                                         client.settings.set(message.guild.id, false, "warnsettings.kick");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable7"])
                                                     )
@@ -163,7 +163,7 @@ module.exports = {
                                     if (isNaN(amount))
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable8"])
                                                     )
@@ -175,7 +175,7 @@ module.exports = {
                                     if (Number(amount) <= 0)
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable9"])
                                                     )
@@ -187,7 +187,7 @@ module.exports = {
                                     client.settings.set(message.guild.id, amount, "warnsettings.kick");
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable10"]))
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es)),
@@ -198,7 +198,7 @@ module.exports = {
                                     console.log(error);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable11"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -209,7 +209,7 @@ module.exports = {
                         });
                         break;
                     case 1:
-                        var msg7 = new MessageEmbed()
+                        var msg7 = new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable12"]))
                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable13"]))
                             .setFooter(client.getFooter(es))
@@ -227,7 +227,7 @@ module.exports = {
                                     if (!amount)
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable14"])
                                                     )
@@ -240,7 +240,7 @@ module.exports = {
                                         client.settings.set(message.guild.id, false, "warnsettings.ban");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable15"])
                                                     )
@@ -252,7 +252,7 @@ module.exports = {
                                     if (isNaN(amount))
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable16"])
                                                     )
@@ -264,7 +264,7 @@ module.exports = {
                                     if (Number(amount) <= 0)
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable17"])
                                                     )
@@ -276,7 +276,7 @@ module.exports = {
                                     client.settings.set(message.guild.id, amount, "warnsettings.ban");
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable18"]))
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es)),
@@ -287,7 +287,7 @@ module.exports = {
                                     console.log(error);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable19"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -298,7 +298,7 @@ module.exports = {
                         });
                         break;
                     case 2:
-                        var msg8 = new MessageEmbed()
+                        var msg8 = new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable20"]))
                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable21"]))
                             .setFooter(client.getFooter(es))
@@ -321,7 +321,7 @@ module.exports = {
                                     if (!role || !role.id)
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable22"])
                                                     )
@@ -333,7 +333,7 @@ module.exports = {
                                     if (!amount)
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable23"])
                                                     )
@@ -345,7 +345,7 @@ module.exports = {
                                     if (isNaN(amount))
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable24"])
                                                     )
@@ -357,7 +357,7 @@ module.exports = {
                                     if (Number(amount) <= 0)
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable25"])
                                                     )
@@ -370,7 +370,7 @@ module.exports = {
                                     if (warnsettings.roles.some(r => r?.warncount == amount))
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable26"])
                                                     )
@@ -388,7 +388,7 @@ module.exports = {
                                     );
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable27"]))
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es)),
@@ -399,7 +399,7 @@ module.exports = {
                                     console.log(error);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable28"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -410,7 +410,7 @@ module.exports = {
                         });
                         break;
                     case 3:
-                        var msg8 = new MessageEmbed()
+                        var msg8 = new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable29"]))
                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable30"]))
                             .setFooter(client.getFooter(es))
@@ -429,7 +429,7 @@ module.exports = {
                                     if (!amount)
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable31"])
                                                     )
@@ -441,7 +441,7 @@ module.exports = {
                                     if (isNaN(amount))
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable32"])
                                                     )
@@ -453,7 +453,7 @@ module.exports = {
                                     if (Number(amount) <= 0)
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable33"])
                                                     )
@@ -466,7 +466,7 @@ module.exports = {
                                     if (!warnsettings.roles.some(r => r?.warncount == amount))
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable34"])
                                                     )
@@ -485,7 +485,7 @@ module.exports = {
                                     );
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable35"]))
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es)),
@@ -496,7 +496,7 @@ module.exports = {
                                     console.log(error);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable36"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -507,7 +507,7 @@ module.exports = {
                         });
                         break;
                     case 4:
-                        var rembed = new MessageEmbed()
+                        var rembed = new EmbedBuilder()
                             .setColor(es.color)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable37"]))
@@ -516,7 +516,7 @@ module.exports = {
                             console.log(error);
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable39"]))
                                         .setColor(es.wrongcolor)
                                         .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -538,7 +538,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

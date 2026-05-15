@@ -1,4 +1,6 @@
-var { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var { format, delay, arrayMove } = require("../functions");
@@ -20,7 +22,7 @@ async function similar(client, message, args, type, slashCommand) {
             return client.channels.cache
                 .get(player.textChannel)
                 .send(
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["similar"]["variable1"]))
                         .setColor(ee.wrongcolor)
                 );
@@ -30,17 +32,13 @@ async function similar(client, message, args, type, slashCommand) {
             //add the track
             player.queue.add(res.tracks[0]);
             //send information message
-            var embed2 = new MessageEmbed()
+            var embed2 = new EmbedBuilder()
                 .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["similar"]["variable2"]))
                 .setColor(ee.color)
                 .setThumbnail(`https://img.youtube.com/vi/${res.tracks[0].identifier}/mqdefault.jpg`)
-                .addField(
-                    "⌛ Duration: ",
-                    `\`${res.tracks[0].isStream ? "LIVE STREAM" : format(res.tracks[0].duration)}\``,
-                    true
-                )
-                .addField("💯 Song By: ", `\`${res.tracks[0].author}\``, true)
-                .addField("🔂 Queue length: ", `\`${player.queue.length} Songs\``, true);
+                .addFields({ name: "⌛ Duration: ", value: `\`${res.tracks[0].isStream ? "LIVE STREAM" : format(res.tracks[0].duration)}\``, inline: true })
+                .addFields({ name: "💯 Song By: ", value: `\`${res.tracks[0].author}\``, inline: true })
+                .addFields({ name: "🔂 Queue length: ", value: `\`${player.queue.length} Songs\``, inline: true });
             message.reply({ embeds: [embed2] });
             if (
                 client.musicsettings.get(player.guild, "channel") &&
@@ -78,7 +76,7 @@ async function similar(client, message, args, type, slashCommand) {
                         `**${++index})** [\`${String(track.title).substring(0, 60).split("[").join("{").split("]").join("}")}\`](${track.uri}) - \`${format(track.duration).split(" | ")[0]}\``
                 )
                 .join("\n");
-            var searchembed = new MessageEmbed()
+            var searchembed = new EmbedBuilder()
                 .setTitle(`Search result for: 🔎 **\`${player.queue.current.title}`.substring(0, 256 - 3) + "`**")
                 .setColor(ee.color)
                 .setDescription(results)
@@ -93,7 +91,7 @@ async function similar(client, message, args, type, slashCommand) {
             message.reply({ embeds: [searchembed] });
             await message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.color)
                         .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["similar"]["variable3"])),
                 ],
@@ -104,7 +102,7 @@ async function similar(client, message, args, type, slashCommand) {
                 if (!player.queue.current) player.destroy();
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["similar"]["variable4"]))
                             .setColor(ee.wrongcolor),
                     ],
@@ -115,7 +113,7 @@ async function similar(client, message, args, type, slashCommand) {
                 if (!player.queue.current) player.destroy();
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["similar"]["variable5"])),
                     ],
@@ -125,7 +123,7 @@ async function similar(client, message, args, type, slashCommand) {
             if (index < 0 || index > max - 1)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["similar"]["variable6"])),
                     ],
@@ -135,7 +133,7 @@ async function similar(client, message, args, type, slashCommand) {
                 return message
                     .reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.wrongcolor)
                                 .setTitle(
                                     String("❌ Error | Found nothing for: **`" + player.queue.current.title).substring(
@@ -156,25 +154,24 @@ async function similar(client, message, args, type, slashCommand) {
                 player.set("message", message);
                 player.set("playerauthor", message.author.id);
                 // Connect to the voice channel and add the track to the queue
-
-                player.connect();
+                await player.connect();
                 try {
                     message.react("863876115584385074").catch(() => {});
                 } catch (e) {
                     console.log(String(e).grey);
                 }
                 player.queue.add(track);
-                player.play();
+                await player.play();
                 player.pause(false);
             } else {
                 player.queue.add(track);
-                var embed = new MessageEmbed()
+                var embed = new EmbedBuilder()
                     .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["similar"]["variable8"]))
                     .setColor(ee.color)
                     .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`)
-                    .addField("⌛ Duration: ", `\`${track.isStream ? "LIVE STREAM" : format(track.duration)}\``, true)
-                    .addField("💯 Song By: ", `\`${track.author}\``, true)
-                    .addField("🔂 Queue length: ", `\`${player.queue.length} Songs\``, true);
+                    .addFields({ name: "⌛ Duration: ", value: `\`${track.isStream ? "LIVE STREAM" : format(track.duration)}\``, inline: true })
+                    .addFields({ name: "💯 Song By: ", value: `\`${track.author}\``, inline: true })
+                    .addFields({ name: "🔂 Queue length: ", value: `\`${player.queue.length} Songs\``, inline: true });
                 message.reply({ embeds: [embed] });
             }
             if (
@@ -202,7 +199,7 @@ async function similar(client, message, args, type, slashCommand) {
         return message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setTitle(
                             String("❌ Error | Found nothing for: **`" + player.queue.current.title).substring(0, 256 - 3) +

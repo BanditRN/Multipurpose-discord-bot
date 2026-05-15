@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const canvacord = require("canvacord");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -17,7 +16,9 @@ module.exports = client => {
         "30 * * * * *",
         function () {
             //get all guilds which are setupped
-            var guilds = client.settings.filter(v => v.automeme && v.automeme != "no").keyArray();
+            var guilds = Array.from(client.settings.keys()).filter(
+                guildId => client.settings.get(guildId, "automeme") && client.settings.get(guildId, "automeme") != "no"
+            );
             //Loop through all guilds and send a random auto-generated-nsfw setup
             for (const guildid of guilds) {
                 automeme(guildid);

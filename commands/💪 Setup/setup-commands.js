@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-commands",
@@ -109,10 +113,10 @@ module.exports = {
                     .setMinValues(1)
                     .setMaxValues(menuOptions.length)
                     .addOptions(menuOptions.filter(Boolean));
-                return [new MessageActionRow().addComponents(menuSelection)];
+                return [new ActionRowBuilder().addComponents(menuSelection)];
             }
 
-            let embed = new Discord.MessageEmbed()
+            let embed = new EmbedBuilder()
                 .setTitle(`Setup the allowed/not-allowed Command-Categories of this Server`)
                 .setColor(es.color)
                 .setDescription(
@@ -168,7 +172,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

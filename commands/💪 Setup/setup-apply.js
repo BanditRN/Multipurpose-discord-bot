@@ -1,10 +1,16 @@
-var { MessageEmbed } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require("discord.js");
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emojis = require("../../botconfig/emojis.json");
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { getNumberEmojis, allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-apply",
@@ -20,8 +26,8 @@ module.exports = {
         let MilratoGuild = client.guilds.cache.get("773668217163218944");
         if (MilratoGuild) theemoji = "877653386747605032";
         let allbuttons = [
-            new MessageActionRow().addComponents([
-                new MessageButton().setStyle("SUCCESS").setEmoji(theemoji).setCustomId("User_Apply").setLabel("Apply"),
+            new ActionRowBuilder().addComponents([
+                new ButtonBuilder().setStyle(ButtonStyle.Success).setEmoji(theemoji).setCustomId("User_Apply").setLabel("Apply"),
             ]),
         ];
         let es = client.settings.get(message.guild.id, "embed");
@@ -50,7 +56,7 @@ module.exports = {
                     });
                 }
                 //define the selection
-                let row1 = new MessageActionRow().addComponents(
+                let row1 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -69,7 +75,7 @@ module.exports = {
                         )
                 );
                 //define the selection
-                let row2 = new MessageActionRow().addComponents(
+                let row2 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection2")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -89,7 +95,7 @@ module.exports = {
                 );
 
                 //define the selection
-                let row3 = new MessageActionRow().addComponents(
+                let row3 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection3")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -109,7 +115,7 @@ module.exports = {
                 );
 
                 //define the selection
-                let row4 = new MessageActionRow().addComponents(
+                let row4 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection4")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -129,15 +135,13 @@ module.exports = {
                 );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        client.getAuthor(
+                    .setAuthor({ name: client.getAuthor(
                             "Application Setup",
                             "https://cdn.discordapp.com/emojis/877653386747605032.png?size=96",
                             "https://discord.gg/milrato"
-                        )
-                    )
+                        ) })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 let used1 = false;
                 //send the menu msg
@@ -184,7 +188,7 @@ module.exports = {
                 console.log(String(e.stack).grey.bgRed);
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(client.la[ls].common.erroroccur)
@@ -380,18 +384,14 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        SetupNumber + " Apply Setup",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/incoming-envelope_1f4e8.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: SetupNumber + " Apply Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/incoming-envelope_1f4e8.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable4"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -426,7 +426,7 @@ module.exports = {
                 console.log(String(e.stack).grey.bgRed);
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(client.la[ls].common.erroroccur)
@@ -462,14 +462,14 @@ module.exports = {
                             var color = "GREEN";
                             var desc;
                             var userid = cmduser.id;
-                            let row = new MessageActionRow().addComponents([
-                                new MessageButton().setStyle("SECONDARY").setCustomId("1").setEmoji("1️⃣"),
-                                new MessageButton().setStyle("SECONDARY").setCustomId("2").setEmoji("2️⃣"),
+                            let row = new ActionRowBuilder().addComponents([
+                                new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("1").setEmoji("1️⃣"),
+                                new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("2").setEmoji("2️⃣"),
                             ]);
                             var pickmsg = await message.reply({
                                 components: [row],
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.color)
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable6"]))
@@ -498,13 +498,10 @@ module.exports = {
                                 var f_applychannel;
                                 message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
-                                            .setAuthor(
-                                                "Setting up...",
-                                                "https://miro.medium.com/max/1600/1*e_Loq49BI4WmN7o9ItTADg.gif"
-                                            )
+                                            .setAuthor({ name: "Setting up...", iconURL: "https://miro.medium.com/max/1600/1*e_Loq49BI4WmN7o9ItTADg.gif" })
                                             .setFooter(client.getFooter(es)),
                                     ],
                                 });
@@ -547,7 +544,7 @@ module.exports = {
                                                 ],
                                             })
                                             .then(ch => {
-                                                var embed = new Discord.MessageEmbed()
+                                                var embed = new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor(es.color)
                                                     .setFooter(client.getFooter(es));
@@ -611,7 +608,7 @@ module.exports = {
                                                             .catch(error => {
                                                                 return message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setTitle(
                                                                                 eval(
                                                                                     client.la[ls]["cmds"]["setup"][
@@ -658,7 +655,7 @@ module.exports = {
                                                                             })
                                                                             .then(collected => {
                                                                                 desc = collected.first().content;
-                                                                                var setupembed = new Discord.MessageEmbed()
+                                                                                var setupembed = new EmbedBuilder()
                                                                                     .setFooter(client.getFooter(es))
                                                                                     .setColor(color)
                                                                                     .setDescription(desc)
@@ -703,15 +700,12 @@ module.exports = {
                                                                                     if (counter === 25) {
                                                                                         message.reply({
                                                                                             embeds: [
-                                                                                                new Discord.MessageEmbed()
+                                                                                                new EmbedBuilder()
                                                                                                     .setFooter(
                                                                                                         client.getFooter(es)
                                                                                                     )
                                                                                                     .setColor("RED")
-                                                                                                    .setAuthor(
-                                                                                                        "You reached the maximum amount of Questions!",
-                                                                                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/cross-mark_274c.png"
-                                                                                                    ),
+                                                                                                    .setAuthor({ name: "You reached the maximum amount of Questions!", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/cross-mark_274c.png" }),
                                                                                             ],
                                                                                         });
                                                                                         return ask_addrole();
@@ -1040,7 +1034,7 @@ module.exports = {
                                                                                                 .catch(error => {
                                                                                                     return message.reply({
                                                                                                         embeds: [
-                                                                                                            new Discord.MessageEmbed()
+                                                                                                            new EmbedBuilder()
                                                                                                                 .setTitle(
                                                                                                                     eval(
                                                                                                                         client
@@ -1122,7 +1116,7 @@ module.exports = {
                                                                                                         return message.reply(
                                                                                                             {
                                                                                                                 embeds: [
-                                                                                                                    new Discord.MessageEmbed()
+                                                                                                                    new EmbedBuilder()
                                                                                                                         .setFooter(
                                                                                                                             client.getFooter(
                                                                                                                                 es
@@ -1174,7 +1168,7 @@ module.exports = {
                                                                                                         return message.reply(
                                                                                                             {
                                                                                                                 embeds: [
-                                                                                                                    new Discord.MessageEmbed()
+                                                                                                                    new EmbedBuilder()
                                                                                                                         .setFooter(
                                                                                                                             client.getFooter(
                                                                                                                                 es
@@ -1224,13 +1218,13 @@ module.exports = {
                                                                                                         );
 
                                                                                                     if (
-                                                                                                        !message.guild.me
+                                                                                                        !message.guild.members.me
                                                                                                             .roles
                                                                                                     )
                                                                                                         return message.reply(
                                                                                                             {
                                                                                                                 embeds: [
-                                                                                                                    new Discord.MessageEmbed()
+                                                                                                                    new EmbedBuilder()
                                                                                                                         .setFooter(
                                                                                                                             client.getFooter(
                                                                                                                                 es
@@ -1255,20 +1249,17 @@ module.exports = {
                                                                                                                                 ]
                                                                                                                             )
                                                                                                                         )
-                                                                                                                        .setAuthor(
-                                                                                                                            "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                                                                            message.author.displayAvatarURL(
+                                                                                                                        .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL(
                                                                                                                                 {
                                                                                                                                     dynamic: true,
                                                                                                                                 }
-                                                                                                                            )
-                                                                                                                        ),
+                                                                                                                            ) }),
                                                                                                                 ],
                                                                                                             }
                                                                                                         );
 
                                                                                                     var botrole =
-                                                                                                        message.guild.me
+                                                                                                        message.guild.members.me
                                                                                                             .roles.highest;
                                                                                                     if (
                                                                                                         guildrole.rawPosition >=
@@ -1290,7 +1281,7 @@ module.exports = {
                                                                                                         return message.reply(
                                                                                                             {
                                                                                                                 embeds: [
-                                                                                                                    new Discord.MessageEmbed()
+                                                                                                                    new EmbedBuilder()
                                                                                                                         .setFooter(
                                                                                                                             client.getFooter(
                                                                                                                                 es
@@ -1342,7 +1333,7 @@ module.exports = {
                                                                                                     );
                                                                                                     return message.reply({
                                                                                                         embeds: [
-                                                                                                            new Discord.MessageEmbed()
+                                                                                                            new EmbedBuilder()
                                                                                                                 .setFooter(
                                                                                                                     client.getFooter(
                                                                                                                         es
@@ -1390,7 +1381,7 @@ module.exports = {
                                                                                                     console.log(error);
                                                                                                     return message.reply({
                                                                                                         embeds: [
-                                                                                                            new Discord.MessageEmbed()
+                                                                                                            new EmbedBuilder()
                                                                                                                 .setTitle(
                                                                                                                     eval(
                                                                                                                         client
@@ -1431,7 +1422,7 @@ module.exports = {
                                                                                 console.log(error);
                                                                                 return message.reply({
                                                                                     embeds: [
-                                                                                        new Discord.MessageEmbed()
+                                                                                        new EmbedBuilder()
                                                                                             .setTitle(
                                                                                                 eval(
                                                                                                     client.la[ls]["cmds"][
@@ -1465,7 +1456,7 @@ module.exports = {
 
                                 pickmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable33"]))
@@ -1493,7 +1484,7 @@ module.exports = {
                                             message
                                                 .reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("RED")
                                                             .setFooter(client.getFooter(es))
                                                             .setTitle(
@@ -1527,7 +1518,7 @@ module.exports = {
                                     return message
                                         .reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setColor("RED")
                                                     .setFooter(client.getFooter(es))
                                                     .setTitle(
@@ -1544,7 +1535,7 @@ module.exports = {
 
                                 pickmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable37"]))
@@ -1572,7 +1563,7 @@ module.exports = {
                                             message
                                                 .reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("RED")
                                                             .setFooter(client.getFooter(es))
                                                             .setTitle(
@@ -1606,7 +1597,7 @@ module.exports = {
                                     return message
                                         .reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setColor("RED")
                                                     .setFooter(client.getFooter(es))
                                                     .setTitle(
@@ -1623,18 +1614,15 @@ module.exports = {
 
                                 message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
-                                            .setAuthor(
-                                                "Setting up...",
-                                                "https://miro.medium.com/max/1600/1*e_Loq49BI4WmN7o9ItTADg.gif"
-                                            )
+                                            .setAuthor({ name: "Setting up...", iconURL: "https://miro.medium.com/max/1600/1*e_Loq49BI4WmN7o9ItTADg.gif" })
                                             .setFooter(client.getFooter(es)),
                                     ],
                                 });
 
-                                var embed = new Discord.MessageEmbed()
+                                var embed = new EmbedBuilder()
                                     .setFooter(client.getFooter(es))
                                     .setColor(es.color)
                                     .setFooter(client.getFooter(es));
@@ -1685,7 +1673,7 @@ module.exports = {
                                     return message
                                         .reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setColor("RED")
                                                     .setFooter(client.getFooter(es))
                                                     .setTitle(
@@ -1720,7 +1708,7 @@ module.exports = {
                                             })
                                             .then(collected => {
                                                 desc = collected.first().content;
-                                                var setupembed = new Discord.MessageEmbed()
+                                                var setupembed = new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor(color)
                                                     .setDescription(desc)
@@ -1760,13 +1748,10 @@ module.exports = {
                                                     if (counter === 25) {
                                                         message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("RED")
-                                                                    .setAuthor(
-                                                                        "You reached the maximum amount of Questions!",
-                                                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/cross-mark_274c.png"
-                                                                    ),
+                                                                    .setAuthor({ name: "You reached the maximum amount of Questions!", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/facebook/65/cross-mark_274c.png" }),
                                                             ],
                                                         });
 
@@ -2040,7 +2025,7 @@ module.exports = {
                                                                 return message
                                                                     .reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setColor("RED")
                                                                                 .setFooter(client.getFooter(es))
                                                                                 .setTitle(
@@ -2096,7 +2081,7 @@ module.exports = {
                                                                     if (collected.first().content.toLowerCase() === "no") {
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setFooter(client.getFooter(es))
                                                                                     .setColor(es.color)
                                                                                     .setTitle(
@@ -2120,7 +2105,7 @@ module.exports = {
                                                                     if (!role)
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setFooter(client.getFooter(es))
                                                                                     .setColor(es.color)
                                                                                     .setTitle(
@@ -2141,10 +2126,10 @@ module.exports = {
                                                                         });
                                                                     var guildrole = message.guild.roles.cache.get(role.id);
 
-                                                                    if (!message.guild.me.roles)
+                                                                    if (!message.guild.members.me?.roles)
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setFooter(client.getFooter(es))
                                                                                     .setColor("RED")
                                                                                     .setDescription(
@@ -2154,16 +2139,13 @@ module.exports = {
                                                                                             ]["variable58"]
                                                                                         )
                                                                                     )
-                                                                                    .setAuthor(
-                                                                                        "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                                        message.author.displayAvatarURL({
+                                                                                    .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                                             dynamic: true,
-                                                                                        })
-                                                                                    ),
+                                                                                        }) }),
                                                                             ],
                                                                         });
 
-                                                                    var botrole = message.guild.me.roles.highest;
+                                                                    var botrole = message.guild.members.me?.roles.highest;
                                                                     if (guildrole.rawPosition >= botrole.rawPosition) {
                                                                         message.reply({
                                                                             content: eval(
@@ -2174,7 +2156,7 @@ module.exports = {
                                                                         });
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setFooter(client.getFooter(es))
                                                                                     .setColor(es.color)
                                                                                     .setTitle(
@@ -2201,7 +2183,7 @@ module.exports = {
                                                                     );
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setFooter(client.getFooter(es))
                                                                                 .setColor(es.color)
                                                                                 .setTitle(
@@ -2231,7 +2213,7 @@ module.exports = {
                                                                 return message
                                                                     .reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setColor("RED")
                                                                                 .setFooter(client.getFooter(es))
                                                                                 .setTitle(
@@ -2262,7 +2244,7 @@ module.exports = {
                                             return message
                                                 .reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor("RED")
                                                             .setFooter(client.getFooter(es))
                                                             .setTitle(
@@ -2289,15 +2271,12 @@ module.exports = {
                             message
                                 .reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
-                                            .setAuthor(
-                                                "What should be the new accept message?",
-                                                message.author.displayAvatarURL({
+                                            .setAuthor({ name: "What should be the new accept message?", iconURL: message.author.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            ),
+                                                }) }),
                                     ],
                                 })
                                 .then(msg => {
@@ -2312,22 +2291,19 @@ module.exports = {
                                             apply_for_here.set(message.guild.id, collected.first().content, pre + ".accept");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            "Successfully changed the ACCEPT MESSAGE!",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "Successfully changed the ACCEPT MESSAGE!", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             });
                                         })
                                         .catch(error => {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable68"])
                                                         )
@@ -2345,15 +2321,12 @@ module.exports = {
                             message
                                 .reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
-                                            .setAuthor(
-                                                "What should be the new accept Role, which will be granted when the User got accepted?",
-                                                message.author.displayAvatarURL({
+                                            .setAuthor({ name: "What should be the new accept Role, which will be granted when the User got accepted?", iconURL: message.author.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            ),
+                                                }) }),
                                     ],
                                 })
                                 .then(msg => {
@@ -2374,10 +2347,10 @@ module.exports = {
                                                 });
                                             var guildrole = message.guild.roles.cache.get(role.id);
 
-                                            if (!message.guild.me.roles)
+                                            if (!message.guild.members.me?.roles)
                                                 return message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setFooter(client.getFooter(es))
                                                             .setColor("RED")
                                                             .setDescription(
@@ -2387,54 +2360,45 @@ module.exports = {
                                                                     ]
                                                                 )
                                                             )
-                                                            .setAuthor(
-                                                                "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                message.author.displayAvatarURL({
+                                                            .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                     dynamic: true,
-                                                                })
-                                                            ),
+                                                                }) }),
                                                     ],
                                                 });
 
-                                            var botrole = message.guild.me.roles.highest;
+                                            var botrole = message.guild.members.me?.roles.highest;
 
                                             if (guildrole.rawPosition <= botrole.rawPosition) {
                                                 apply_for_here.set(message.guild.id, role.id, pre + ".accept_role");
                                                 return message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setFooter(client.getFooter(es))
                                                             .setColor("GREEN")
-                                                            .setAuthor(
-                                                                "Successfully changed the ACCEPT ROLE!",
-                                                                message.author.displayAvatarURL({
+                                                            .setAuthor({ name: "Successfully changed the ACCEPT ROLE!", iconURL: message.author.displayAvatarURL({
                                                                     dynamic: true,
-                                                                })
-                                                            ),
+                                                                }) }),
                                                     ],
                                                 });
                                             }
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor("RED")
                                                         .setDescription(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable71"])
                                                         )
-                                                        .setAuthor(
-                                                            "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             });
                                         })
                                         .catch(error => {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable72"])
                                                         )
@@ -2452,15 +2416,12 @@ module.exports = {
                             message
                                 .reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
-                                            .setAuthor(
-                                                "What should be the new deny message?",
-                                                message.author.displayAvatarURL({
+                                            .setAuthor({ name: "What should be the new deny message?", iconURL: message.author.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            ),
+                                                }) }),
                                     ],
                                 })
                                 .then(msg => {
@@ -2475,22 +2436,19 @@ module.exports = {
                                             apply_for_here.set(message.guild.id, collected.first().content, pre + ".deny");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            "Successfully changed the DENY MESSAGE!",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "Successfully changed the DENY MESSAGE!", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             });
                                         })
                                         .catch(error => {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable73"])
                                                         )
@@ -2508,15 +2466,12 @@ module.exports = {
                             message
                                 .reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
-                                            .setAuthor(
-                                                "What should be the new Ticket message? | {user} pings the User",
-                                                message.author.displayAvatarURL({
+                                            .setAuthor({ name: "What should be the new Ticket message? | {user} pings the User", iconURL: message.author.displayAvatarURL({
                                                     dynamic: true,
-                                                })
-                                            ),
+                                                }) }),
                                     ],
                                 })
                                 .then(msg => {
@@ -2531,22 +2486,19 @@ module.exports = {
                                             apply_for_here.set(message.guild.id, collected.first().content, pre + ".ticket");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            "Successfully changed the TICKET MESSAGE!",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "Successfully changed the TICKET MESSAGE!", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             });
                                         })
                                         .catch(error => {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable74"])
                                                         )
@@ -2565,7 +2517,7 @@ module.exports = {
                             var tempmsg2;
                             tempmsg2 = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable75"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable76"]))
@@ -2581,7 +2533,7 @@ module.exports = {
                             } catch (e) {
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable77"]))
                                             .setColor("RED")
                                             .setDescription(
@@ -2618,7 +2570,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable78"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -2631,15 +2583,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept message for emoji one?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept message for emoji one?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -2658,22 +2607,19 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("GREEN")
-                                                                    .setAuthor(
-                                                                        "Successfully changed the ACCEPT MESSAGE for emoji one!",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "Successfully changed the ACCEPT MESSAGE for emoji one!", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -2697,15 +2643,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept Role, which will be granted when the User got accepted for emoji one?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept Role, which will be granted when the User got accepted for emoji one?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -2728,10 +2671,10 @@ module.exports = {
                                                             });
                                                         var guildrole = message.guild.roles.cache.get(role.id);
 
-                                                        if (!message.guild.me.roles)
+                                                        if (!message.guild.members.me?.roles)
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("RED")
                                                                         .setDescription(
@@ -2741,36 +2684,30 @@ module.exports = {
                                                                                 ]["variable81"]
                                                                             )
                                                                         )
-                                                                        .setAuthor(
-                                                                            "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
 
-                                                        var botrole = message.guild.me.roles.highest;
+                                                        var botrole = message.guild.members.me?.roles.highest;
 
                                                         if (guildrole.rawPosition <= botrole.rawPosition) {
                                                             apply_for_here.set(message.guild.id, role.id, pre + ".one.role");
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("GREEN")
-                                                                        .setAuthor(
-                                                                            "Successfully changed the ACCEPT ROLE for emoji one!",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "Successfully changed the ACCEPT ROLE for emoji one!", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
                                                         }
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("RED")
                                                                     .setDescription(
@@ -2780,19 +2717,16 @@ module.exports = {
                                                                             ]
                                                                         )
                                                                     )
-                                                                    .setAuthor(
-                                                                        "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -2816,15 +2750,12 @@ module.exports = {
                                         apply_for_here.set(message.guild.id, "", pre + ".one.role");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor("GREEN")
-                                                    .setAuthor(
-                                                        "Successfully deleted the ACCEPT ROLE for emoji one!",
-                                                        message.author.displayAvatarURL({
+                                                    .setAuthor({ name: "Successfully deleted the ACCEPT ROLE for emoji one!", iconURL: message.author.displayAvatarURL({
                                                             dynamic: true,
-                                                        })
-                                                    ),
+                                                        }) }),
                                             ],
                                         });
                                     }
@@ -2834,7 +2765,7 @@ module.exports = {
                                     apply_for_here.set(message.guild.id, "", pre + ".one.image.url");
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setFooter(client.getFooter(es))
                                                 .setColor("GREEN")
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable84"])),
@@ -2847,7 +2778,7 @@ module.exports = {
                                         tempmsg2 = await tempmsg2
                                             .edit({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor(es.color)
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable85"])
@@ -2855,10 +2786,7 @@ module.exports = {
                                                         .setDescription(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable86"])
                                                         )
-                                                        .setFooter(
-                                                            "Pick the INDEX NUMBER / send the IMAGE URl",
-                                                            client.user.displayAvatarURL()
-                                                        )
+                                                        .setFooter({ text: "Pick the INDEX NUMBER / send the IMAGE URl", iconURL: client.user.displayAvatarURL() })
                                                         .setThumbnail(client.user.displayAvatarURL()),
                                                 ],
                                             })
@@ -2885,7 +2813,7 @@ module.exports = {
                                                                 );
                                                                 return message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setFooter(client.getFooter(es))
                                                                             .setColor("GREEN")
                                                                             .setTitle(
@@ -2900,7 +2828,7 @@ module.exports = {
                                                             }
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2928,7 +2856,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("GREEN")
                                                                         .setTitle(
@@ -2943,7 +2871,7 @@ module.exports = {
                                                         }
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -2977,7 +2905,7 @@ module.exports = {
                                     } catch (e) {
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable91"])
                                                     )
@@ -2999,7 +2927,7 @@ module.exports = {
                             var tempmsg2;
                             tempmsg2 = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable93"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable94"]))
@@ -3015,7 +2943,7 @@ module.exports = {
                             } catch (e) {
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable95"]))
                                             .setColor("RED")
                                             .setDescription(
@@ -3052,7 +2980,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable96"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -3065,15 +2993,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept message for emoji two?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept message for emoji two?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -3092,22 +3017,19 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("GREEN")
-                                                                    .setAuthor(
-                                                                        "Successfully changed the ACCEPT MESSAGE for emoji two!",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "Successfully changed the ACCEPT MESSAGE for emoji two!", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -3131,15 +3053,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept Role, which will be granted when the User got accepted for emoji two?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept Role, which will be granted when the User got accepted for emoji two?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -3155,7 +3074,7 @@ module.exports = {
                                                         if (!role)
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor(es.color)
                                                                         .setTitle(
@@ -3176,10 +3095,10 @@ module.exports = {
                                                             });
                                                         var guildrole = message.guild.roles.cache.get(role.id);
 
-                                                        if (!message.guild.me.roles)
+                                                        if (!message.guild.members.me?.roles)
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("RED")
                                                                         .setDescription(
@@ -3189,36 +3108,30 @@ module.exports = {
                                                                                 ]["variable100"]
                                                                             )
                                                                         )
-                                                                        .setAuthor(
-                                                                            "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
 
-                                                        var botrole = message.guild.me.roles.highest;
+                                                        var botrole = message.guild.members.me?.roles.highest;
 
                                                         if (guildrole.rawPosition <= botrole.rawPosition) {
                                                             apply_for_here.set(message.guild.id, role.id, pre + ".two.role");
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("GREEN")
-                                                                        .setAuthor(
-                                                                            "Successfully changed the ACCEPT ROLE for emoji two!",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "Successfully changed the ACCEPT ROLE for emoji two!", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
                                                         }
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("RED")
                                                                     .setDescription(
@@ -3228,19 +3141,16 @@ module.exports = {
                                                                             ]
                                                                         )
                                                                     )
-                                                                    .setAuthor(
-                                                                        "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -3264,15 +3174,12 @@ module.exports = {
                                         apply_for_here.set(message.guild.id, "", pre + ".two.role");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor("GREEN")
-                                                    .setAuthor(
-                                                        "Successfully deleted the ACCEPT ROLE for emoji two!",
-                                                        message.author.displayAvatarURL({
+                                                    .setAuthor({ name: "Successfully deleted the ACCEPT ROLE for emoji two!", iconURL: message.author.displayAvatarURL({
                                                             dynamic: true,
-                                                        })
-                                                    ),
+                                                        }) }),
                                             ],
                                         });
                                     }
@@ -3283,7 +3190,7 @@ module.exports = {
                                         apply_for_here.set(message.guild.id, "", pre + ".two.image.url");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor("GREEN")
                                                     .setTitle(
@@ -3300,7 +3207,7 @@ module.exports = {
                                             tempmsg2 = await tempmsg2
                                                 .edit({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setColor(es.color)
                                                             .setTitle(
                                                                 eval(
@@ -3316,10 +3223,7 @@ module.exports = {
                                                                     ]
                                                                 )
                                                             )
-                                                            .setFooter(
-                                                                "Pick the INDEX NUMBER / send the IMAGE URl",
-                                                                client.user.displayAvatarURL()
-                                                            )
+                                                            .setFooter({ text: "Pick the INDEX NUMBER / send the IMAGE URl", iconURL: client.user.displayAvatarURL() })
                                                             .setThumbnail(client.user.displayAvatarURL()),
                                                     ],
                                                 })
@@ -3346,7 +3250,7 @@ module.exports = {
                                                                     );
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setFooter(client.getFooter(es))
                                                                                 .setColor("GREEN")
                                                                                 .setTitle(
@@ -3361,7 +3265,7 @@ module.exports = {
                                                                 }
                                                                 return message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setTitle(
                                                                                 eval(
                                                                                     client.la[ls]["cmds"]["setup"][
@@ -3389,7 +3293,7 @@ module.exports = {
                                                                 );
                                                                 return message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setFooter(client.getFooter(es))
                                                                             .setColor("GREEN")
                                                                             .setTitle(
@@ -3404,7 +3308,7 @@ module.exports = {
                                                             }
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -3449,7 +3353,7 @@ module.exports = {
                                         } catch (e) {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-apply"]["variable110"]
@@ -3476,7 +3380,7 @@ module.exports = {
                             var tempmsg2;
                             tempmsg2 = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable112"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable113"]))
@@ -3492,7 +3396,7 @@ module.exports = {
                             } catch (e) {
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable114"]))
                                             .setColor("RED")
                                             .setDescription(
@@ -3529,7 +3433,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable115"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -3542,15 +3446,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept message for emoji three?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept message for emoji three?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -3569,22 +3470,19 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("GREEN")
-                                                                    .setAuthor(
-                                                                        "Successfully changed the ACCEPT MESSAGE for emoji three!",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "Successfully changed the ACCEPT MESSAGE for emoji three!", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -3608,15 +3506,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept Role, which will be granted when the User got accepted for emoji three?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept Role, which will be granted when the User got accepted for emoji three?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -3632,7 +3527,7 @@ module.exports = {
                                                         if (!role)
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor(es.color)
                                                                         .setTitle(
@@ -3653,10 +3548,10 @@ module.exports = {
                                                             });
                                                         var guildrole = message.guild.roles.cache.get(role.id);
 
-                                                        if (!message.guild.me.roles)
+                                                        if (!message.guild.members.me?.roles)
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("RED")
                                                                         .setDescription(
@@ -3666,16 +3561,13 @@ module.exports = {
                                                                                 ]["variable119"]
                                                                             )
                                                                         )
-                                                                        .setAuthor(
-                                                                            "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
 
-                                                        var botrole = message.guild.me.roles.highest;
+                                                        var botrole = message.guild.members.me?.roles.highest;
 
                                                         if (guildrole.rawPosition <= botrole.rawPosition) {
                                                             apply_for_here.set(
@@ -3685,21 +3577,18 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("GREEN")
-                                                                        .setAuthor(
-                                                                            "Successfully changed the ACCEPT ROLE for emoji three!",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "Successfully changed the ACCEPT ROLE for emoji three!", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
                                                         }
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("RED")
                                                                     .setDescription(
@@ -3709,19 +3598,16 @@ module.exports = {
                                                                             ]
                                                                         )
                                                                     )
-                                                                    .setAuthor(
-                                                                        "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -3745,15 +3631,12 @@ module.exports = {
                                         apply_for_here.set(message.guild.id, "", pre + ".three.role");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor("GREEN")
-                                                    .setAuthor(
-                                                        "Successfully deleted the ACCEPT ROLE for emoji three!",
-                                                        message.author.displayAvatarURL({
+                                                    .setAuthor({ name: "Successfully deleted the ACCEPT ROLE for emoji three!", iconURL: message.author.displayAvatarURL({
                                                             dynamic: true,
-                                                        })
-                                                    ),
+                                                        }) }),
                                             ],
                                         });
                                     }
@@ -3763,7 +3646,7 @@ module.exports = {
                                     apply_for_here.set(message.guild.id, "", pre + ".three.image.url");
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setFooter(client.getFooter(es))
                                                 .setColor("GREEN")
                                                 .setTitle(
@@ -3778,7 +3661,7 @@ module.exports = {
                                         tempmsg2 = await tempmsg2
                                             .edit({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor(es.color)
                                                         .setTitle(
                                                             eval(
@@ -3790,10 +3673,7 @@ module.exports = {
                                                                 client.la[ls]["cmds"]["setup"]["setup-apply"]["variable124"]
                                                             )
                                                         )
-                                                        .setFooter(
-                                                            "Pick the INDEX NUMBER / send the IMAGE URl",
-                                                            client.user.displayAvatarURL()
-                                                        )
+                                                        .setFooter({ text: "Pick the INDEX NUMBER / send the IMAGE URl", iconURL: client.user.displayAvatarURL() })
                                                         .setThumbnail(client.user.displayAvatarURL()),
                                                 ],
                                             })
@@ -3820,7 +3700,7 @@ module.exports = {
                                                                 );
                                                                 return message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setFooter(client.getFooter(es))
                                                                             .setColor("GREEN")
                                                                             .setTitle(
@@ -3835,7 +3715,7 @@ module.exports = {
                                                             }
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -3863,7 +3743,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("GREEN")
                                                                         .setTitle(
@@ -3878,7 +3758,7 @@ module.exports = {
                                                         }
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -3912,7 +3792,7 @@ module.exports = {
                                     } catch (e) {
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable129"])
                                                     )
@@ -3929,7 +3809,7 @@ module.exports = {
                                 default:
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("RED")
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable131"]))
                                                 .setDescription(
@@ -3947,7 +3827,7 @@ module.exports = {
                             var tempmsg2;
                             tempmsg2 = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable133"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable134"]))
@@ -3963,7 +3843,7 @@ module.exports = {
                             } catch (e) {
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable135"]))
                                             .setColor("RED")
                                             .setDescription(
@@ -4000,7 +3880,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable136"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -4013,15 +3893,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept message for emoji four?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept message for emoji four?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -4040,22 +3917,19 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("GREEN")
-                                                                    .setAuthor(
-                                                                        "Successfully changed the ACCEPT MESSAGE for emoji four!",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "Successfully changed the ACCEPT MESSAGE for emoji four!", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -4079,15 +3953,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept Role, which will be granted when the User got accepted for emoji four?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept Role, which will be granted when the User got accepted for emoji four?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -4103,7 +3974,7 @@ module.exports = {
                                                         if (!role)
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor(es.color)
                                                                         .setTitle(
@@ -4124,10 +3995,10 @@ module.exports = {
                                                             });
                                                         var guildrole = message.guild.roles.cache.get(role.id);
 
-                                                        if (!message.guild.me.roles)
+                                                        if (!message.guild.members.me?.roles)
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("RED")
                                                                         .setDescription(
@@ -4137,16 +4008,13 @@ module.exports = {
                                                                                 ]["variable140"]
                                                                             )
                                                                         )
-                                                                        .setAuthor(
-                                                                            "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
 
-                                                        var botrole = message.guild.me.roles.highest;
+                                                        var botrole = message.guild.members.me?.roles.highest;
 
                                                         if (guildrole.rawPosition <= botrole.rawPosition) {
                                                             apply_for_here.set(
@@ -4156,21 +4024,18 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("GREEN")
-                                                                        .setAuthor(
-                                                                            "Successfully changed the ACCEPT ROLE for emoji four!",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "Successfully changed the ACCEPT ROLE for emoji four!", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
                                                         }
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("RED")
                                                                     .setDescription(
@@ -4180,19 +4045,16 @@ module.exports = {
                                                                             ]
                                                                         )
                                                                     )
-                                                                    .setAuthor(
-                                                                        "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -4216,15 +4078,12 @@ module.exports = {
                                         apply_for_here.set(message.guild.id, "", pre + ".four.role");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor("GREEN")
-                                                    .setAuthor(
-                                                        "Successfully deleted the ACCEPT ROLE for emoji four!",
-                                                        message.author.displayAvatarURL({
+                                                    .setAuthor({ name: "Successfully deleted the ACCEPT ROLE for emoji four!", iconURL: message.author.displayAvatarURL({
                                                             dynamic: true,
-                                                        })
-                                                    ),
+                                                        }) }),
                                             ],
                                         });
                                     }
@@ -4234,7 +4093,7 @@ module.exports = {
                                     apply_for_here.set(message.guild.id, "", pre + ".four.image.url");
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setFooter(client.getFooter(es))
                                                 .setColor("GREEN")
                                                 .setTitle(
@@ -4249,7 +4108,7 @@ module.exports = {
                                         tempmsg2 = await tempmsg2
                                             .edit({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor(es.color)
                                                         .setTitle(
                                                             eval(
@@ -4261,10 +4120,7 @@ module.exports = {
                                                                 client.la[ls]["cmds"]["setup"]["setup-apply"]["variable145"]
                                                             )
                                                         )
-                                                        .setFooter(
-                                                            "Pick the INDEX NUMBER / send the IMAGE URl",
-                                                            client.user.displayAvatarURL()
-                                                        )
+                                                        .setFooter({ text: "Pick the INDEX NUMBER / send the IMAGE URl", iconURL: client.user.displayAvatarURL() })
                                                         .setThumbnail(client.user.displayAvatarURL()),
                                                 ],
                                             })
@@ -4291,7 +4147,7 @@ module.exports = {
                                                                 );
                                                                 return message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setFooter(client.getFooter(es))
                                                                             .setColor("GREEN")
                                                                             .setTitle(
@@ -4306,7 +4162,7 @@ module.exports = {
                                                             }
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -4334,7 +4190,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("GREEN")
                                                                         .setTitle(
@@ -4349,7 +4205,7 @@ module.exports = {
                                                         }
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -4383,7 +4239,7 @@ module.exports = {
                                     } catch (e) {
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable150"])
                                                     )
@@ -4400,7 +4256,7 @@ module.exports = {
                                 default:
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("RED")
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable152"]))
                                                 .setDescription(
@@ -4419,7 +4275,7 @@ module.exports = {
                             var tempmsg2;
                             tempmsg2 = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable154"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable155"]))
@@ -4435,7 +4291,7 @@ module.exports = {
                             } catch (e) {
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable156"]))
                                             .setColor("RED")
                                             .setDescription(
@@ -4472,7 +4328,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable157"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -4485,15 +4341,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept message for emoji five?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept message for emoji five?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -4512,22 +4365,19 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("GREEN")
-                                                                    .setAuthor(
-                                                                        "Successfully changed the ACCEPT MESSAGE for emoji five!",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "Successfully changed the ACCEPT MESSAGE for emoji five!", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -4551,15 +4401,12 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor(es.color)
-                                                        .setAuthor(
-                                                            "What should be the new accept Role, which will be granted when the User got accepted for emoji five?",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "What should be the new accept Role, which will be granted when the User got accepted for emoji five?", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             })
                                             .then(msg => {
@@ -4575,7 +4422,7 @@ module.exports = {
                                                         if (!role)
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor(es.color)
                                                                         .setTitle(
@@ -4596,10 +4443,10 @@ module.exports = {
                                                             });
                                                         var guildrole = message.guild.roles.cache.get(role.id);
 
-                                                        if (!message.guild.me.roles)
+                                                        if (!message.guild.members.me?.roles)
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("RED")
                                                                         .setDescription(
@@ -4609,16 +4456,13 @@ module.exports = {
                                                                                 ]["variable161"]
                                                                             )
                                                                         )
-                                                                        .setAuthor(
-                                                                            "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
 
-                                                        var botrole = message.guild.me.roles.highest;
+                                                        var botrole = message.guild.members.me?.roles.highest;
 
                                                         if (guildrole.rawPosition <= botrole.rawPosition) {
                                                             apply_for_here.set(
@@ -4628,21 +4472,18 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
                                                                         .setColor("GREEN")
-                                                                        .setAuthor(
-                                                                            "Successfully changed the ACCEPT ROLE for emoji five!",
-                                                                            message.author.displayAvatarURL({
+                                                                        .setAuthor({ name: "Successfully changed the ACCEPT ROLE for emoji five!", iconURL: message.author.displayAvatarURL({
                                                                                 dynamic: true,
-                                                                            })
-                                                                        ),
+                                                                            }) }),
                                                                 ],
                                                             });
                                                         }
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor("RED")
                                                                     .setDescription(
@@ -4652,19 +4493,16 @@ module.exports = {
                                                                             ]
                                                                         )
                                                                     )
-                                                                    .setAuthor(
-                                                                        "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                                        message.author.displayAvatarURL({
+                                                                    .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    ),
+                                                                        }) }),
                                                             ],
                                                         });
                                                     })
                                                     .catch(error => {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -4688,15 +4526,12 @@ module.exports = {
                                         apply_for_here.set(message.guild.id, "", pre + ".five.role");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor("GREEN")
-                                                    .setAuthor(
-                                                        "Successfully deleted the ACCEPT ROLE for emoji five!",
-                                                        message.author.displayAvatarURL({
+                                                    .setAuthor({ name: "Successfully deleted the ACCEPT ROLE for emoji five!", iconURL: message.author.displayAvatarURL({
                                                             dynamic: true,
-                                                        })
-                                                    ),
+                                                        }) }),
                                             ],
                                         });
                                     }
@@ -4706,15 +4541,12 @@ module.exports = {
                                     apply_for_here.set(message.guild.id, "", pre + ".five.image.url");
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setFooter(client.getFooter(es))
                                                 .setColor("GREEN")
-                                                .setAuthor(
-                                                    "Successfully deleted the ACCEPT IMAGE for emoji five!",
-                                                    message.author.displayAvatarURL({
+                                                .setAuthor({ name: "Successfully deleted the ACCEPT IMAGE for emoji five!", iconURL: message.author.displayAvatarURL({
                                                         dynamic: true,
-                                                    })
-                                                ),
+                                                    }) }),
                                         ],
                                     });
                                 }
@@ -4724,7 +4556,7 @@ module.exports = {
                                         tempmsg2 = await tempmsg2
                                             .edit({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor(es.color)
                                                         .setTitle(
                                                             eval(
@@ -4736,10 +4568,7 @@ module.exports = {
                                                                 client.la[ls]["cmds"]["setup"]["setup-apply"]["variable165"]
                                                             )
                                                         )
-                                                        .setFooter(
-                                                            "Pick the INDEX NUMBER / send the IMAGE URl",
-                                                            client.user.displayAvatarURL()
-                                                        )
+                                                        .setFooter({ text: "Pick the INDEX NUMBER / send the IMAGE URl", iconURL: client.user.displayAvatarURL() })
                                                         .setThumbnail(client.user.displayAvatarURL()),
                                                 ],
                                             })
@@ -4766,7 +4595,7 @@ module.exports = {
                                                                 );
                                                                 return message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setFooter(client.getFooter(es))
 
                                                                             .setColor("GREEN")
@@ -4782,7 +4611,7 @@ module.exports = {
                                                             }
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -4810,7 +4639,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setFooter(client.getFooter(es))
 
                                                                         .setColor("GREEN")
@@ -4826,7 +4655,7 @@ module.exports = {
                                                         }
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-apply"][
@@ -4860,7 +4689,7 @@ module.exports = {
                                     } catch (e) {
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable170"])
                                                     )
@@ -4877,7 +4706,7 @@ module.exports = {
                                 default:
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("RED")
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable172"]))
                                                 .setDescription(
@@ -4892,25 +4721,19 @@ module.exports = {
                     case "editquestion":
                         {
                             var Questions = apply_for_here.get(message.guild.id, pre + ".QUESTIONS");
-                            var embed = new Discord.MessageEmbed()
+                            var embed = new EmbedBuilder()
                                 .setFooter(client.getFooter(es))
 
                                 .setColor(es.color)
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable174"])) //Tomato#6966
-                                .setFooter(
-                                    "ADD THE INDEX TO EDIT THE MSG",
-                                    message.guild.iconURL({
+                                .setFooter({ text: "ADD THE INDEX TO EDIT THE MSG", iconURL: message.guild.iconURL({
                                         dynamic: true,
-                                    })
-                                )
+                                    }) })
                                 .setTimestamp();
 
                             for (var i = 0; i < Questions.length; i++) {
                                 try {
-                                    embed.addField(
-                                        `**${Object.keys(Questions[i])}.**`,
-                                        `>>> ${Object.values(Questions[i])}`
-                                    );
+                                    embed.addFields({ name: `**${Object.keys(Questions[i])}.**`, value: `>>> ${Object.values(Questions[i])}` });
                                 } catch (e) {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                 }
@@ -4920,7 +4743,7 @@ module.exports = {
                                 .reply({
                                     embeds: [
                                         embed,
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable175"]))
@@ -4944,15 +4767,12 @@ module.exports = {
                                                 message
                                                     .reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setFooter(client.getFooter(es))
                                                                 .setColor(es.color)
-                                                                .setAuthor(
-                                                                    "What should be the new Question?",
-                                                                    message.author.displayAvatarURL({
+                                                                .setAuthor({ name: "What should be the new Question?", iconURL: message.author.displayAvatarURL({
                                                                         dynamic: true,
-                                                                    })
-                                                                ),
+                                                                    }) }),
                                                         ],
                                                     })
                                                     .then(msg => {
@@ -5098,7 +4918,7 @@ module.exports = {
                                                                     message.guild.id,
                                                                     pre + ".QUESTIONS"
                                                                 );
-                                                                var new_embed = new Discord.MessageEmbed()
+                                                                var new_embed = new EmbedBuilder()
                                                                     .setFooter(client.getFooter(es))
                                                                     .setColor(es.color)
                                                                     .setTitle(
@@ -5108,19 +4928,13 @@ module.exports = {
                                                                             ]
                                                                         )
                                                                     ) //Tomato#6966
-                                                                    .setFooter(
-                                                                        message.guild.name,
-                                                                        message.guild.iconURL({
+                                                                    .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({
                                                                             dynamic: true,
-                                                                        })
-                                                                    )
+                                                                        }) })
                                                                     .setTimestamp();
                                                                 for (var i = 0; i < Questions.length; i++) {
                                                                     try {
-                                                                        new_embed.addField(
-                                                                            `**${Object.keys(Questions[i])}.**`,
-                                                                            `>>> ${Object.values(Questions[i])}`
-                                                                        );
+                                                                        new_embed.addFields({ name: `**${Object.keys(Questions[i])}.**`, value: `>>> ${Object.values(Questions[i])}` });
                                                                     } catch {}
                                                                 }
                                                                 message.reply({
@@ -5130,7 +4944,7 @@ module.exports = {
                                                             .catch(error => {
                                                                 return message.reply({
                                                                     embeds: [
-                                                                        new Discord.MessageEmbed()
+                                                                        new EmbedBuilder()
                                                                             .setTitle(
                                                                                 eval(
                                                                                     client.la[ls]["cmds"]["setup"][
@@ -5150,15 +4964,12 @@ module.exports = {
                                             } else {
                                                 message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setFooter(client.getFooter(es))
                                                             .setColor("RED")
-                                                            .setAuthor(
-                                                                "It seems, that this Question does not exist! Please retry! Here are all Questions:",
-                                                                message.author.displayAvatarURL({
+                                                            .setAuthor({ name: "It seems, that this Question does not exist! Please retry! Here are all Questions:", iconURL: message.author.displayAvatarURL({
                                                                     dynamic: true,
-                                                                })
-                                                            ),
+                                                                }) }),
                                                     ],
                                                 });
                                                 return message.reply({
@@ -5169,7 +4980,7 @@ module.exports = {
                                         .catch(error => {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-apply"]["variable179"]
@@ -5188,7 +4999,7 @@ module.exports = {
                         message
                             .reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.color)
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable180"]))
@@ -5211,10 +5022,10 @@ module.exports = {
                                             });
                                         var guildrole = message.guild.roles.cache.get(role.id);
 
-                                        if (!message.guild.me.roles)
+                                        if (!message.guild.members.me?.roles)
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor("RED")
                                                         .setDescription(
@@ -5222,54 +5033,45 @@ module.exports = {
                                                                 client.la[ls]["cmds"]["setup"]["setup-apply"]["variable183"]
                                                             )
                                                         )
-                                                        .setAuthor(
-                                                            "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             });
 
-                                        var botrole = message.guild.me.roles.highest;
+                                        var botrole = message.guild.members.me?.roles.highest;
 
                                         if (guildrole.rawPosition <= botrole.rawPosition) {
                                             apply_for_here.set(message.guild.id, role.id, pre + ".TEMP_ROLE");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            "Successfully changed the TEMP ROLE!",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "Successfully changed the TEMP ROLE!", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             });
                                         }
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor("RED")
                                                     .setDescription(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable184"])
                                                     )
-                                                    .setAuthor(
-                                                        "<:no:833101993668771842> ERROR | Could not Access the Role",
-                                                        message.author.displayAvatarURL({
+                                                    .setAuthor({ name: "<:no:833101993668771842> ERROR | Could not Access the Role", iconURL: message.author.displayAvatarURL({
                                                             dynamic: true,
-                                                        })
-                                                    ),
+                                                        }) }),
                                             ],
                                         });
                                     })
                                     .catch(error => {
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable185"])
                                                     )
@@ -5286,7 +5088,7 @@ module.exports = {
                             message
                                 .reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable186"]))
@@ -5431,36 +5233,27 @@ module.exports = {
                                             apply_for_here.push(message.guild.id, obj, pre + ".QUESTIONS");
                                             message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setFooter(client.getFooter(es))
                                                         .setColor("GREEN")
-                                                        .setAuthor(
-                                                            "Successfully added your Question!",
-                                                            message.author.displayAvatarURL({
+                                                        .setAuthor({ name: "Successfully added your Question!", iconURL: message.author.displayAvatarURL({
                                                                 dynamic: true,
-                                                            })
-                                                        ),
+                                                            }) }),
                                                 ],
                                             });
                                             Questions = apply_for_here.get(message.guild.id, pre + ".QUESTIONS");
-                                            var embed = new Discord.MessageEmbed()
+                                            var embed = new EmbedBuilder()
                                                 .setFooter(client.getFooter(es))
                                                 .setColor(es.color)
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable188"])) //Tomato#6966
-                                                .setFooter(
-                                                    message.guild.name,
-                                                    message.guild.iconURL({
+                                                .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({
                                                         dynamic: true,
-                                                    })
-                                                )
+                                                    }) })
                                                 .setTimestamp();
 
                                             for (var i = 0; i < Questions.length; i++) {
                                                 try {
-                                                    embed.addField(
-                                                        `**${Object.keys(Questions[i])}.**`,
-                                                        `>>> ${Object.values(Questions[i])}`
-                                                    );
+                                                    embed.addFields({ name: `**${Object.keys(Questions[i])}.**`, value: `>>> ${Object.values(Questions[i])}` });
                                                 } catch (e) {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                 }
@@ -5472,7 +5265,7 @@ module.exports = {
                                         .catch(error => {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-apply"]["variable189"]
@@ -5490,25 +5283,19 @@ module.exports = {
                     case "removequestion":
                         {
                             var Questions = apply_for_here.get(message.guild.id, pre + ".QUESTIONS");
-                            var embed = new Discord.MessageEmbed()
+                            var embed = new EmbedBuilder()
                                 .setFooter(client.getFooter(es))
 
                                 .setColor(es.color)
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable190"])) //Tomato#6966
-                                .setFooter(
-                                    "ADD THE INDEX TO EDIT THE MSG",
-                                    message.guild.iconURL({
+                                .setFooter({ text: "ADD THE INDEX TO EDIT THE MSG", iconURL: message.guild.iconURL({
                                         dynamic: true,
-                                    })
-                                )
+                                    }) })
                                 .setTimestamp();
 
                             for (var i = 0; i < Questions.length; i++) {
                                 try {
-                                    embed.addField(
-                                        `**${Object.keys(Questions[i])}.**`,
-                                        `>>> ${Object.values(Questions[i])}`
-                                    );
+                                    embed.addFields({ name: `**${Object.keys(Questions[i])}.**`, value: `>>> ${Object.values(Questions[i])}` });
                                 } catch (e) {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                 }
@@ -5518,7 +5305,7 @@ module.exports = {
                                 .reply({
                                     embeds: [
                                         embed,
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
 
                                             .setColor(es.color)
@@ -5561,25 +5348,19 @@ module.exports = {
                                                 }
                                                 apply_for_here.set(message.guild.id, arr, pre + ".QUESTIONS");
                                                 Questions = apply_for_here.get(message.guild.id, pre + ".QUESTIONS");
-                                                var new_embed = new Discord.MessageEmbed()
+                                                var new_embed = new EmbedBuilder()
                                                     .setFooter(client.getFooter(es))
                                                     .setColor(es.color)
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable193"])
                                                     ) //Tomato#6966
-                                                    .setFooter(
-                                                        message.guild.name,
-                                                        message.guild.iconURL({
+                                                    .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({
                                                             dynamic: true,
-                                                        })
-                                                    )
+                                                        }) })
                                                     .setTimestamp();
                                                 for (var i = 0; i < Questions.length; i++) {
                                                     try {
-                                                        new_embed.addField(
-                                                            `**${Object.keys(Questions[i])}.**`,
-                                                            `>>> ${Object.values(Questions[i])}`
-                                                        );
+                                                        new_embed.addFields({ name: `**${Object.keys(Questions[i])}.**`, value: `>>> ${Object.values(Questions[i])}` });
                                                     } catch {}
                                                 }
                                                 message.reply({
@@ -5588,15 +5369,12 @@ module.exports = {
                                             } else {
                                                 message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setFooter(client.getFooter(es))
                                                             .setColor("RED")
-                                                            .setAuthor(
-                                                                "It seems, that this Question does not exist! Please retry! Here are all Questions:",
-                                                                message.author.displayAvatarURL({
+                                                            .setAuthor({ name: "It seems, that this Question does not exist! Please retry! Here are all Questions:", iconURL: message.author.displayAvatarURL({
                                                                     dynamic: true,
-                                                                })
-                                                            ),
+                                                                }) }),
                                                     ],
                                                 });
                                                 return message.reply({
@@ -5607,7 +5385,7 @@ module.exports = {
                                         .catch(error => {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-apply"]["variable194"]
@@ -5630,7 +5408,7 @@ module.exports = {
                             var userid = cmduser.id;
                             pickmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
 
                                         .setColor(es.color)
@@ -5657,7 +5435,7 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("RED")
                                                         .setFooter(client.getFooter(es))
                                                         .setTitle(
@@ -5687,7 +5465,7 @@ module.exports = {
                                 return message
                                     .reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("RED")
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable199"]))
@@ -5702,17 +5480,14 @@ module.exports = {
 
                             message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.color)
-                                        .setAuthor(
-                                            "Setting up...",
-                                            "https://miro.medium.com/max/1600/1*e_Loq49BI4WmN7o9ItTADg.gif"
-                                        )
+                                        .setAuthor({ name: "Setting up...", iconURL: "https://miro.medium.com/max/1600/1*e_Loq49BI4WmN7o9ItTADg.gif" })
                                         .setFooter(client.getFooter(es)),
                                 ],
                             });
-                            var embed = new Discord.MessageEmbed()
+                            var embed = new EmbedBuilder()
                                 .setFooter(client.getFooter(es))
                                 .setColor(es.color)
                                 .setFooter(client.getFooter(es));
@@ -5760,7 +5535,7 @@ module.exports = {
                                 return message
                                     .reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("RED")
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable204"]))
@@ -5791,7 +5566,7 @@ module.exports = {
                                 })
                                 .then(collected => {
                                     desc = collected.first().content;
-                                    var setupembed = new Discord.MessageEmbed()
+                                    var setupembed = new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(color)
                                         .setDescription(desc)
@@ -5812,7 +5587,7 @@ module.exports = {
 
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setFooter(client.getFooter(es))
                                                 .setColor(es.color)
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable207"]))
@@ -5829,7 +5604,7 @@ module.exports = {
                                 return message
                                     .reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("RED")
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable209"]))
@@ -5846,7 +5621,7 @@ module.exports = {
                             message
                                 .reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("RED")
                                             .setFooter(client.getFooter(es))
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable210"]))
@@ -5870,7 +5645,7 @@ module.exports = {
                             var userid = cmduser.id;
                             pickmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.color)
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable212"]))
@@ -5897,7 +5672,7 @@ module.exports = {
                                         message
                                             .reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor("RED")
                                                         .setFooter(client.getFooter(es))
                                                         .setTitle(
@@ -5927,7 +5702,7 @@ module.exports = {
                                 return message
                                     .reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor("RED")
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable215"]))
@@ -5948,7 +5723,7 @@ module.exports = {
                             message
                                 .reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("RED")
                                             .setFooter(client.getFooter(es))
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable217"]))
@@ -5971,7 +5746,7 @@ module.exports = {
                                 !apply_for_here.get(message.guild.id, `${pre}.last_verify`),
                                 `${pre}.last_verify`
                             );
-                            var embed = new Discord.MessageEmbed()
+                            var embed = new EmbedBuilder()
                                 .setFooter(client.getFooter(es))
                                 .setColor(es.color)
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-apply"]["variable219"])) //Tomato#6966
@@ -5987,7 +5762,7 @@ module.exports = {
                 console.log(String(e.stack).grey.bgRed);
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(client.la[ls].common.erroroccur)

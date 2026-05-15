@@ -1,4 +1,6 @@
-const { MessageEmbed, Permissions } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -22,7 +24,7 @@ module.exports = {
             if (!warnmember)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["detailwarn"]["variable1"]))
@@ -33,7 +35,7 @@ module.exports = {
             if (!args[1])
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["detailwarn"]["variable3"]))
@@ -65,7 +67,7 @@ module.exports = {
                 )
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["detailwarn"]["variable5"])),
@@ -74,7 +76,7 @@ module.exports = {
                 if (isNaN(args[1]) || Number(args[1]) >= warnIDs.length || Number(args[1]) < 0)
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["detailwarn"]["variable6"]))
@@ -92,7 +94,7 @@ module.exports = {
 
                 message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setThumbnail(
                                 es.thumb
@@ -103,30 +105,23 @@ module.exports = {
                                     : null
                             )
                             .setFooter(client.getFooter(es))
-                            .setAuthor(
-                                `Warn from ${warnmember.user.tag}`,
-                                warnmember.user.displayAvatarURL({
+                            .setAuthor({ name: `Warn from ${warnmember.user.tag}`, iconURL: warnmember.user.displayAvatarURL({
                                     dynamic: true,
-                                })
-                            )
+                                }) })
                             .setDescription(eval(client.la[ls]["cmds"]["administration"]["detailwarn"]["variable8"]))
-                            .addField(`Warn:`, `\`${parseInt(args[1]) + 1}\` out of **${warnIDs.length} Warns**`, true)
-                            .addField(`Warned by:`, `\`${warned_by}\``, true)
-                            .addField(`Warned at:`, `\`${warning.when}\``, true)
-                            .addField(`Warned in:`, `\`${warned_in}\``, true)
-                            .addField(`Old Thumbnail URL`, `[\`Click here\`](${warning.oldthumburl})`, true)
-                            .addField(
-                                `Old Highest Role:`,
-                                `${message.guild.roles.cache.get(warning.oldhighesrole.id) ? `<@&` + message.guild.roles.cache.get(warning.oldhighesrole.id) + `>` : `\`${warning.oldhighesrole.name} (${warning.oldhighesrole.id})\``}`,
-                                true
-                            ),
+                            .addFields({ name: `Warn:`, value: `\`${parseInt(args[1]) + 1}\` out of **${warnIDs.length} Warns**`, inline: true })
+                            .addFields({ name: `Warned by:`, value: `\`${warned_by}\``, inline: true })
+                            .addFields({ name: `Warned at:`, value: `\`${warning.when}\``, inline: true })
+                            .addFields({ name: `Warned in:`, value: `\`${warned_in}\``, inline: true })
+                            .addFields({ name: `Old Thumbnail URL`, value: `[\`Click here\`](${warning.oldthumburl})`, inline: true })
+                            .addFields({ name: `Old Highest Role:`, value: `${message.guild.roles.cache.get(warning.oldhighesrole.id) ? `<@&` + message.guild.roles.cache.get(warning.oldhighesrole.id) + `>` : `\`${warning.oldhighesrole.name} (${warning.oldhighesrole.id})\``}`, inline: true }),
                     ],
                 });
             } catch (e) {
                 console.log(e.stack ? String(e.stack).grey : String(e).grey);
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(client.la[ls].common.erroroccur)
@@ -138,7 +133,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["administration"]["detailwarn"]["variable10"]))

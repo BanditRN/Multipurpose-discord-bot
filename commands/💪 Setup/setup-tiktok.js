@@ -1,10 +1,13 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 module.exports = {
     name: "setup-tiktok",
     category: "💪 Setup",
@@ -28,7 +31,7 @@ module.exports = {
             var tempmsg;
             tempmsg = await message.reply({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable1"]))
                         .setColor(es.color)
                         .setDescription(
@@ -55,7 +58,7 @@ module.exports = {
             } catch (e) {
                 return message.reply({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable2"]))
                             .setColor(es.wrongcolor)
                             .setDescription(
@@ -85,7 +88,7 @@ module.exports = {
             if (timeouterror)
                 return message.reply({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable3"]))
                             .setColor(es.wrongcolor)
                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -95,7 +98,7 @@ module.exports = {
             if (temptype == "set") {
                 tempmsg = await tempmsg.edit({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable4"]))
                             .setColor(es.color)
                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable5"]))
@@ -114,7 +117,7 @@ module.exports = {
                             );
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable6"]))
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable7"]))
                                         .setColor(es.color)
@@ -132,7 +135,7 @@ module.exports = {
                 if (timeouterror)
                     return message.reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable8"]))
                                 .setColor(es.wrongcolor)
                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -143,7 +146,7 @@ module.exports = {
                 if (client.social_log.get(message.guild.id, "tiktok.channels").length >= 3)
                     return message.reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable9"]))
                                 .setColor(es.wrongcolor)
                                 .setDescription(`Remove some others first...`.substring(0, 2000))
@@ -152,7 +155,7 @@ module.exports = {
                     });
                 tempmsg = await tempmsg.edit({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable10"]))
                             .setColor(es.color)
                             .setDescription(
@@ -182,7 +185,7 @@ https://www.tiktok.com/@milratodev`
                             if (client.social_log.get(message.guild.id, "tiktok.channels").includes(Channel))
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable11"]))
                                             .setColor(es.wrongcolor)
                                             .setFooter(client.getFooter(es)),
@@ -192,7 +195,7 @@ https://www.tiktok.com/@milratodev`
 
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable12"]))
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable13"]))
                                         .setColor(es.color)
@@ -210,7 +213,7 @@ https://www.tiktok.com/@milratodev`
                 if (timeouterror)
                     return message.reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable14"]))
                                 .setColor(es.wrongcolor)
                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -221,7 +224,7 @@ https://www.tiktok.com/@milratodev`
                 if (client.social_log.get(message.guild.id, "tiktok.channels").length <= 0)
                     return message.reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable15"]))
                                 .setColor(es.wrongcolor)
                                 .setDescription(`Add some others first...`.substring(0, 2000))
@@ -235,7 +238,7 @@ https://www.tiktok.com/@milratodev`
                 }
                 tempmsg = await tempmsg.edit({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable16"]))
                             .setColor(es.color)
                             .setDescription(
@@ -263,7 +266,7 @@ https://www.tiktok.com/@milratodev`
 
                         return message.reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable17"]))
                                     .setColor(es.color)
                                     .setFooter(client.getFooter(es)),
@@ -276,7 +279,7 @@ https://www.tiktok.com/@milratodev`
                 if (timeouterror)
                     return message.reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable18"]))
                                 .setColor(es.wrongcolor)
                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -287,7 +290,7 @@ https://www.tiktok.com/@milratodev`
                 if (client.social_log.get(message.guild.id, "tiktok.channels").length <= 0)
                     return message.reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable19"]))
                                 .setColor(es.wrongcolor)
                                 .setDescription(`Add some others first...`.substring(0, 2000))
@@ -301,7 +304,7 @@ https://www.tiktok.com/@milratodev`
                 }
                 tempmsg = await tempmsg.edit({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable20"]))
                             .setColor(es.color)
                             .setDescription(buffer + "\n\n\n*React with the emoji regarding to the Channel you wanna edit*")
@@ -329,7 +332,7 @@ https://www.tiktok.com/@milratodev`
                         });
                         tempmsg = await message.reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable21"]))
                                     .setColor(es.color)
                                     .setDescription(
@@ -337,13 +340,10 @@ https://www.tiktok.com/@milratodev`
 **CURRENT MESSAGE:**
 > ${client.tiktok.get(channel, "message")}`.substring(0, 2048)
                                     )
-                                    .addField(
-                                        "**VARIABLES**",
-                                        `
+                                    .addFields({ name: "**VARIABLES**", value: `
 > \`{url}\` ... will be replaced with the video **LINK**
 > \`{author}\` ... will be replaced with the video's **Author**
-> \`{title}\` ... will be replaced with the video's **title**`
-                                    )
+> \`{title}\` ... will be replaced with the video's **title**` })
                                     .setFooter(client.getFooter(es)),
                             ],
                         });
@@ -360,7 +360,7 @@ https://www.tiktok.com/@milratodev`
                                     client.tiktok.set(channel, msg.content, "message");
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable22"]))
                                                 .setDescription("New Message:\n" + msg.content)
                                                 .setColor(es.color)
@@ -379,7 +379,7 @@ https://www.tiktok.com/@milratodev`
                         if (timeouterror)
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable23"]))
                                         .setColor(es.wrongcolor)
                                         .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -394,7 +394,7 @@ https://www.tiktok.com/@milratodev`
                 if (timeouterror)
                     return message.reply({
                         embeds: [
-                            new Discord.MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable24"]))
                                 .setColor(es.wrongcolor)
                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -404,7 +404,7 @@ https://www.tiktok.com/@milratodev`
             } else {
                 return message.reply({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-tiktok"]["variable25"]))
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es)),
@@ -415,7 +415,7 @@ https://www.tiktok.com/@milratodev`
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

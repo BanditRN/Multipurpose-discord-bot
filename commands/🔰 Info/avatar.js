@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -42,16 +44,12 @@ module.exports = {
             } catch (e) {
                 console.log(String(e.stack).grey.bgRed);
             }
-            let embed = new MessageEmbed()
-                .setAuthor(
-                    handlemsg(client.la[ls].cmds.info.avatar.author, {
+            let embed = new EmbedBuilder()
+                .setAuthor({ name: handlemsg(client.la[ls].cmds.info.avatar.author, {
                         usertag: user.tag,
-                    }),
-                    user.displayAvatarURL({
+                    }), iconURL: user.displayAvatarURL({
                         dynamic: true,
-                    }),
-                    "https://discord.gg/milrato"
-                )
+                    }), url: "https://discord.gg/milrato" })
                 .setColor(es.color)
                 .setThumbnail(
                     es.thumb
@@ -60,17 +58,9 @@ module.exports = {
                             : client.user.displayAvatarURL()
                         : null
                 )
-                .addField("<:arrow:832598861813776394> PNG", `[\`LINK\`](${user.displayAvatarURL({ format: "png" })})`, true)
-                .addField(
-                    "<:arrow:832598861813776394> JPEG",
-                    `[\`LINK\`](${user.displayAvatarURL({ format: "jpg" })})`,
-                    true
-                )
-                .addField(
-                    "<:arrow:832598861813776394> WEBP",
-                    `[\`LINK\`](${user.displayAvatarURL({ format: "webp" })})`,
-                    true
-                )
+                .addFields({ name: "<:arrow:832598861813776394> PNG", value: `[\`LINK\`](${user.displayAvatarURL({ format: "png" })})`, inline: true })
+                .addFields({ name: "<:arrow:832598861813776394> JPEG", value: `[\`LINK\`](${user.displayAvatarURL({ format: "jpg" })})`, inline: true })
+                .addFields({ name: "<:arrow:832598861813776394> WEBP", value: `[\`LINK\`](${user.displayAvatarURL({ format: "webp" })})`, inline: true })
                 .setURL(
                     user.displayAvatarURL({
                         dynamic: true,
@@ -94,7 +84,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

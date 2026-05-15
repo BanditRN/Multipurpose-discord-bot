@@ -1,3 +1,6 @@
+# FORK 2026
+This fork was made to revive the project using ai tools to update apis and add support to DAVE protocol and lavalink v4
+Alot of the classes are still unsupported. They throw exceptions during init anyway so they have been skipped
 # INFO 2025
 
 Check the [new_2025](https://github.com/Tomato6966/Multipurpose-discord-bot/tree/new_2025) branch for a 2025 working version!

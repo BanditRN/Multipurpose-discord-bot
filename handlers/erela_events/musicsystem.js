@@ -1,4 +1,10 @@
-const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const { check_if_dj, autoplay, escapeRegex, format, duration, createBar } = require("../functions");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -66,7 +72,7 @@ module.exports = client => {
         ) {
             return interaction?.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setFooter({ text: `${ee.footertext}`, iconURL: `${ee.footericon}` })
                         .setTitle(`<:no:833101993668771842> **You are not a DJ and not the Song Requester!**`)
@@ -91,7 +97,7 @@ module.exports = client => {
                     await player.stop();
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setTitle(client.la[ls].cmds.music.join.title)
                                 .setDescription(`Channel: <#${member.voice.channel.id}>`),
@@ -109,7 +115,7 @@ module.exports = client => {
                     //Stop the player
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.color)
                                 .setTimestamp()
                                 .setTitle(`:wave: **Left the Channel**`)
@@ -145,7 +151,7 @@ module.exports = client => {
                         if (player.get("autoplay")) return autoplay(client, player, "skip");
                         interaction?.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(ee.color)
                                     .setTimestamp()
                                     .setTitle(`⏹ **Stopped playing and left the Channel**`)
@@ -169,7 +175,7 @@ module.exports = client => {
                     await player.stop();
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.color)
                                 .setTimestamp()
                                 .setTitle(`⏭ **Skipped to the next Song!**`)
@@ -193,7 +199,7 @@ module.exports = client => {
                     //Stop the player
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.color)
                                 .setTimestamp()
                                 .setTitle(`⏹ **Stopped playing and left the Channel**`)
@@ -219,7 +225,7 @@ module.exports = client => {
                         player.pause(false);
                         interaction?.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(ee.color)
                                     .setTimestamp()
                                     .setTitle(`▶️ **Resumed!**`)
@@ -237,7 +243,7 @@ module.exports = client => {
 
                         interaction?.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(ee.color)
                                     .setTimestamp()
                                     .setTitle(`⏸ **Paused!**`)
@@ -263,7 +269,7 @@ module.exports = client => {
                     player.set(`autoplay`, !player.get(`autoplay`));
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.color)
                                 .setTimestamp()
                                 .setTitle(
@@ -296,7 +302,7 @@ module.exports = client => {
                     //Send Success Message
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.color)
                                 .setTimestamp()
                                 .setTitle(`🔀 **Shuffled ${player.queue.length} Songs!**`)
@@ -325,7 +331,7 @@ module.exports = client => {
                     player.setTrackRepeat(!player.trackRepeat);
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.color)
                                 .setTimestamp()
                                 .setTitle(
@@ -356,7 +362,7 @@ module.exports = client => {
                     player.setQueueRepeat(!player.queueRepeat);
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.color)
                                 .setTimestamp()
                                 .setTitle(
@@ -389,7 +395,7 @@ module.exports = client => {
                     await player.seek(Number(seektime));
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.color)
                                 .setTimestamp()
                                 .setTitle(`⏩ **Forwarded the song for \`10 Seconds\`!**`)
@@ -418,7 +424,7 @@ module.exports = client => {
                     await player.seek(Number(seektime));
                     interaction?.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.color)
                                 .setTimestamp()
                                 .setTitle(`⏪ **Rewinded the song for \`10 Seconds\`!**`)
@@ -555,12 +561,12 @@ function generateQueueEmbed(client, guildId, leave) {
     let es = client.settings.get(guild.id, "embed");
     let ls = client.settings.get(guild.id, "language");
     var embeds = [
-        new MessageEmbed()
+        new EmbedBuilder()
             .setColor(es.color)
             .setTitle(`📃 Queue of __${guild.name}__`)
             .setDescription(`**Currently there are __0 Songs__ in the Queue**`)
             .setThumbnail(guild.iconURL({ dynamic: true })),
-        new MessageEmbed()
+        new EmbedBuilder()
             .setColor(es.color)
             .setFooter(client.getFooter(es))
             .setImage(guild.banner ? guild.bannerURL({ size: 4096 }) : "https://imgur.com/jLvYdb4.png")
@@ -573,34 +579,33 @@ function generateQueueEmbed(client, guildId, leave) {
     ];
     const player = client.manager.players.get(guild.id);
     if (!leave && player && player.queue && player.queue.current) {
-        embeds[1]
-            .setImage(`https://img.youtube.com/vi/${player.queue.current.identifier}/mqdefault.jpg`)
-            .setFooter(
-                client.getFooter(
-                    `Requested by: ${player.queue.current.requester.tag}`,
-                    player.queue.current.requester.displayAvatarURL({ dynamic: true })
-                )
-            )
-            .addField(
-                `${emoji?.msg.time} Duration: `,
-                `\`${format(player.queue.current.duration).split(" | ")[0]}\` | \`${format(player.queue.current.duration).split(" | ")[1]}\``,
-                true
-            )
-            .addField(`${emoji?.msg.song_by} Song By: `, `\`${player.queue.current.author}\``, true)
-            .addField(`${emoji?.msg.repeat_mode} Queue length: `, `\`${player.queue.length} Songs\``, true)
-            .setAuthor(
-                `${player.queue.current.title}`,
-                "https://images-ext-1.discordapp.net/external/DkPCBVBHBDJC8xHHCF2G7-rJXnTwj_qs78udThL8Cy0/%3Fv%3D1/https/cdn.discordapp.com/emojis/859459305152708630.gif",
-                player.queue.current.uri
+        const cur = player.queue.current;
+        const requesterTag = cur.requester?.tag || cur.requester?.username || "Unknown";
+        const requesterAvatar = cur.requester?.displayAvatarURL
+            ? cur.requester.displayAvatarURL({ dynamic: true })
+            : null;
+        // Rebuild embed[1] without title/description, adding author + fields
+        embeds[1] = new EmbedBuilder()
+            .setColor(es.color)
+            .setImage(`https://img.youtube.com/vi/${cur.identifier}/mqdefault.jpg`)
+            .setFooter(client.getFooter(`Requested by: ${requesterTag}`, requesterAvatar))
+            .setAuthor({
+                name: `${cur.title}`,
+                iconURL:
+                    "https://images-ext-1.discordapp.net/external/DkPCBVBHBDJC8xHHCF2G7-rJXnTwj_qs78udThL8Cy0/%3Fv%3D1/https/cdn.discordapp.com/emojis/859459305152708630.gif",
+                url: cur.uri || null,
+            })
+            .addFields(
+                { name: `${emoji?.msg.time} Duration: `, value: `\`${format(cur.duration).split(" | ")[0]}\` | \`${format(cur.duration).split(" | ")[1]}\``, inline: true },
+                { name: `${emoji?.msg.song_by} Song By: `, value: `\`${cur.author}\``, inline: true },
+                { name: `${emoji?.msg.repeat_mode} Queue length: `, value: `\`${player.queue.length} Songs\``, inline: true }
             );
-        delete embeds[1].description;
-        delete embeds[1].title;
         //get the right tracks of the current tracks
         const tracks = player.queue;
         var maxTracks = 10; //tracks / Queue Page
         //get an array of quelist where 10 tracks is one index in the array
         var songs = tracks.slice(0, maxTracks);
-        embeds[0] = new MessageEmbed()
+        embeds[0] = new EmbedBuilder()
             .setTitle(`📃 Queue of __${guild.name}__  -  [ ${player.queue.length} Tracks ]`)
             .setColor(es.color)
             .setDescription(
@@ -608,93 +613,95 @@ function generateQueueEmbed(client, guildId, leave) {
                     songs
                         .map(
                             (track, index) =>
-                                `**\` ${++index}. \` ${track.uri ? `[${track.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${track.uri})` : track.title}** - \`${track.isStream ? `LIVE STREAM` : format(track.duration).split(` | `)[0]}\`\n> *Requested by: __${track.requester.tag}__*`
+                                `**\` ${++index}. \` ${track.uri ? `[${track.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${track.uri})` : track.title}** - \`${track.isStream ? `LIVE STREAM` : format(track.duration).split(` | `)[0]}\`\n> *Requested by: __${track.requester?.tag || track.requester?.username || "Unknown"}__*`
                         )
                         .join(`\n`)
                 ).substring(0, 2048)
             );
+        const queueFields = [];
         if (player.queue.length > 10)
-            embeds[0].addField(
-                `**\` N. \` *${player.queue.length > maxTracks ? player.queue.length - maxTracks : player.queue.length} other Tracks ...***`,
-                `\u200b`
-            );
-        embeds[0].addField(
-            `**\` 0. \` __CURRENT TRACK__**`,
-            `**${player.queue.current.uri ? `[${player.queue.current.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${player.queue.current.uri})` : player.queue.current.title}** - \`${player.queue.current.isStream ? `LIVE STREAM` : format(player.queue.current.duration).split(` | `)[0]}\`\n> *Requested by: __${player.queue.current.requester.tag}__*`
-        );
+            queueFields.push({
+                name: `**\` N. \` *${player.queue.length > maxTracks ? player.queue.length - maxTracks : player.queue.length} other Tracks ...***`,
+                value: `\u200b`,
+            });
+        queueFields.push({
+            name: `**\` 0. \` __CURRENT TRACK__**`,
+            value: `**${cur.uri ? `[${cur.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${cur.uri})` : cur.title}** - \`${cur.isStream ? `LIVE STREAM` : format(cur.duration).split(` | `)[0]}\`\n> *Requested by: __${cur.requester?.tag || cur.requester?.username || "Unknown"}__*`,
+        });
+        if (queueFields.length > 0) embeds[0].addFields(...queueFields);
     }
-    var joinbutton = new MessageButton()
-        .setStyle("SUCCESS")
+    var joinbutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Success)
         .setCustomId("Join")
         .setEmoji(`👌`)
         .setLabel(`Join`)
         .setDisabled(false);
-    var leavebutton = new MessageButton()
-        .setStyle("DANGER")
+    var leavebutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Danger)
         .setCustomId("Leave")
         .setEmoji(`👋`)
         .setLabel(`Leave`)
-        .setDisabled();
-    var stopbutton = new MessageButton()
-        .setStyle("DANGER")
+        .setDisabled(true);
+    var stopbutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Danger)
         .setCustomId("Stop")
         .setEmoji(`🏠`)
         .setLabel(`Stop`)
-        .setDisabled();
-    var skipbutton = new MessageButton()
-        .setStyle("PRIMARY")
+        .setDisabled(true);
+    var skipbutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Primary)
         .setCustomId("Skip")
         .setEmoji(`⏭`)
         .setLabel(`Skip`)
-        .setDisabled();
-    var shufflebutton = new MessageButton()
-        .setStyle("PRIMARY")
+        .setDisabled(true);
+    var shufflebutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Primary)
         .setCustomId("Shuffle")
         .setEmoji("🔀")
         .setLabel(`Shuffle`)
-        .setDisabled();
-    var pausebutton = new MessageButton()
-        .setStyle("SECONDARY")
+        .setDisabled(true);
+    var pausebutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
         .setCustomId("Pause")
         .setEmoji("⏸")
         .setLabel(`Pause`)
-        .setDisabled();
-    var autoplaybutton = new MessageButton()
-        .setStyle("SUCCESS")
+        .setDisabled(true);
+    var autoplaybutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Success)
         .setCustomId("Autoplay")
         .setEmoji("🔁")
         .setLabel(`Autoplay`)
-        .setDisabled();
-    var songbutton = new MessageButton()
-        .setStyle("SUCCESS")
+        .setDisabled(true);
+    var songbutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Success)
         .setCustomId("Song")
         .setEmoji(`🔁`)
         .setLabel(`Song`)
-        .setDisabled();
-    var queuebutton = new MessageButton()
-        .setStyle("SUCCESS")
+        .setDisabled(true);
+    var queuebutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Success)
         .setCustomId("Queue")
         .setEmoji(`🔂`)
         .setLabel(`Queue`)
-        .setDisabled();
-    var forwardbutton = new MessageButton()
-        .setStyle("PRIMARY")
+        .setDisabled(true);
+    var forwardbutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Primary)
         .setCustomId("Forward")
         .setEmoji("⏩")
         .setLabel(`+10 Sec`)
-        .setDisabled();
-    var rewindbutton = new MessageButton()
-        .setStyle("PRIMARY")
+        .setDisabled(true);
+    var rewindbutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Primary)
         .setCustomId("Rewind")
         .setEmoji("⏪")
         .setLabel(`-10 Sec`)
-        .setDisabled();
-    var lyricsbutton = new MessageButton()
-        .setStyle("PRIMARY")
+        .setDisabled(true);
+    var lyricsbutton = new ButtonBuilder()
+        .setStyle(ButtonStyle.Primary)
         .setCustomId("Lyrics")
         .setEmoji("📝")
         .setLabel(`Lyrics`)
-        .setDisabled();
+        .setDisabled(true);
     if (!leave && player && player.queue && player.queue.current) {
         skipbutton = skipbutton.setDisabled(false);
         shufflebutton = shufflebutton.setDisabled(false);
@@ -706,26 +713,26 @@ function generateQueueEmbed(client, guildId, leave) {
         autoplaybutton = autoplaybutton.setDisabled(false);
         pausebutton = pausebutton.setDisabled(false);
         if (player.get("autoplay")) {
-            autoplaybutton = autoplaybutton.setStyle("SECONDARY");
+            autoplaybutton = autoplaybutton.setStyle(ButtonStyle.Secondary);
         }
         if (!player.playing) {
-            pausebutton = pausebutton.setStyle("SUCCESS").setEmoji("▶️").setLabel(`Resume`);
+            pausebutton = pausebutton.setStyle(ButtonStyle.Success).setEmoji("▶️").setLabel(`Resume`);
         }
         if (!player.queueRepeat && !player.trackRepeat) {
-            songbutton = songbutton.setStyle("SUCCESS");
-            queuebutton = queuebutton.setStyle("SUCCESS");
+            songbutton = songbutton.setStyle(ButtonStyle.Success);
+            queuebutton = queuebutton.setStyle(ButtonStyle.Success);
         }
         if (player.trackRepeat) {
-            songbutton = songbutton.setStyle("SECONDARY");
-            queuebutton = queuebutton.setStyle("SUCCESS");
+            songbutton = songbutton.setStyle(ButtonStyle.Secondary);
+            queuebutton = queuebutton.setStyle(ButtonStyle.Success);
         }
         if (player.queueRepeat) {
-            songbutton = songbutton.setStyle("SUCCESS");
-            queuebutton = queuebutton.setStyle("SECONDARY");
+            songbutton = songbutton.setStyle(ButtonStyle.Success);
+            queuebutton = queuebutton.setStyle(ButtonStyle.Secondary);
         }
     }
     if (player) {
-        joinbutton = joinbutton.setDisabled();
+        joinbutton = joinbutton.setDisabled(true);
         leavebutton = leavebutton.setDisabled(false);
     }
     if (leave) {
@@ -734,9 +741,9 @@ function generateQueueEmbed(client, guildId, leave) {
     }
     //now we add the components!
     var components = [
-        new MessageActionRow().addComponents([joinbutton, leavebutton]),
-        new MessageActionRow().addComponents([skipbutton, stopbutton, pausebutton, autoplaybutton, shufflebutton]),
-        new MessageActionRow().addComponents([songbutton, queuebutton, forwardbutton, rewindbutton, lyricsbutton]),
+        new ActionRowBuilder().addComponents([joinbutton, leavebutton]),
+        new ActionRowBuilder().addComponents([skipbutton, stopbutton, pausebutton, autoplaybutton, shufflebutton]),
+        new ActionRowBuilder().addComponents([songbutton, queuebutton, forwardbutton, rewindbutton, lyricsbutton]),
     ];
     return {
         embeds,

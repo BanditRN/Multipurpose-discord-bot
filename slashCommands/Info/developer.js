@@ -1,8 +1,11 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    ButtonStyle,
+} = require("discord.js");
+
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
-const { MessageButton, MessageActionRow } = require("discord.js");
+
 const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
 module.exports = {
     name: "developer",
@@ -26,17 +29,17 @@ module.exports = {
 
         try {
             let button_public_invite = new MessageButton()
-                .setStyle("LINK")
+                .setStyle(ButtonStyle.Link)
                 .setLabel(client.la[ls].cmds.info.developer.buttons.invite)
                 .setURL(
                     "https://discord.com/api/oauth2/authorize?client_id=734513783338434591&permissions=8&scope=bot%20applications.commands"
                 );
             let button_support_dc = new MessageButton()
-                .setStyle("LINK")
+                .setStyle(ButtonStyle.Link)
                 .setLabel(client.la[ls].cmds.info.developer.buttons.dc)
                 .setURL("https://discord.gg/milrato");
             let button_invite = new MessageButton()
-                .setStyle("LINK")
+                .setStyle(ButtonStyle.Link)
                 .setLabel(client.la[ls].cmds.info.developer.buttons.botlist)
                 .setURL(`https://botlist.milrato.eu`);
             const allbuttons = [

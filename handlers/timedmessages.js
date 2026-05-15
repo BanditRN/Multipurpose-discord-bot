@@ -1,5 +1,8 @@
 //Importing Packages
 const Discord = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var CronJob = require("cron").CronJob;
 //starting the module
 module.exports = client => {
@@ -12,19 +15,19 @@ module.exports = client => {
             var currentHour = new Date().getHours();
             var Days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
             var currentDay = Days[new Date().getDay()];
-            var guilds = client.settings
-                .filter(
-                    v =>
-                        v.timedmessages &&
-                        v.timedmessages.length > 0 &&
-                        v.timedmessages.filter(
-                            msg =>
-                                msg.days.includes(currentDay) &&
-                                Number(msg.minute) == Number(currentMinute) &&
-                                Number(msg.hour) == Number(currentHour)
-                        ).length > 0
-                )
-                .keyArray();
+            var guilds = Array.from(client.settings.keys()).filter(guildId => {
+                const timedmessages = client.settings.get(guildId, "timedmessages");
+                return (
+                    timedmessages &&
+                    timedmessages.length > 0 &&
+                    timedmessages.filter(
+                        msg =>
+                            msg.days.includes(currentDay) &&
+                            Number(msg.minute) == Number(currentMinute) &&
+                            Number(msg.hour) == Number(currentHour)
+                    ).length > 0
+                );
+            });
             //Loop through all guilds and send a random auto-generated-nsfw setup
             for (const guildid of guilds) {
                 timedmessage(guildid);
@@ -70,7 +73,7 @@ module.exports = client => {
                         channel
                             .send({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.color)
                                         .setFooter(client.getFooter(es))
                                         .setThumbnail(

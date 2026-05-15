@@ -2,7 +2,10 @@
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
-var { MessageEmbed, Permissions } = require(`discord.js`);
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const { databasing, delay } = require(`./functions`);
 const countermap = new Map();
 const ms = require("ms");
@@ -27,7 +30,7 @@ module.exports = client => {
                     [...message.member.roles.cache.values()].length > 0 &&
                     message.member.roles.cache.some(r => adminroles.includes(r ? r.id : r))) ||
                 [message.guild.ownerId, config.ownerid].includes(message.author.id) ||
-                message.member.permissions.has("ADMINISTRATOR")
+                message.member.permissions.has(PermissionFlagsBits.Administrator)
             )
                 return;
             client.settings.ensure(message.guild.id, {
@@ -93,13 +96,11 @@ module.exports = client => {
                         let warnings = warnData.filter(v => v.guild == message.guild.id);
                         message.channel.send({
                             embeds: [
-                                new MessageEmbed()
-                                    .setAuthor(
-                                        client.getAuthor(
+                                new EmbedBuilder()
+                                    .setAuthor({ name: client.getAuthor(
                                             message.author.tag,
                                             message.member.displayAvatarURL({ dynamic: true })
-                                        )
-                                    )
+                                        ) })
                                     .setColor("ORANGE")
                                     .setFooter(
                                         client.getFooter(
@@ -117,7 +118,7 @@ module.exports = client => {
                             if (!message.member.kickable)
                                 message.channel.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(es.wrongcolor)
                                             .setFooter(client.getFooter(es))
                                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["warn"]["variable8"])),
@@ -127,7 +128,7 @@ module.exports = client => {
                                 try {
                                     message.member.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.color)
                                                 .setThumbnail(
                                                     es.thumb
@@ -148,7 +149,7 @@ module.exports = client => {
                                 } catch {
                                     return message.channel.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(
@@ -168,7 +169,7 @@ module.exports = client => {
                                         .then(() => {
                                             message.channel.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor(es.color)
                                                         .setThumbnail(
                                                             es.thumb
@@ -197,7 +198,7 @@ module.exports = client => {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                     message.channel.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(client.la[ls].common.erroroccur)
@@ -213,7 +214,7 @@ module.exports = client => {
                             if (!message.member.bannable)
                                 message.channel.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(es.wrongcolor)
                                             .setFooter(client.getFooter(es))
                                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["warn"]["variable16"])),
@@ -223,7 +224,7 @@ module.exports = client => {
                                 try {
                                     message.member.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.color)
                                                 .setThumbnail(
                                                     es.thumb
@@ -243,7 +244,7 @@ module.exports = client => {
                                 } catch {
                                     message.channel.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(
@@ -263,7 +264,7 @@ module.exports = client => {
                                         .then(() => {
                                             message.channel.send({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setColor(es.color)
                                                         .setThumbnail(
                                                             es.thumb
@@ -292,7 +293,7 @@ module.exports = client => {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                     message.channel.send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es))
                                                 .setTitle(
@@ -314,7 +315,7 @@ module.exports = client => {
                             }
                         }
                     }
-                    if (message.channel.permissionsFor(message.channel.guild.me).has(Permissions.FLAGS.MANAGE_MESSAGES)) {
+                    if (message.channel.permissionsFor(message.channel.guild.members.me).has(PermissionFlagsBits.ManageMessages)) {
                         message.delete().catch(e => {
                             console.log(e);
                         });
@@ -343,7 +344,7 @@ module.exports = client => {
                                 message.channel
                                     .send({
                                         embeds: [
-                                            new MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setColor(es.color)
                                                 .setThumbnail(
                                                     es.thumb
@@ -378,7 +379,7 @@ module.exports = client => {
                         return message.channel
                             .send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["handlers"]["anticapsjs"]["anticaps"]["variable5"]))
@@ -401,7 +402,7 @@ module.exports = client => {
                 return message.channel
                     .send({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(client.la[ls].common.erroroccur)

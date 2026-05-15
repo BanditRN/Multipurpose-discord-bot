@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -24,7 +26,7 @@ module.exports = {
                     });
                     if (!posts.collector[0]) return message.reply(client.la[ls].common.usernotfound);
                     author = posts.collector[0].authorMeta;
-                    var embed = new Discord.MessageEmbed()
+                    var embed = new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -63,21 +65,18 @@ module.exports = {
                         return Obj;
                     });
                     for (const post of allposts)
-                        embed.addField(
-                            `**${String(post.title).charAt(0).toUpperCase() + String(post.title).slice(1)}**`,
-                            handlemsg(client.la[ls].cmds.info.tiktokinfo.videos, {
+                        embed.addFields({ name: `**${String(post.title).charAt(0).toUpperCase() + String(post.title).slice(1)}**`, value: handlemsg(client.la[ls].cmds.info.tiktokinfo.videos, {
                                 url: author.url,
                                 views: author.views,
                                 shares: author.shares,
                                 comments: author.comments,
-                            })
-                        );
+                            }) });
                     message.reply({ embeds: [embed] });
                 } catch (e) {
                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(client.la[ls].common.erroroccur)
@@ -90,7 +89,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

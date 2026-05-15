@@ -1,4 +1,6 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -22,7 +24,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -35,7 +37,7 @@ module.exports = {
             if (!args[0])
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(client.la[ls].cmds.music.jump.error1)
                             .setDescription(eval(client.la[ls]["cmds"]["music"]["jump"]["variable1"])),
@@ -44,12 +46,12 @@ module.exports = {
             //if userinput is not a Number
             if (isNaN(args[0]))
                 return message.reply({
-                    embeds: [new MessageEmbed().setColor(es.wrongcolor).setTitle(client.la[ls].cmds.music.jump.error2)],
+                    embeds: [new EmbedBuilder().setColor(es.wrongcolor).setTitle(client.la[ls].cmds.music.jump.error2)],
                 });
             //if the wished track is bigger then the Queue Size
             if (Number(args[0]) > player.queue.size)
                 return message.reply({
-                    embeds: [new MessageEmbed().setColor(es.wrongcolor).setTitle(client.la[ls].cmds.music.jump.error3)],
+                    embeds: [new EmbedBuilder().setColor(es.wrongcolor).setTitle(client.la[ls].cmds.music.jump.error3)],
                 });
             //remove all tracks to the jumped song
             player.queue.remove(0, Number(args[0]) - 1);
@@ -58,7 +60,7 @@ module.exports = {
             //Send Success Message
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(handlemsg(client.la[ls].cmds.music.jump.title, { number: args[0] }))
                         .setDescription(handlemsg(client.la[ls].cmds.music.jump.description, { number: args[0] }))
                         .setColor(es.color),
@@ -68,7 +70,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setTitle(client.la[ls].common.erroroccur)
                         .setDescription(eval(client.la[ls]["cmds"]["music"]["jump"]["variable2"])),

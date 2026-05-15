@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-antispam",
@@ -84,18 +88,14 @@ module.exports = {
                         })
                     );
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Anti-Spam System Setup",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/a-button-blood-type_1f170-fe0f.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Anti-Spam System Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/a-button-blood-type_1f170-fe0f.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-anticaps"]["variable1"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -136,7 +136,7 @@ module.exports = {
                         {
                             let tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle("**How many Messages** is someone allowed to send in **under 10 Seconds**")
                                         .setColor(es.color)
                                         .setDescription(
@@ -159,7 +159,7 @@ module.exports = {
                                         if (!limit || limit == null || limit > 30 || limit <= 0)
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle("The Limit must be between 1 and 30")
                                                         .setColor(es.wrongcolor)
                                                         .setDescription(
@@ -173,7 +173,7 @@ module.exports = {
                                             client.settings.set(message.guild.id, true, "antispam.enabled");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle("Successfully Enabled the Anti-Spam System")
                                                         .setColor(es.color)
                                                         .setDescription(
@@ -189,7 +189,7 @@ module.exports = {
                                             console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-anticaps"]["variable8"]
@@ -213,7 +213,7 @@ module.exports = {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-anticaps"]["variable10"])
                                                 )
@@ -230,7 +230,7 @@ module.exports = {
                             client.settings.set(message.guild.id, false, "antispam.enabled");
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle("Successfully disabled the ANti Spam System")
                                         .setColor(es.color)
                                         .setDescription(`To enabled it type \`${prefix}setup-antispam\``.substring(0, 2048))
@@ -244,7 +244,7 @@ module.exports = {
                             let thesettings = client.settings.get(message.guild.id, `antispam`);
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle("The Settings of the Anti Spam System")
                                         .setColor(es.color)
                                         .setDescription(
@@ -262,7 +262,7 @@ module.exports = {
                         {
                             tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antidiscord"]["variable5"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -291,7 +291,7 @@ module.exports = {
                                         if (antisettings.includes(channel.id))
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-antidiscord"][
@@ -311,7 +311,7 @@ module.exports = {
                                             );
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             `The Channel \`${channel.name}\` is now got added to the Whitelisted Channels of this System`
                                                         )
@@ -328,7 +328,7 @@ module.exports = {
                                         } catch (e) {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-antidiscord"][
@@ -355,7 +355,7 @@ module.exports = {
                                 .catch(e => {
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antidiscord"]["variable11"])
                                                 )
@@ -371,7 +371,7 @@ module.exports = {
                         {
                             tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antidiscord"]["variable12"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -400,7 +400,7 @@ module.exports = {
                                         if (!antisettings.includes(channel.id))
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-antidiscord"][
@@ -420,7 +420,7 @@ module.exports = {
                                             );
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             `The Channel \`${channel.name}\` is now removed out of the Whitelisted Channels of this System`
                                                         )
@@ -437,7 +437,7 @@ module.exports = {
                                         } catch (e) {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-antidiscord"][
@@ -464,7 +464,7 @@ module.exports = {
                                 .catch(e => {
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antidiscord"]["variable18"])
                                                 )
@@ -480,7 +480,7 @@ module.exports = {
                         {
                             tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle("How often should someone be allowed to do it within 15 Seconds?")
                                         .setColor(es.color)
                                         .setDescription(
@@ -508,7 +508,7 @@ module.exports = {
                                             client.settings.set(message.guild.id, Number(number), "antispam.mute_amount");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             "Successfully set the New Maximum Allowed Amounts to " +
                                                                 number +
@@ -527,7 +527,7 @@ module.exports = {
                                         } catch (e) {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-antidiscord"][
@@ -554,7 +554,7 @@ module.exports = {
                                 .catch(e => {
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antidiscord"]["variable18"])
                                                 )
@@ -576,7 +576,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

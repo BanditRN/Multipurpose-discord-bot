@@ -1,4 +1,7 @@
 const Discord = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 let url = "";
 module.exports = client => {
     client.on("messageCreate", async message => {
@@ -43,7 +46,7 @@ module.exports = client => {
                 //if it is an Embed do this
                 if (targetMessage.embeds[0]) {
                     const oldEmbed = targetMessage.embeds[0];
-                    const embed = new Discord.MessageEmbed();
+                    const embed = new EmbedBuilder();
                     if (oldEmbed.title) embed.setTitle(oldEmbed.title);
                     if (oldEmbed.description) embed.setDescription(oldEmbed.description);
                     embed
@@ -57,7 +60,7 @@ module.exports = client => {
                         );
                     embed.setTimestamp();
 
-                    if (oldEmbed.author) embed.setAuthor(oldEmbed.author.name, oldEmbed.author.iconURL, oldEmbed.author.url);
+                    if (oldEmbed.author) embed.setAuthor({ name: oldEmbed.author.name, iconURL: oldEmbed.author.iconURL, url: oldEmbed.author.url });
                     if (oldEmbed.image)
                         try {
                             embed.setImage(oldEmbed.image.url);
@@ -70,7 +73,7 @@ module.exports = client => {
                     if (oldEmbed.url) embed.setURL(oldEmbed.url);
                     if (oldEmbed.fields[0]) {
                         for (let i = 0; i <= oldEmbed.fields.length; i++) {
-                            if (oldEmbed.fields[i]) embed.addField(oldEmbed.fields[i].name, oldEmbed.fields[i].value);
+                            if (oldEmbed.fields[i]) embed.addFields({ name: oldEmbed.fields[i].name, value: oldEmbed.fields[i].value });
                         }
                     }
                     targetMessage.delete().catch(e => console.log("THIS ERROR PREVENTS A BUG"));
@@ -82,7 +85,7 @@ module.exports = client => {
                 }
                 //else do this
                 else {
-                    let embed = new Discord.MessageEmbed()
+                    let embed = new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -93,7 +96,7 @@ module.exports = client => {
                         )
                         .setFooter(client.getFooter(es))
 
-                        .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }));
+                        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) });
                     if (message.content) embed.setDescription(message.content);
 
                     let files = null;

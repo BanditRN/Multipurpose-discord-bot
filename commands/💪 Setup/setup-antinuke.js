@@ -1,4 +1,8 @@
-var { MessageEmbed, Permissions, MessageButton, MessageActionRow, MessageSelectMenu } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 var Discord = require(`discord.js`);
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 var config = require(`${process.cwd()}/botconfig/config.json`);
@@ -294,19 +298,15 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Anti Nuke Setup",
-                        "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Anti Nuke Setup", iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable3"]));
                 let used1 = false;
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //function to handle the menuselection
                 async function menuselection(menu) {
@@ -317,51 +317,27 @@ module.exports = {
                         await message.reply({
                             content: `${allEmojis.msg.SUCCESS} **The Current Anti-Nuke Settings**`,
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.color)
                                     .setFooter(client.getFooter(es))
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable5"]))
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_6"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable6"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_7"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable7"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_8"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable8"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_9"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable9"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_10"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable10"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_11"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable11"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_12"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable12"])
-                                    )
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_6"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable6"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_7"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable7"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_8"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable8"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_9"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable9"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_10"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable10"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_11"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable11"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_12"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable12"]) })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable13"])),
                             ],
                         });
                         return menu?.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.color)
                                     .setFooter(client.getFooter(es))
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable14"]))
-                                    .addField(
-                                        "**Other Security Systems:**",
-                                        `\`${prefix}setup-antidiscord\` *... Enable/Disable & Adjust anti Discord Invite Links*\n\`${prefix}setup-antilink\` *... Enable/Disable & Adjust anti Links*\n\`${prefix}setup-anticaps\` *... Enable/Disable & Adjust anti Caps spamming*\n\`${prefix}setup-blacklist\` *... to add/remove Bad (blacklsited) Words*`
-                                    ),
+                                    .addFields({ name: "**Other Security Systems:**", value: `\`${prefix}setup-antidiscord\` *... Enable/Disable & Adjust anti Discord Invite Links*\n\`${prefix}setup-antilink\` *... Enable/Disable & Adjust anti Links*\n\`${prefix}setup-anticaps\` *... Enable/Disable & Adjust anti Caps spamming*\n\`${prefix}setup-blacklist\` *... to add/remove Bad (blacklsited) Words*` }),
                             ],
                         });
                     } else if (menu?.values[0] == "Manage Whitelist") {
@@ -427,18 +403,14 @@ module.exports = {
                             );
 
                         //define the embed
-                        let MenuEmbed = new Discord.MessageEmbed()
+                        let MenuEmbed = new EmbedBuilder()
                             .setColor(es.color)
-                            .setAuthor(
-                                "Anti Nuke Settings",
-                                "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png",
-                                "https://discord.gg/milrato"
-                            )
+                            .setAuthor({ name: "Anti Nuke Settings", iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png", url: "https://discord.gg/milrato" })
                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable16"]));
                         //send the menu msg
                         let menumsg = await message.reply({
                             embeds: [MenuEmbed],
-                            components: [new MessageActionRow().addComponents(Selection)],
+                            components: [new ActionRowBuilder().addComponents(Selection)],
                         });
                         //function to handle the menuselection
                         async function menuselection2(menu) {
@@ -454,7 +426,7 @@ module.exports = {
                                 let timeouterror = false;
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable18"]))
                                             .setColor(es.color)
                                             .setDescription(
@@ -513,7 +485,7 @@ module.exports = {
 
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable20"])
                                                     )
@@ -524,18 +496,12 @@ module.exports = {
                                                             2048
                                                         )
                                                     )
-                                                    .addField(
-                                                        eval(
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_21"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable21"])
-                                                    )
-                                                    .addField(
-                                                        eval(
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable21"]) })
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_22"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable22"])
-                                                    )
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable22"]) })
                                                     .setFooter(client.getFooter(es)),
                                             ],
                                         });
@@ -546,7 +512,7 @@ module.exports = {
                                 if (timeouterror)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable23"])
                                                 )
@@ -560,7 +526,7 @@ module.exports = {
                                 let timeouterror = false;
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable24"]))
                                             .setColor(es.color)
                                             .setDescription(
@@ -619,7 +585,7 @@ module.exports = {
 
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable26"])
                                                     )
@@ -630,18 +596,12 @@ module.exports = {
                                                             2048
                                                         )
                                                     )
-                                                    .addField(
-                                                        eval(
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_27"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable27"])
-                                                    )
-                                                    .addField(
-                                                        eval(
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable27"]) })
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_28"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable28"])
-                                                    )
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable28"]) })
                                                     .setFooter(client.getFooter(es)),
                                             ],
                                         });
@@ -652,7 +612,7 @@ module.exports = {
                                 if (timeouterror)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable29"])
                                                 )
@@ -666,7 +626,7 @@ module.exports = {
                                 let timeouterror = false;
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable30"]))
                                             .setColor(es.color)
                                             .setDescription(
@@ -744,7 +704,7 @@ module.exports = {
 
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable32"])
                                                     )
@@ -755,18 +715,12 @@ module.exports = {
                                                             2048
                                                         )
                                                     )
-                                                    .addField(
-                                                        eval(
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_33"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable33"])
-                                                    )
-                                                    .addField(
-                                                        eval(
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable33"]) })
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_34"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable34"])
-                                                    )
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable34"]) })
                                                     .setFooter(client.getFooter(es)),
                                             ],
                                         });
@@ -777,7 +731,7 @@ module.exports = {
                                 if (timeouterror)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable35"])
                                                 )
@@ -791,7 +745,7 @@ module.exports = {
                                 let timeouterror = false;
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable36"]))
                                             .setColor(es.color)
                                             .setDescription(
@@ -869,7 +823,7 @@ module.exports = {
 
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable38"])
                                                     )
@@ -880,18 +834,12 @@ module.exports = {
                                                             2048
                                                         )
                                                     )
-                                                    .addField(
-                                                        eval(
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_39"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable39"])
-                                                    )
-                                                    .addField(
-                                                        eval(
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable39"]) })
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_40"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable40"])
-                                                    )
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable40"]) })
                                                     .setFooter(client.getFooter(es)),
                                             ],
                                         });
@@ -902,7 +850,7 @@ module.exports = {
                                 if (timeouterror)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable41"])
                                                 )
@@ -916,7 +864,7 @@ module.exports = {
                                 let timeouterror = false;
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable42"]))
                                             .setColor(es.color)
                                             .setDescription(
@@ -994,7 +942,7 @@ module.exports = {
 
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable44"])
                                                     )
@@ -1005,18 +953,12 @@ module.exports = {
                                                             2048
                                                         )
                                                     )
-                                                    .addField(
-                                                        eval(
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_45"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable45"])
-                                                    )
-                                                    .addField(
-                                                        eval(
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable45"]) })
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_46"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable46"])
-                                                    )
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable46"]) })
                                                     .setFooter(client.getFooter(es)),
                                             ],
                                         });
@@ -1027,7 +969,7 @@ module.exports = {
                                 if (timeouterror)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable47"])
                                                 )
@@ -1041,7 +983,7 @@ module.exports = {
                                 let timeouterror = false;
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable48"]))
                                             .setColor(es.color)
                                             .setDescription(
@@ -1119,7 +1061,7 @@ module.exports = {
 
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable50"])
                                                     )
@@ -1130,18 +1072,12 @@ module.exports = {
                                                             2048
                                                         )
                                                     )
-                                                    .addField(
-                                                        eval(
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_51"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable51"])
-                                                    )
-                                                    .addField(
-                                                        eval(
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable51"]) })
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_52"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable52"])
-                                                    )
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable52"]) })
                                                     .setFooter(client.getFooter(es)),
                                             ],
                                         });
@@ -1152,7 +1088,7 @@ module.exports = {
                                 if (timeouterror)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable53"])
                                                 )
@@ -1166,7 +1102,7 @@ module.exports = {
                                 let timeouterror = false;
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable54"]))
                                             .setColor(es.color)
                                             .setDescription(
@@ -1244,7 +1180,7 @@ module.exports = {
 
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable56"])
                                                     )
@@ -1255,18 +1191,12 @@ module.exports = {
                                                             2048
                                                         )
                                                     )
-                                                    .addField(
-                                                        eval(
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_57"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable57"])
-                                                    )
-                                                    .addField(
-                                                        eval(
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable57"]) })
+                                                    .addFields({ name: eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_58"]
-                                                        ),
-                                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable58"])
-                                                    )
+                                                        ), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable58"]) })
                                                     .setFooter(client.getFooter(es)),
                                             ],
                                         });
@@ -1277,7 +1207,7 @@ module.exports = {
                                 if (timeouterror)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable59"])
                                                 )
@@ -1406,18 +1336,14 @@ module.exports = {
                             );
 
                         //define the embed
-                        let MenuEmbed = new Discord.MessageEmbed()
+                        let MenuEmbed = new EmbedBuilder()
                             .setColor(es.color)
-                            .setAuthor(
-                                "Anti Nuke Settings",
-                                "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png",
-                                "https://discord.gg/milrato"
-                            )
+                            .setAuthor({ name: "Anti Nuke Settings", iconURL: "https://cdn.discordapp.com/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png", url: "https://discord.gg/milrato" })
                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable62"]));
                         //send the menu msg
                         let menumsg = await message.reply({
                             embeds: [MenuEmbed],
-                            components: [new MessageActionRow().addComponents(Selection)],
+                            components: [new ActionRowBuilder().addComponents(Selection)],
                         });
                         //function to handle the menuselection
                         async function menuselection3(menu) {
@@ -1436,7 +1362,7 @@ module.exports = {
                                 );
                                 return menu?.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
                                             .setThumbnail(
@@ -1452,10 +1378,7 @@ module.exports = {
                                             .setDescription(
                                                 eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable65"])
                                             )
-                                            .addField(
-                                                "\u200b",
-                                                eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable66"])
-                                            ),
+                                            .addFields({ name: "\u200b", value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable66"]) }),
                                     ],
                                 });
                             } else if (String(index) == "1") {
@@ -1463,7 +1386,7 @@ module.exports = {
                                 let timeouterror = false;
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable67"]))
                                             .setColor(es.color)
                                             .setDescription(
@@ -1491,7 +1414,7 @@ module.exports = {
                                                     .first()
                                                     .send({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-antinuke"][
@@ -1515,7 +1438,7 @@ module.exports = {
                                             try {
                                                 message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setTitle(
                                                                 eval(
                                                                     client.la[ls]["cmds"]["setup"]["setup-antinuke"][
@@ -1545,7 +1468,7 @@ module.exports = {
                                             );
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-antinuke"][
@@ -1572,7 +1495,7 @@ module.exports = {
                                 if (timeouterror)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable72"])
                                                 )
@@ -1589,7 +1512,7 @@ module.exports = {
                                 );
                                 return menu?.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setFooter(client.getFooter(es))
                                             .setColor(es.color)
                                             .setThumbnail(
@@ -1605,10 +1528,7 @@ module.exports = {
                                             .setDescription(
                                                 eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable74"])
                                             )
-                                            .addField(
-                                                "\u200b",
-                                                eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable75"])
-                                            ),
+                                            .addFields({ name: "\u200b", value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable75"]) }),
                                     ],
                                 });
                             } else if (String(index) == "3") {
@@ -1616,7 +1536,7 @@ module.exports = {
                                 let timeouterror = false;
                                 let tempmsg = await message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable76"]))
                                             .setColor(es.color)
                                             .setDescription(
@@ -1639,7 +1559,7 @@ module.exports = {
                                             client.Anti_Nuke_System.set(message.guild.id, false, `all.quarantine`);
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-antinuke"][
@@ -1661,7 +1581,7 @@ module.exports = {
                                             );
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-antinuke"][
@@ -1688,7 +1608,7 @@ module.exports = {
                                 if (timeouterror)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable80"])
                                                 )
@@ -1817,19 +1737,15 @@ module.exports = {
                                         );
 
                                     //define the embed
-                                    let MenuEmbed = new Discord.MessageEmbed()
+                                    let MenuEmbed = new EmbedBuilder()
                                         .setColor(es.color)
-                                        .setAuthor(
-                                            "Antinuke Setup",
-                                            "https://media.discordapp.net/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png",
-                                            "https://discord.gg/milrato"
-                                        )
+                                        .setAuthor({ name: "Antinuke Setup", iconURL: "https://media.discordapp.net/attachments/820695790170275871/869657327941324860/PS7lwz7HwAAAABJRU5ErkJggg.png", url: "https://discord.gg/milrato" })
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-warn"]["variable2"]));
                                     let used33 = false;
                                     //send the menu msg
                                     let menumsg = await message.reply({
                                         embeds: [MenuEmbed],
-                                        components: [new MessageActionRow().addComponents(Selection)],
+                                        components: [new ActionRowBuilder().addComponents(Selection)],
                                     });
                                     //function to handle the menuselection
 
@@ -1892,7 +1808,7 @@ module.exports = {
 
                                     tempmsg = await message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle("Enter the Amount now!")
                                                 .setColor(es.color)
                                                 .setDescription(
@@ -1920,7 +1836,7 @@ module.exports = {
                                             client.Anti_Nuke_System.set(message.guild.id, thenumber, finalkey);
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             `\`${finalkey}\` Is now limited to **\`${thenumber} Actions\`**`
                                                         )
@@ -1933,7 +1849,7 @@ module.exports = {
                                             console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable69"]
@@ -2169,42 +2085,18 @@ module.exports = {
                         return menu?.reply({
                             content: `${allEmojis.msg.SUCCESS} **Now using the Suggested Settings!**`,
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.color)
                                     .setFooter(client.getFooter(es))
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable82"]))
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_83"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable83"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_84"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable84"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_85"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable85"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_86"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable86"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_87"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable87"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_88"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable88"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_89"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable89"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_90"]),
-                                        eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable90"])
-                                    )
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_83"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable83"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_84"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable84"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_85"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable85"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_86"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable86"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_87"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable87"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_88"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable88"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_89"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable89"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variablex_90"]), value: eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable90"]) })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-antinuke"]["variable91"])),
                             ],
                         });
@@ -2230,7 +2122,7 @@ module.exports = {
                         for (const ch of channels.map(this_Code_is_by_Tomato_6966 => this_Code_is_by_Tomato_6966)) {
                             try {
                                 if (ch) {
-                                    if (ch.permissionsFor(ch.guild.me).has(Permissions.FLAGS.MANAGE_CHANNELS)) {
+                                    if (ch.permissionsFor(ch.guild.members.me).has(PermissionFlagsBits.ManageChannels)) {
                                         ch.permissionOverwrites.edit(role, {
                                             VIEW_CHANNEL: false,
                                             SEND_MESSAGES: false,
@@ -2279,7 +2171,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -15,7 +17,7 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
 
         try {
-            let embed1 = new MessageEmbed()
+            let embed1 = new EmbedBuilder()
                 .setColor(es.color)
                 .setTitle(eval(client.la[ls]["cmds"]["info"]["sponsor"]["variable1"]))
                 .setURL("http://bero-host.de/?utm_source=bot&utm_medium=cpc&utm_id=milrato")
@@ -40,12 +42,12 @@ Third Sponsor of This Bot is:
 `
                 )
                 .setImage("https://cdn.bero-host.de/img/logo/bero_white.png")
-                .setFooter("BERO-HOST", "https://imgur.com/jXyDEyb?.png");
+                .setFooter({ text: "BERO-HOST", iconURL: "https://imgur.com/jXyDEyb?.png" });
 
-            let embed2 = new MessageEmbed()
+            let embed2 = new EmbedBuilder()
                 .setColor(es.color)
                 .setTimestamp()
-                .setFooter("Bittmax.de | Code  'x10' == -5%", "https://imgur.com/UZo3emk.png")
+                .setFooter({ text: "Bittmax.de | Code  'x10' == -5%", iconURL: "https://imgur.com/UZo3emk.png" })
                 .setImage("https://cdn.discordapp.com/attachments/807985610265460766/822982640000172062/asdasdasdasdasd.png")
                 .setTitle(eval(client.la[ls]["cmds"]["info"]["sponsor"]["variable4"]))
                 .setURL("https://bittmax.de").setDescription(`
@@ -59,7 +61,7 @@ Third Sponsor of This Bot is:
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

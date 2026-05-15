@@ -1,4 +1,6 @@
-/*const { MessageEmbed } = require("discord.js");
+/*const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require("../../botconfig/emojis.json");
@@ -18,7 +20,7 @@ module.exports = {
       let cmd = args[0]
       //if no pinged role return error
       if (!cmd)
-        return message.reply({embeds :[new MessageEmbed()
+        return message.reply({embeds :[new EmbedBuilder()
           .setColor(es.wrongcolor)
           .setFooter(client.getFooter(es))
           .setTitle(eval(client.la[ls]["cmds"]["settings"]["toggledjonly"]["variable1"]))
@@ -39,7 +41,7 @@ module.exports = {
           if(client.settings.get(message.guild.id, `djonlycmds`).join(" ").toLowerCase().split(" ").includes(args[0].toLowerCase())){
             try{
               client.settings.remove(message.guild.id, args[0], `djonlycmds`);
-              return message.reply({embeds :[new MessageEmbed()
+              return message.reply({embeds :[new EmbedBuilder()
                 .setColor(es.color).setThumbnail(es.thumb ? es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://")) ? es.footericon : client.user.displayAvatarURL() : null)
                 .setFooter(client.getFooter(es))
                 .setTitle(eval(client.la[ls]["cmds"]["settings"]["toggledjonly"]["variable3"]))
@@ -47,7 +49,7 @@ module.exports = {
               ]});
             }catch (e){
               console.log(e.stack ? String(e.stack).grey : String(e).grey);
-              return message.reply({embeds :[new MessageEmbed()
+              return message.reply({embeds :[new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setFooter(client.getFooter(es))
                 .setTitle(eval(client.la[ls]["cmds"]["settings"]["toggledjonly"]["variable5"]))
@@ -58,7 +60,7 @@ module.exports = {
           else {
             try{
               client.settings.push(message.guild.id, args[0], `djonlycmds`);
-              return message.reply({embeds :[new MessageEmbed()
+              return message.reply({embeds :[new EmbedBuilder()
                 .setColor(es.color).setThumbnail(es.thumb ? es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://")) ? es.footericon : client.user.displayAvatarURL() : null)
                 .setFooter(client.getFooter(es))
                 .setTitle(eval(client.la[ls]["cmds"]["settings"]["toggledjonly"]["variable7"]))
@@ -66,7 +68,7 @@ module.exports = {
               ]});
             }catch (e){
               console.log(e.stack ? String(e.stack).grey : String(e).grey);
-              return message.reply({embeds : [new MessageEmbed()
+              return message.reply({embeds : [new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setFooter(client.getFooter(es))
                 .setTitle(eval(client.la[ls]["cmds"]["settings"]["toggledjonly"]["variable9"]))
@@ -75,7 +77,7 @@ module.exports = {
             }
           }
       }else{
-        return message.reply({embeds  :[new MessageEmbed()
+        return message.reply({embeds  :[new EmbedBuilder()
           .setColor(es.wrongcolor)
           .setFooter(client.getFooter(es))
           .setTitle(eval(client.la[ls]["cmds"]["settings"]["toggledjonly"]["variable11"]))
@@ -83,7 +85,7 @@ module.exports = {
       }
     } catch (e) {
         console.log(String(e.stack).grey.bgRed)
-        return message.reply({embeds : [new MessageEmbed()
+        return message.reply({embeds : [new EmbedBuilder()
             .setColor(es.wrongcolor)
 						.setFooter(client.getFooter(es))
             .setTitle(client.la[ls].common.erroroccur)

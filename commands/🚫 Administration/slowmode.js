@@ -1,4 +1,7 @@
-const { MessageEmbed, Permissions } = require(`discord.js`);
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -14,10 +17,10 @@ module.exports = {
         let es = client.settings.get(message.guild.id, "embed");
         let ls = client.settings.get(message.guild.id, "language");
         try {
-            if (!message.guild.me.permissions.has([Permissions.FLAGS.MANAGE_CHANNELS]))
+            if (!message.guild.members.me?.permissions.has([PermissionFlagsBits.ManageChannels]))
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["slowmode"]["variable1"])),
@@ -44,11 +47,11 @@ module.exports = {
                 !cmdroles.includes(message.author.id) && [...message.member.roles.cache.values()] &&
                 !message.member.roles.cache.some(r => adminroles.includes(r ? r.id : r)) &&
                 ![message.guild.ownerId, config.ownerid].includes(message.author.id) &&
-                !message.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR])
+                !message.member.permissions.has([PermissionFlagsBits.Administrator])
             )
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["slowmode"]["variable2"]))
@@ -59,7 +62,7 @@ module.exports = {
                 message.channel.setRateLimitPerUser(args[0]);
                 message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["slowmode"]["variable4"])),
@@ -72,7 +75,7 @@ module.exports = {
                         if (!channel) return client.settings.set(message.guild.id, "no", `adminlog`);
                         channel.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -83,19 +86,10 @@ module.exports = {
                                             : null
                                     )
                                     .setFooter(client.getFooter(es))
-                                    .setAuthor(
-                                        `${require("path").parse(__filename).name} | ${message.author.tag}`,
-                                        message.author.displayAvatarURL({ dynamic: true })
-                                    )
+                                    .setAuthor({ name: `${require("path").parse(__filename).name} | ${message.author.tag}`, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                                     .setDescription(eval(client.la[ls]["cmds"]["administration"]["slowmode"]["variable5"]))
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]),
-                                        eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]),
-                                        eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"])
-                                    )
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"]) })
                                     .setTimestamp()
                                     .setFooter(
                                         client.getFooter(
@@ -112,7 +106,7 @@ module.exports = {
             } else {
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["slowmode"]["variable8"]))
@@ -124,7 +118,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

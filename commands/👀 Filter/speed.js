@@ -1,4 +1,6 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -16,7 +18,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -28,7 +30,7 @@ module.exports = {
             if (!args.length)
                 return message.channel.send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
 
                             .setTitle(eval(client.la[ls]["cmds"]["filter"]["speed"]["variable1"]))
@@ -38,7 +40,7 @@ module.exports = {
             if (isNaN(args[0]))
                 return message.channel.send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
 
                             .setTitle(eval(client.la[ls]["cmds"]["filter"]["speed"]["variable3"]))
@@ -48,7 +50,7 @@ module.exports = {
             if (Number(args[0]) >= 3 || Number(args[0]) <= 0)
                 return message.channel.send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
 
                             .setTitle(eval(client.la[ls]["cmds"]["filter"]["speed"]["variable5"]))
@@ -76,7 +78,7 @@ module.exports = {
             player.set("filter", "⏱ Speed");
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -94,7 +96,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
 
                         .setTitle(client.la[ls].common.erroroccur)

@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -39,11 +41,11 @@ module.exports = {
                 ) {
                     return message.reply(`❌ **Invalid Quote ID!**\n> Use one between \`0\` and \`${data.length - 1}\``);
                 }
-                let embed = new MessageEmbed()
+                let embed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setFooter(user.id, user.displayAvatarURL({ dynamic: true }))
-                    .addField("**Quote by:**", `<@${data[Number(args[0])].by}>`)
-                    .addField("**Quote at:**", `\`\`\`${moment(data[Number(args[0])].at).format("DD/MM/YYYY HH:mm")}\`\`\``)
+                    .setFooter({ text: user.id, iconURL: user.displayAvatarURL({ dynamic: true }) })
+                    .addFields({ name: "**Quote by:**", value: `<@${data[Number(args[0])].by}>` })
+                    .addFields({ name: "**Quote at:**", value: `\`\`\`${moment(data[Number(args[0])].at).format("DD/MM/YYYY HH:mm")}\`\`\`` })
                     .setTitle("**Quote Text:**")
                     .setDescription(`${String(data[Number(args[0])].text).substring(0, 2000)}`);
                 if (data[Number(args[0])].image) {
@@ -69,7 +71,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

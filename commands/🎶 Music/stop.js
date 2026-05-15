@@ -1,4 +1,9 @@
-const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
 module.exports = {
@@ -32,7 +37,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -43,11 +48,11 @@ module.exports = {
         try {
             //if there is no current track error
             if (!player) {
-                if (message.guild.me.voice.channel) {
-                    message.guild.me.voice.disconnect();
+                if (message.guild.members.me?.voice?.channel) {
+                    message.guild.members.me?.voice?.disconnect();
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["music"]["stop"]["variable1"]))
                                 .setColor(es.color),
                         ],
@@ -55,7 +60,7 @@ module.exports = {
                 }
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["stop"]["variable2"])),
                     ],
@@ -65,9 +70,9 @@ module.exports = {
             }
 
             if (player.queue && !player.queue.current) {
-                if (message.guild.me.voice.channel) {
+                if (message.guild.members.me?.voice?.channel) {
                     try {
-                        message.guild.me.voice.disconnect();
+                        message.guild.members.me?.voice?.disconnect();
                     } catch {}
                     try {
                         player.destroy();
@@ -76,7 +81,7 @@ module.exports = {
                 }
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["stop"]["variable3"])),
                     ],
@@ -94,7 +99,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
 
                         .setTitle(client.la[ls].common.erroroccur)

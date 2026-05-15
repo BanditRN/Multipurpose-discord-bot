@@ -1,4 +1,10 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -6,7 +12,7 @@ var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var radios = require(`../../botconfig/radiostations.json`);
 var playermanager = require(`../../handlers/playermanager`);
 var { stations, databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-music",
@@ -28,12 +34,12 @@ module.exports = {
             });
             //first declare all embeds
             var embeds = [
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.color)
                     .setTitle(`📃 Queue of __${message.guild.name}__`)
                     .setDescription(`**Currently there are __0 Songs__ in the Queue**`)
                     .setThumbnail(message.guild.iconURL({ dynamic: true })),
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.color)
                     .setFooter(client.getFooter(es))
                     .setImage(
@@ -48,74 +54,74 @@ module.exports = {
             ];
             //now we add the components!
             var components = [
-                new MessageActionRow().addComponents([
-                    new MessageButton()
-                        .setStyle("SUCCESS")
+                new ActionRowBuilder().addComponents([
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Success)
                         .setCustomId("Join")
                         .setEmoji(`👌`)
                         .setLabel(`Join`)
                         .setDisabled(false),
-                    new MessageButton()
-                        .setStyle("DANGER")
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Danger)
                         .setCustomId("Leave")
                         .setEmoji(`👋`)
                         .setLabel(`Leave`)
                         .setDisabled(),
                 ]),
-                new MessageActionRow().addComponents([
-                    new MessageButton()
-                        .setStyle("PRIMARY")
+                new ActionRowBuilder().addComponents([
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Primary)
                         .setCustomId("Skip")
                         .setEmoji(`⏭`)
                         .setLabel(`Skip`)
                         .setDisabled(),
-                    new MessageButton().setStyle("DANGER").setCustomId("Stop").setEmoji(`🏠`).setLabel(`Stop`).setDisabled(),
-                    new MessageButton()
-                        .setStyle("SECONDARY")
+                    new ButtonBuilder().setStyle(ButtonStyle.Danger).setCustomId("Stop").setEmoji(`🏠`).setLabel(`Stop`).setDisabled(),
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Secondary)
                         .setCustomId("Pause")
                         .setEmoji("⏸")
                         .setLabel(`Pause`)
                         .setDisabled(),
-                    new MessageButton()
-                        .setStyle("SUCCESS")
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Success)
                         .setCustomId("Autoplay")
                         .setEmoji("🔁")
                         .setLabel(`Autoplay`)
                         .setDisabled(),
-                    new MessageButton()
-                        .setStyle("PRIMARY")
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Primary)
                         .setCustomId("Shuffle")
                         .setEmoji("🔀")
                         .setLabel(`Shuffle`)
                         .setDisabled(),
                 ]),
-                new MessageActionRow().addComponents([
-                    new MessageButton()
-                        .setStyle("SUCCESS")
+                new ActionRowBuilder().addComponents([
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Success)
                         .setCustomId("Song")
                         .setEmoji(`🔁`)
                         .setLabel(`Song`)
                         .setDisabled(),
-                    new MessageButton()
-                        .setStyle("SUCCESS")
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Success)
                         .setCustomId("Queue")
                         .setEmoji(`🔂`)
                         .setLabel(`Queue`)
                         .setDisabled(),
-                    new MessageButton()
-                        .setStyle("PRIMARY")
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Primary)
                         .setCustomId("Forward")
                         .setEmoji("⏩")
                         .setLabel(`+10 Sec`)
                         .setDisabled(),
-                    new MessageButton()
-                        .setStyle("PRIMARY")
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Primary)
                         .setCustomId("Rewind")
                         .setEmoji("⏪")
                         .setLabel(`-10 Sec`)
                         .setDisabled(),
-                    new MessageButton()
-                        .setStyle("PRIMARY")
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Primary)
                         .setCustomId("Lyrics")
                         .setEmoji("📝")
                         .setLabel(`Lyrics`)
@@ -135,7 +141,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)
