@@ -1,4 +1,9 @@
-const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
 function disableButtons(components) {
     for (let x = 0; x < components.length; x++) {
         for (let y = 0; y < components[x].components.length; y++) {
@@ -112,16 +117,16 @@ class Connect4Game {
         }
         this.inGame = true;
 
-        const btn1 = new MessageButton().setStyle("PRIMARY").setEmoji("1️⃣").setCustomId("1_connect4");
-        const btn2 = new MessageButton().setStyle("PRIMARY").setEmoji("2️⃣").setCustomId("2_connect4");
-        const btn3 = new MessageButton().setStyle("PRIMARY").setEmoji("3️⃣").setCustomId("3_connect4");
-        const btn4 = new MessageButton().setStyle("PRIMARY").setEmoji("4️⃣").setCustomId("4_connect4");
-        const btn5 = new MessageButton().setStyle("PRIMARY").setEmoji("5️⃣").setCustomId("5_connect4");
-        const btn6 = new MessageButton().setStyle("PRIMARY").setEmoji("6️⃣").setCustomId("6_connect4");
-        const btn7 = new MessageButton().setStyle("PRIMARY").setEmoji("7️⃣").setCustomId("7_connect4");
+        const btn1 = new ButtonBuilder().setStyle(ButtonStyle.Primary).setEmoji("1️⃣").setCustomId("1_connect4");
+        const btn2 = new ButtonBuilder().setStyle(ButtonStyle.Primary).setEmoji("2️⃣").setCustomId("2_connect4");
+        const btn3 = new ButtonBuilder().setStyle(ButtonStyle.Primary).setEmoji("3️⃣").setCustomId("3_connect4");
+        const btn4 = new ButtonBuilder().setStyle(ButtonStyle.Primary).setEmoji("4️⃣").setCustomId("4_connect4");
+        const btn5 = new ButtonBuilder().setStyle(ButtonStyle.Primary).setEmoji("5️⃣").setCustomId("5_connect4");
+        const btn6 = new ButtonBuilder().setStyle(ButtonStyle.Primary).setEmoji("6️⃣").setCustomId("6_connect4");
+        const btn7 = new ButtonBuilder().setStyle(ButtonStyle.Primary).setEmoji("7️⃣").setCustomId("7_connect4");
 
-        const row1 = new MessageActionRow().addComponents(btn1, btn2, btn3, btn4);
-        const row2 = new MessageActionRow().addComponents(btn5, btn6, btn7);
+        const row1 = new ActionRowBuilder().addComponents(btn1, btn2, btn3, btn4);
+        const row2 = new ActionRowBuilder().addComponents(btn5, btn6, btn7);
 
         const msg = await this.sendMessage({ embeds: [this.GameEmbed()], components: [row1, row2] });
 
@@ -133,11 +138,11 @@ class Connect4Game {
             .replace("{emoji}", this.getChip())
             .replace("{player}", this.redTurn ? this.message.author.tag : this.opponent.tag);
 
-        return new MessageEmbed()
+        return new EmbedBuilder()
             .setColor(this.options.embed.color)
             .setTitle(this.options.embed.title)
             .setDescription(this.getGameBoard())
-            .addField(this.options.embed.statusTitle || "Status", status)
+            .addFields({ name: this.options.embed.statusTitle || "Status", value: status })
             .setFooter(
                 client.getFooter(
                     `${this.message.author.username} vs ${this.opponent.username}`,
@@ -149,11 +154,11 @@ class Connect4Game {
     gameOver(result, msg) {
         this.inGame = false;
 
-        const editEmbed = new MessageEmbed()
+        const editEmbed = new EmbedBuilder()
             .setColor(this.options.embed.color)
             .setTitle(this.options.embed.title)
             .setDescription(this.getGameBoard())
-            .addField(this.options.embed.statusTitle || "Status", this.getResultText(result))
+            .addFields({ name: this.options.embed.statusTitle || "Status", value: this.getResultText(result) })
             .setFooter(
                 client.getFooter(
                     `${this.message.author.username} vs ${this.opponent.username}`,
@@ -313,7 +318,7 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
         if (!client.settings.get(message.guild.id, "MINIGAMES")) {
             return message.reply(
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.wrongcolor)
                     .setFooter(client.getFooter(es))
                     .setTitle(client.la[ls].common.disabled.title)
@@ -356,7 +361,7 @@ async function verify(options) {
         const message = options.message;
         const opponent = options.opponent;
 
-        const askEmbed = new MessageEmbed()
+        const askEmbed = new EmbedBuilder()
             .setTitle(options.embed.askTitle || options.embed.title)
             .setDescription(
                 options.askMessage
@@ -365,15 +370,15 @@ async function verify(options) {
             )
             .setColor(options.colors?.green || options.embed.color);
 
-        const btn1 = new MessageButton()
+        const btn1 = new ButtonBuilder()
             .setLabel(options.buttons?.accept || "Accept")
-            .setStyle("SUCCESS")
+            .setStyle(ButtonStyle.Success)
             .setCustomId("accept");
-        const btn2 = new MessageButton()
+        const btn2 = new ButtonBuilder()
             .setLabel(options.buttons?.reject || "Reject")
-            .setStyle("DANGER")
+            .setStyle(ButtonStyle.Danger)
             .setCustomId("reject");
-        const row = new MessageActionRow().addComponents(btn1, btn2);
+        const row = new ActionRowBuilder().addComponents(btn1, btn2);
 
         let askMsg;
         if (options.slash_command) askMsg = await message.editReply({ embeds: [askEmbed], components: [row] });
@@ -399,7 +404,7 @@ async function verify(options) {
                 return res(true);
             }
 
-            const cancelEmbed = new MessageEmbed()
+            const cancelEmbed = new EmbedBuilder()
                 .setTitle(options.embed.cancelTitle || options.embed.title)
                 .setDescription(
                     options.cancelMessage

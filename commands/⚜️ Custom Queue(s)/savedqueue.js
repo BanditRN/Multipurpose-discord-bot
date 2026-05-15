@@ -1,8 +1,10 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
-const { TrackUtils } = require("erela.js");
+const { buildUnresolvedTrack } = require("lavalink-client");
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 const { format, delay, swap_pages, swap_pages2, shuffle } = require(`${process.cwd()}/handlers/functions`);
 module.exports = {
@@ -26,7 +28,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -46,7 +48,7 @@ module.exports = {
             if (!Type)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable1"]))
@@ -59,7 +61,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable3"]))
@@ -71,9 +73,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable5"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable6"])
@@ -84,7 +86,7 @@ module.exports = {
                         if (client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable7"]))
@@ -103,7 +105,7 @@ module.exports = {
                         //return susccess message
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable9"]))
                                     .setDescription(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable10"]))
                                     .setColor(es.color)
@@ -125,7 +127,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable11"]))
@@ -137,9 +139,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable13"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable14"])
@@ -150,7 +152,7 @@ module.exports = {
                         if (!client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable15"]))
@@ -165,9 +167,9 @@ module.exports = {
                         if (!player)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable17"])),
                                 ],
                             });
@@ -177,7 +179,7 @@ module.exports = {
                         if (!track)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable18"])),
@@ -195,7 +197,7 @@ module.exports = {
                         //return susccess message
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(
                                         `${allEmojis.msg.SUCCESS} Added ${track.title} onto the Queue \`${Name}\``.substring(
                                             0,
@@ -222,7 +224,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable20"]))
@@ -234,9 +236,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable22"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable23"])
@@ -247,7 +249,7 @@ module.exports = {
                         if (!client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable24"]))
@@ -262,9 +264,9 @@ module.exports = {
                         if (!player)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable26"])),
                                 ],
                             });
@@ -274,7 +276,7 @@ module.exports = {
                         if (!tracks.length)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable27"])),
@@ -303,7 +305,7 @@ module.exports = {
                         //return susccess message
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable28"]))
                                     .setDescription(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable29"]))
                                     .setColor(es.color)
@@ -326,7 +328,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable30"]))
@@ -338,9 +340,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable32"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable33"])
@@ -350,7 +352,7 @@ module.exports = {
                         if (!Options)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable34"]))
@@ -363,7 +365,7 @@ module.exports = {
                         if (!client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable36"]))
@@ -376,7 +378,7 @@ module.exports = {
                         if (Number(Options) >= tracks.length || Number(Options) < 0)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable38"]))
@@ -397,7 +399,7 @@ module.exports = {
                         //return susccess message
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(
                                         `${allEmojis.msg.SUCCESS} Deleted ${deletetrack.title} of the Queue \`${Name}\``.substring(
                                             0,
@@ -425,7 +427,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable41"]))
@@ -437,9 +439,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable43"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable44"])
@@ -450,7 +452,7 @@ module.exports = {
                         if (!client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable45"]))
@@ -463,7 +465,7 @@ module.exports = {
                         if (!Array.isArray(oldtracks))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable47"]))
@@ -478,7 +480,7 @@ module.exports = {
                         //return susccess message
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(
                                         `${allEmojis.msg.SUCCESS} Shuffled ${newtracks.length} Tracks of the Queue \`${Name}\``.substring(
                                             0,
@@ -506,7 +508,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable50"]))
@@ -518,9 +520,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable52"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable53"])
@@ -531,7 +533,7 @@ module.exports = {
                         if (!client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable54"]))
@@ -544,7 +546,7 @@ module.exports = {
                         if (!Array.isArray(oldtracks))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable56"]))
@@ -574,7 +576,7 @@ module.exports = {
                         //return susccess message
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(
                                         `${allEmojis.msg.SUCCESS} Removed ${counter} Tracks from the Queue \`${Name}\``.substring(
                                             0,
@@ -606,7 +608,7 @@ module.exports = {
                         if (Object.size(queues) <= 1)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable59"]))
@@ -631,7 +633,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable61"]))
@@ -643,9 +645,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable63"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable64"])
@@ -655,7 +657,7 @@ module.exports = {
                         if (client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable65"]))
@@ -670,9 +672,9 @@ module.exports = {
                         if (!player)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable67"])),
                                 ],
                             });
@@ -682,7 +684,7 @@ module.exports = {
                         if (!tracks.length)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable68"])),
@@ -711,7 +713,7 @@ module.exports = {
                         //return susccess message
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable69"]))
                                     .setDescription(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable70"]))
                                     .setColor(es.color)
@@ -735,7 +737,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable71"]))
@@ -747,9 +749,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable73"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable74"])
@@ -760,7 +762,7 @@ module.exports = {
                         if (!client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable75"]))
@@ -774,7 +776,7 @@ module.exports = {
                         //return susccess message
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable77"]))
                                     .setColor(es.color)
                                     .setThumbnail(
@@ -799,7 +801,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable78"]))
@@ -811,9 +813,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable80"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable81"])
@@ -826,13 +828,13 @@ module.exports = {
                         if (!channel)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable82"])),
                                 ],
                             });
-                        const mechannel = message.guild.me.voice.channel;
+                        const mechannel = message.guild.members.me?.voice?.channel;
                         //get the player instance
                         var player = client.manager.players.get(message.guild.id);
                         let playercreate = false;
@@ -852,7 +854,7 @@ module.exports = {
                         if (player && channel.id !== player.voiceChannel)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable83"]))
@@ -863,13 +865,13 @@ module.exports = {
                             });
                         //If there is no player, then kick the bot out of the channel, if connected to
                         if (!player && mechannel) {
-                            message.guild.me.voice.disconnect().catch(e => console.log("This prevents a Bug"));
+                            message.guild.members.me?.voice?.disconnect().catch(e => console.log("This prevents a Bug"));
                         }
                         //if not in the same channel --> return
                         if (mechannel && channel.id !== mechannel.id)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable85"]))
@@ -882,7 +884,7 @@ module.exports = {
                         if (!client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable87"]))
@@ -894,7 +896,7 @@ module.exports = {
                         //now add every track of the tracks
                         let tempmsg = await message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -905,20 +907,19 @@ module.exports = {
                                             : null
                                     )
                                     .setFooter(client.getFooter(es))
-                                    .setAuthor(
-                                        eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable89"]),
-                                        "https://cdn.discordapp.com/emojis/763781458417549352.gif"
-                                    )
+                                    .setAuthor({ name: eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable89"]), iconURL: "https://cdn.discordapp.com/emojis/763781458417549352.gif" })
                                     .setDescription(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable90"])),
                             ],
                         });
                         for (const track of client.queuesaves.get(message.author.id, `${Name}`)) {
                             try {
                                 // Advanced way using the title, author, and duration for a precise search.
-                                const unresolvedTrack = TrackUtils.buildUnresolved(
+                                const unresolvedTrack = buildUnresolvedTrack(
                                     {
                                         title: track.title,
-                                        url: track.url,
+                                        uri: track.url,
+                                        author: "Unknown",
+                                        artworkUrl: null,
                                     },
                                     message.author
                                 );
@@ -954,7 +955,7 @@ module.exports = {
                         //return susccess message - by editing the old temp msg
                         tempmsg.edit({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable91"]))
                                     .setColor(es.color)
                                     .setThumbnail(
@@ -978,7 +979,7 @@ module.exports = {
                         if (!Name)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable92"]))
@@ -990,9 +991,9 @@ module.exports = {
                         if (Name.length > 10)
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
-                                        .setFooter(client.user.username, ee.footericon)
+                                        .setFooter({ text: client.user.username, iconURL: ee.footericon })
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable94"]))
                                         .setDescription(
                                             eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable95"])
@@ -1003,7 +1004,7 @@ module.exports = {
                         if (!client.queuesaves.get(message.author.id, `${Name}`))
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setFooter(client.getFooter(es))
                                         .setColor(es.wrongcolor)
                                         .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable96"]))
@@ -1034,7 +1035,7 @@ module.exports = {
                 default:
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["customqueues"]["savedqueue"]["variable98"]))
@@ -1047,7 +1048,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

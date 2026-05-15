@@ -3,7 +3,11 @@ const ms = require(`ms`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 const map = new Map();
-const { MessageEmbed, Permissions, MessageMentions } = require(`discord.js`);
+const {
+    EmbedBuilder,
+    MessageMentions,
+    PermissionFlagsBits,
+} = require("discord.js");
 const { databasing, delay } = require(`${process.cwd()}/handlers/functions`);
 module.exports = {
     name: `removerolefromrole`,
@@ -16,10 +20,10 @@ module.exports = {
         let es = client.settings.get(message.guild.id, "embed");
         let ls = client.settings.get(message.guild.id, "language");
         try {
-            if (!message.guild.me.permissions.has([Permissions.FLAGS.MANAGE_ROLES]))
+            if (!message.guild.members.me?.permissions.has([PermissionFlagsBits.ManageRoles]))
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["addroletoeveryone"]["variable1"])),
@@ -46,11 +50,11 @@ module.exports = {
                 !cmdroles.includes(message.author.id) && [...message.member.roles.cache.values()] &&
                 !message.member.roles.cache.some(r => adminroles.includes(r ? r.id : r)) &&
                 ![message.guild.ownerId, config.ownerid].includes(message.author.id) &&
-                !message.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR])
+                !message.member.permissions.has([PermissionFlagsBits.Administrator])
             )
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["addroletoeveryone"]["variable2"]))
@@ -60,7 +64,7 @@ module.exports = {
             if (map.get(message.guild.id))
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["addroletoeveryone"]["variable4"])),
@@ -74,7 +78,7 @@ module.exports = {
             if (!rolehas || rolehas == null || rolehas == undefined || rolehas.name == null || rolehas.name == undefined)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["addroletoeveryone"]["variable5"]))
@@ -84,7 +88,7 @@ module.exports = {
             if (role.id == rolehas.id)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(`The Roles can't be the same!`)
@@ -94,7 +98,7 @@ module.exports = {
             if (message.member.roles.highest.position <= role.position)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["addroletoeveryone"]["variable7"])),
@@ -107,7 +111,7 @@ module.exports = {
             if (!members || members.length == 0)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(`There are 0 Members who have that Role`)
@@ -117,7 +121,7 @@ module.exports = {
             let seconds = Number(members.length) * 1500;
             message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -127,11 +131,7 @@ module.exports = {
                                 : null
                         )
                         .setFooter(client.getFooter(es))
-                        .setAuthor(
-                            `Changing roles for ${members.length} Members...`,
-                            "https://images-ext-1.discordapp.net/external/ANU162U1fDdmQhim_BcbQ3lf4dLaIQl7p0HcqzD5wJA/https/cdn.discordapp.com/emojis/756773010123522058.gif",
-                            "https://discord.gg/2dKrZQyaC4"
-                        )
+                        .setAuthor({ name: `Changing roles for ${members.length} Members...`, iconURL: "https://images-ext-1.discordapp.net/external/ANU162U1fDdmQhim_BcbQ3lf4dLaIQl7p0HcqzD5wJA/https/cdn.discordapp.com/emojis/756773010123522058.gif", url: "https://discord.gg/2dKrZQyaC4" })
                         .setDescription(eval(client.la[ls]["cmds"]["administration"]["addroletoeveryone"]["variable10"])),
                 ],
             });
@@ -141,7 +141,7 @@ module.exports = {
                     if (!channel) return client.settings.set(message.guild.id, "no", `adminlog`);
                     channel.send({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -152,23 +152,14 @@ module.exports = {
                                         : null
                                 )
                                 .setFooter(client.getFooter(es))
-                                .setAuthor(
-                                    `${require("path").parse(__filename).name} | ${message.author.tag}`,
-                                    message.author.displayAvatarURL({
+                                .setAuthor({ name: `${require("path").parse(__filename).name} | ${message.author.tag}`, iconURL: message.author.displayAvatarURL({
                                         dynamic: true,
-                                    })
-                                )
+                                    }) })
                                 .setDescription(
                                     eval(client.la[ls]["cmds"]["administration"]["addroletoeveryone"]["variable11"])
                                 )
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"])
-                                )
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"])
-                                )
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"]) })
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"]) })
                                 .setTimestamp()
                                 .setFooter(
                                     client.getFooter(
@@ -208,7 +199,7 @@ module.exports = {
                 message.reply({
                     content: `<@${message.author.id}>`,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setThumbnail(
                                 es.thumb
@@ -231,7 +222,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

@@ -1,10 +1,15 @@
-var { MessageEmbed, MessageMentions } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+    MessageMentions,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing, edit_msg, send_roster, duration } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-joinvc",
@@ -77,26 +82,16 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Join VC System",
-                        "https://cdn.discordapp.com/emojis/834052497492410388.gif?size=96",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Join VC System", iconURL: "https://cdn.discordapp.com/emojis/834052497492410388.gif?size=96", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]))
-                    .addField(
-                        "Send Message in a Channel",
-                        `If a User joins a specific Channel, it will send a define able Message (e.g. Ping for Role(s)) in a defined Channel.\nThis is useful if you have a Waitingroomchannel, and it's needed to check if a user joins it or not with pings!\n*After leaving the Channel, the sent message get's edited and removes the ping*`
-                    )
-                    .addField(
-                        "Add / Remove Role",
-                        `If a User joins a VC he/she will get a specific Role, this Role will get removed again, if he/she leaves the vc again!`
-                    );
+                    .addFields({ name: "Send Message in a Channel", value: `If a User joins a specific Channel, it will send a define able Message (e.g. Ping for Role(s)) in a defined Channel.\nThis is useful if you have a Waitingroomchannel, and it's needed to check if a user joins it or not with pings!\n*After leaving the Channel, the sent message get's edited and removes the ping*` })
+                    .addFields({ name: "Add / Remove Role", value: `If a User joins a VC he/she will get a specific Role, this Role will get removed again, if he/she leaves the vc again!` });
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -176,18 +171,14 @@ module.exports = {
                                     );
 
                                 //define the embed
-                                let MenuEmbed = new Discord.MessageEmbed()
+                                let MenuEmbed = new EmbedBuilder()
                                     .setColor(es.color)
-                                    .setAuthor(
-                                        "Join VC System",
-                                        "https://cdn.discordapp.com/emojis/834052497492410388.gif?size=96",
-                                        "https://discord.gg/milrato"
-                                    )
+                                    .setAuthor({ name: "Join VC System", iconURL: "https://cdn.discordapp.com/emojis/834052497492410388.gif?size=96", url: "https://discord.gg/milrato" })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                                 //send the menu msg
                                 let menumsg = await message.reply({
                                     embeds: [MenuEmbed],
-                                    components: [new MessageActionRow().addComponents(Selection)],
+                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                 });
                                 //Create the collector
                                 const collector = menumsg.createMessageComponentCollector({
@@ -226,7 +217,7 @@ module.exports = {
                                         {
                                             let tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(`**Which Channel do you wanna add?**`)
                                                         .setColor(es.color)
                                                         .setDescription(
@@ -293,7 +284,7 @@ module.exports = {
                                                         if (a.map(d => d.channelId).includes(Voicechannel.id))
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             `<:no:833101993668771842> This Channel is already Setupped!`
                                                                         )
@@ -317,7 +308,7 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         `${allEmojis.msg.SUCCESS} I will now send Messages after someone joins the VC \`${Voicechannel.name}\` in the TextChannel **${Textchannel.name}**`
                                                                     )
@@ -328,7 +319,7 @@ module.exports = {
                                                     } catch (e) {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"][
@@ -353,7 +344,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-autoembed"][
@@ -375,7 +366,7 @@ module.exports = {
                                         {
                                             let tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-autoembed"][
@@ -441,7 +432,7 @@ module.exports = {
                                                         if (!a.map(d => d.channelId).includes(Voicechannel.id))
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             `<:no:833101993668771842> This Channel has not been Setup yet!`
                                                                         )
@@ -456,7 +447,7 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         `${allEmojis.msg.SUCCESS} Successfully removed **${Voicechannel.name}** out of the Setup!`
                                                                     )
@@ -467,7 +458,7 @@ module.exports = {
                                                     } catch (e) {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"][
@@ -492,7 +483,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-autoembed"][
@@ -534,7 +525,7 @@ module.exports = {
 
                                             message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(`📑 Settings of the Join Vc-Messages System`)
                                                         .setColor(es.color)
                                                         .setDescription(
@@ -599,18 +590,14 @@ module.exports = {
                                     );
 
                                 //define the embed
-                                let MenuEmbed = new Discord.MessageEmbed()
+                                let MenuEmbed = new EmbedBuilder()
                                     .setColor(es.color)
-                                    .setAuthor(
-                                        "Join VC System",
-                                        "https://cdn.discordapp.com/emojis/834052497492410388.gif?size=96",
-                                        "https://discord.gg/milrato"
-                                    )
+                                    .setAuthor({ name: "Join VC System", iconURL: "https://cdn.discordapp.com/emojis/834052497492410388.gif?size=96", url: "https://discord.gg/milrato" })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                                 //send the menu msg
                                 let menumsg = await message.reply({
                                     embeds: [MenuEmbed],
-                                    components: [new MessageActionRow().addComponents(Selection)],
+                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                 });
                                 //Create the collector
                                 const collector = menumsg.createMessageComponentCollector({
@@ -649,7 +636,7 @@ module.exports = {
                                         {
                                             let tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(`**Which Channel do you wanna add?**`)
                                                         .setColor(es.color)
                                                         .setDescription(
@@ -688,10 +675,10 @@ module.exports = {
                                                                 `${allEmojis.msg.ERROR} **Check the example in the Embed, wrong input type!**`
                                                         );
 
-                                                    if (message.guild.me.roles.highest.rawPosition <= Role.rawPosition)
+                                                    if (message.guild.members.me?.roles.highest.rawPosition <= Role.rawPosition)
                                                         return message.reply({
                                                             embeds: [
-                                                                new MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setColor(es.wrongcolor)
                                                                     .setFooter(client.getFooter(es))
                                                                     .setTitle(
@@ -722,7 +709,7 @@ module.exports = {
                                                         if (a.map(d => d.channelId).includes(Voicechannel.id))
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             `<:no:833101993668771842> This Channel is already Setupped!`
                                                                         )
@@ -740,7 +727,7 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         `${allEmojis.msg.SUCCESS} I will now Add the Role \`${Role.name}\` when someone joins the VC **${Discord.VoiceChannel.name}**`
                                                                     )
@@ -751,7 +738,7 @@ module.exports = {
                                                     } catch (e) {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"][
@@ -776,7 +763,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-autoembed"][
@@ -798,7 +785,7 @@ module.exports = {
                                         {
                                             let tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-autoembed"][
@@ -864,7 +851,7 @@ module.exports = {
                                                         if (!a.map(d => d.channelId).includes(Voicechannel.id))
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             `<:no:833101993668771842> This Channel has not been Setup yet!`
                                                                         )
@@ -879,7 +866,7 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         `${allEmojis.msg.SUCCESS} Successfully removed **${Voicechannel.name}** out of the Setup!`
                                                                     )
@@ -890,7 +877,7 @@ module.exports = {
                                                     } catch (e) {
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"][
@@ -915,7 +902,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-autoembed"][
@@ -957,7 +944,7 @@ module.exports = {
 
                                             message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(`📑 Settings of the Join Vc-Role System`)
                                                         .setColor(es.color)
                                                         .setDescription(
@@ -981,7 +968,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -19,7 +21,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "ECONOMY")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -116,7 +118,7 @@ module.exports = {
             if (!args[0])
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setThumbnail(
                                 es.thumb
@@ -126,59 +128,41 @@ module.exports = {
                                         : client.user.displayAvatarURL()
                                     : null
                             )
-                            .setFooter(
-                                user.tag + " | ❌ .. Unable to buy | ✅ ... Possible to buy",
-                                user.displayAvatarURL({ dynamic: true })
-                            )
+                            .setFooter({ text: user.tag + " | ❌ .. Unable to buy | ✅ ... Possible to buy", iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable2"]))
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable3"]))
-                            .addField(
-                                "✏️ Useables",
-                                ">>> " +
+                            .addFields({ name: "✏️ Useables", value: ">>> " +
                                     `✏️ **\`Pensil [10 💸]\`** | ${p2b(10)}
 🖊️ **\`Pen [20 💸]\`** | ${p2b(20)}
 🟪 **\`Condom [30 💸]\`** | ${p2b(30)}
-🍼 **\`Bottle [50 💸]\`** | ${p2b(50)}`
-                            )
-                            .addField(
-                                "👕 Clothes",
-                                ">>> " +
+🍼 **\`Bottle [50 💸]\`** | ${p2b(50)}` })
+                            .addFields({ name: "👕 Clothes", value: ">>> " +
                                     `👟 **\`Nike Shoe [300 💸]\`** | ${p2b(300)}
-👕 **\`T-Shirt [60 💸]\`** | ${p2b(60)}`
-                            )
-                            .addField(
-                                "🐕 Animals",
-                                ">>> " +
+👕 **\`T-Shirt [60 💸]\`** | ${p2b(60)}` })
+                            .addFields({ name: "🐕 Animals", value: ">>> " +
                                     `🐟\`Fish [1000 💸]\`** | ${p2b(1000)}
 🐹 **\`Hamster [1500 💸]\`** | ${p2b(1500)}
 🐕 **\`Dog [2000 💸]\`** | ${p2b(2000)}
-😺 **\`Cat [2000 💸]\`** | ${p2b(2000)}`
-                            )
-                            .addField(
-                                "🚗 Means of Transport",
-                                ">>> " +
+😺 **\`Cat [2000 💸]\`** | ${p2b(2000)}` })
+                            .addFields({ name: "🚗 Means of Transport", value: ">>> " +
                                     `🛥️\`Yacht [75000 💸]\`** | ${p2b(75000)}
 🏎️ **\`Lamborghini [50000 💸]\`** | ${p2b(50000)}
 🚗 **\`Car [6400 💸]\`** | ${p2b(6400)}
 🏍️ **\`Motorbike [1500 💸]\`** | ${p2b(1500)}
-🚲 **\`Bicycle [500 💸]\`** | ${p2b(500)}`
-                            )
-                            .addField(
-                                "🏠 Livingarea",
-                                ">>> " +
+🚲 **\`Bicycle [500 💸]\`** | ${p2b(500)}` })
+                            .addFields({ name: "🏠 Livingarea", value: ">>> " +
                                     `🏘️ **\`Mansion [45000 💸]\`** | ${p2b(45000)}
 🏠 **\`House [8000 💸]\`** | ${p2b(8000)}
-🟫 **\`Dirthut [150 💸]\`** | ${p2b(150)}`
-                            ),
+🟫 **\`Dirthut [150 💸]\`** | ${p2b(150)}` }),
                     ],
                 });
             let amountofbuy = Number(args[1]) || 1;
             if (amountofbuy == 0)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable4"]))
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable5"])),
                     ],
@@ -250,61 +234,43 @@ module.exports = {
             if (!prize)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(
-                                user.tag + " | ❌ .. Unable to buy | ✅ ... Possible to buy",
-                                user.displayAvatarURL({ dynamic: true })
-                            )
+                            .setFooter({ text: user.tag + " | ❌ .. Unable to buy | ✅ ... Possible to buy", iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable6"]))
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable7"]))
-                            .addField(
-                                "✏️ Useables",
-                                ">>> " +
+                            .addFields({ name: "✏️ Useables", value: ">>> " +
                                     `✏️ **\`Pensil [10 💸]\`** | ${p2b(10)}
 🖊️ **\`Pen [20 💸]\`** | ${p2b(20)}
 🟪 **\`Condom [30 💸]\`** | ${p2b(30)}
-🍼 **\`Bottle [50 💸]\`** | ${p2b(50)}`
-                            )
-                            .addField(
-                                "👕 Clothes",
-                                ">>> " +
+🍼 **\`Bottle [50 💸]\`** | ${p2b(50)}` })
+                            .addFields({ name: "👕 Clothes", value: ">>> " +
                                     `👟 **\`Nike Shoe [300 💸]\`** | ${p2b(300)}
-👕 **\`T-Shirt [60 💸]\`** | ${p2b(60)}`
-                            )
-                            .addField(
-                                "🐕 Animals",
-                                ">>> " +
+👕 **\`T-Shirt [60 💸]\`** | ${p2b(60)}` })
+                            .addFields({ name: "🐕 Animals", value: ">>> " +
                                     `🐟\`Fish [1000 💸]\`** | ${p2b(1000)}
 🐹 **\`Hamster [1500 💸]\`** | ${p2b(1500)}
 🐕 **\`Dog [2000 💸]\`** | ${p2b(2000)}
-😺 **\`Cat [2000 💸]\`** | ${p2b(2000)}`
-                            )
-                            .addField(
-                                "🚗 Means of Transport",
-                                ">>> " +
+😺 **\`Cat [2000 💸]\`** | ${p2b(2000)}` })
+                            .addFields({ name: "🚗 Means of Transport", value: ">>> " +
                                     `🛥️\`Yacht [75000 💸]\`** | ${p2b(75000)}
 🏎️ **\`Lamborghini [50000 💸]\`** | ${p2b(50000)}
 🚗 **\`Car [6400 💸]\`** | ${p2b(6400)}
 🏍️ **\`Motorbike [1500 💸]\`** | ${p2b(1500)}
-🚲 **\`Bicycle [500 💸]\`** | ${p2b(500)}`
-                            )
-                            .addField(
-                                "🏠 Livingarea",
-                                ">>> " +
+🚲 **\`Bicycle [500 💸]\`** | ${p2b(500)}` })
+                            .addFields({ name: "🏠 Livingarea", value: ">>> " +
                                     `🏘️ **\`Mansion [45000 💸]\`** | ${p2b(45000)}
 🏠 **\`House [8000 💸]\`** | ${p2b(8000)}
-🟫 **\`Dirthut [150 💸]\`** | ${p2b(150)}`
-                            ),
+🟫 **\`Dirthut [150 💸]\`** | ${p2b(150)}` }),
                     ],
                 });
             var endprize = prize * amountofbuy;
             if (endprize > data.balance)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable8"]))
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable9"])),
                     ],
@@ -315,7 +281,7 @@ module.exports = {
 
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -324,7 +290,7 @@ module.exports = {
                                     : client.user.displayAvatarURL()
                                 : null
                         )
-                        .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                        .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                         .setTitle(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable10"]))
                         .setDescription(eval(client.la[ls]["cmds"]["economy"]["buy"]["variable11"])),
                 ],
@@ -333,7 +299,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

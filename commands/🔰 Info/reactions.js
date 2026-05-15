@@ -1,5 +1,5 @@
 /*const {
-  MessageEmbed
+    EmbedBuilder,
 } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -16,17 +16,17 @@ module.exports = {
     let es = client.settings.get(message.guild.id, "embed");let ls = client.settings.get(message.guild.id, "language")
     try {
       
-      message.reply({embeds: [new MessageEmbed()
+      message.reply({embeds: [new EmbedBuilder()
         .setColor(es.color).setThumbnail(es.thumb ? es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://")) ? es.footericon : client.user.displayAvatarURL() : null)
         .setTitle(eval(client.la[ls]["cmds"]["info"]["reactions"]["variable1"]))
         .setFooter(client.getFooter(es))
-        .addField(`\u200b`, `${emoji?.msg.rewind} Rewind 20 seconds\n${emoji?.msg.forward} Forward 20 seconds\n${emoji?.msg.pause_resume} Pause/Resume\n${emoji?.msg.stop} Stop Track\n${emoji?.msg.previous_track} Play previous\n`, true)
-        .addField(`\u200b`, `${emoji?.msg.skip_track} Skip / Next\n${emoji?.msg.replay_track} Replay Track\n${emoji?.msg.reduce_volume} Volume -10 %\n${emoji?.msg.raise_volume} Volume +10 %\n${emoji?.msg.toggle_mute} Toggle Volume Mute`, true)
-        .addField(`\u200b`, `${emoji?.msg.repeat_mode} Change repeat mode\n${emoji?.msg.autoplay_mode} Toggle Autoplay\n${emoji?.msg.shuffle} Shuffle the queue\n${emoji?.msg.show_queue} Show the Queue\n${emoji?.msg.show_current_track} Shows Current Track`, true)
+        .addFields({ name: `\u200b`, value: `${emoji?.msg.rewind} Rewind 20 seconds\n${emoji?.msg.forward} Forward 20 seconds\n${emoji?.msg.pause_resume} Pause/Resume\n${emoji?.msg.stop} Stop Track\n${emoji?.msg.previous_track} Play previous\n`, inline: true })
+        .addFields({ name: `\u200b`, value: `${emoji?.msg.skip_track} Skip / Next\n${emoji?.msg.replay_track} Replay Track\n${emoji?.msg.reduce_volume} Volume -10 %\n${emoji?.msg.raise_volume} Volume +10 %\n${emoji?.msg.toggle_mute} Toggle Volume Mute`, inline: true })
+        .addFields({ name: `\u200b`, value: `${emoji?.msg.repeat_mode} Change repeat mode\n${emoji?.msg.autoplay_mode} Toggle Autoplay\n${emoji?.msg.shuffle} Shuffle the queue\n${emoji?.msg.show_queue} Show the Queue\n${emoji?.msg.show_current_track} Shows Current Track`, inline: true })
       ]});
     } catch (e) {
       console.log(String(e.stack).grey.bgRed)
-      return message.reply({embeds: [new MessageEmbed()
+      return message.reply({embeds: [new EmbedBuilder()
         .setColor(es.wrongcolor).setFooter(client.getFooter(es))
         .setTitle(client.la[ls].common.erroroccur)
         .setDescription(eval(client.la[ls]["cmds"]["info"]["reactions"]["variable2"]))

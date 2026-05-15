@@ -1,6 +1,8 @@
 const superagent = require("node-fetch");
 const Discord = require("discord.js");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const rp = require("request-promise-native");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 module.exports = {
@@ -13,7 +15,7 @@ module.exports = {
         let es = client.settings.get(message.guild.id, "embed");
         let ls = client.settings.get(message.guild.id, "language");
         if (!client.settings.get(message.guild.id, "NSFW")) {
-            const x = new MessageEmbed()
+            const x = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setFooter(client.getFooter(es))
                 .setTitle(client.la[ls].common.disabled.title)

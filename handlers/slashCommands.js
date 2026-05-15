@@ -96,20 +96,22 @@ module.exports = client => {
                                             option.StringChoices.choices &&
                                             option.StringChoices.choices.length > 0
                                         ) {
-                                            subcommand.addStringOption(op =>
-                                                op
+                                            subcommand.addStringOption(op => {
+                                                const choices = option.StringChoices.choices
+                                                    .map(c => ({
+                                                        name: String(c[0]).replace(/\s+/g, "_").toLowerCase(),
+                                                        value: String(c[1]),
+                                                    }))
+                                                    .filter(c => c.name.length >= 1 && c.name.length <= 100 && c.value.length <= 100)
+                                                    .slice(0, 25);
+                                                return op
                                                     .setName(
                                                         String(option.StringChoices.name).replace(/\s+/g, "_").toLowerCase()
                                                     )
                                                     .setDescription(option.StringChoices.description)
                                                     .setRequired(option.StringChoices.required)
-                                                    .addChoices(
-                                                        option.StringChoices.choices.map(c => [
-                                                            String(c[0]).replace(/\s+/g, "_").toLowerCase(),
-                                                            String(c[1]),
-                                                        ])
-                                                    )
-                                            );
+                                                    .addChoices(...choices);
+                                            });
                                         } else if (
                                             option.IntChoices &&
                                             option.IntChoices.name &&
@@ -117,20 +119,22 @@ module.exports = client => {
                                             option.IntChoices.choices &&
                                             option.IntChoices.choices.length > 0
                                         ) {
-                                            subcommand.addStringOption(op =>
-                                                op
+                                            subcommand.addIntegerOption(op => {
+                                                const choices = option.IntChoices.choices
+                                                    .map(c => ({
+                                                        name: String(c[0]).replace(/\s+/g, "_").toLowerCase(),
+                                                        value: parseInt(c[1]),
+                                                    }))
+                                                    .filter(c => Number.isInteger(c.value) && c.name.length >= 1 && c.name.length <= 100)
+                                                    .slice(0, 25);
+                                                return op
                                                     .setName(
                                                         String(option.IntChoices.name).replace(/\s+/g, "_").toLowerCase()
                                                     )
                                                     .setDescription(option.IntChoices.description)
                                                     .setRequired(option.IntChoices.required)
-                                                    .addChoices(
-                                                        option.IntChoices.choices.map(c => [
-                                                            String(c[0]).replace(/\s+/g, "_").toLowerCase(),
-                                                            parseInt(c[1]),
-                                                        ])
-                                                    )
-                                            );
+                                                    .addChoices(...choices);
+                                            });
                                         } else {
                                             console.log(
                                                 `A Option is missing the Name or/and the Description of ${pull.name}`
@@ -204,18 +208,20 @@ module.exports = client => {
                                 option.StringChoices.choices &&
                                 option.StringChoices.choices.length > 0
                             ) {
-                                Command.addStringOption(op =>
-                                    op
+                                Command.addStringOption(op => {
+                                    const choices = option.StringChoices.choices
+                                        .map(c => ({
+                                            name: String(c[0]).replace(/\s+/g, "_").toLowerCase(),
+                                            value: String(c[1]),
+                                        }))
+                                        .filter(c => c.name.length >= 1 && c.name.length <= 100 && c.value.length <= 100)
+                                        .slice(0, 25);
+                                    return op
                                         .setName(String(option.StringChoices.name).replace(/\s+/g, "_").toLowerCase())
                                         .setDescription(option.StringChoices.description)
                                         .setRequired(option.StringChoices.required)
-                                        .addChoices(
-                                            option.StringChoices.choices.map(c => [
-                                                String(c[0]).replace(/\s+/g, "_").toLowerCase(),
-                                                String(c[1]),
-                                            ])
-                                        )
-                                );
+                                        .addChoices(...choices);
+                                });
                             } else if (
                                 option.IntChoices &&
                                 option.IntChoices.name &&
@@ -223,18 +229,20 @@ module.exports = client => {
                                 option.IntChoices.choices &&
                                 option.IntChoices.choices.length > 0
                             ) {
-                                Command.addStringOption(op =>
-                                    op
+                                Command.addIntegerOption(op => {
+                                    const choices = option.IntChoices.choices
+                                        .map(c => ({
+                                            name: String(c[0]).replace(/\s+/g, "_").toLowerCase(),
+                                            value: parseInt(c[1]),
+                                        }))
+                                        .filter(c => Number.isInteger(c.value) && c.name.length >= 1 && c.name.length <= 100)
+                                        .slice(0, 25);
+                                    return op
                                         .setName(String(option.IntChoices.name).replace(/\s+/g, "_").toLowerCase())
                                         .setDescription(option.IntChoices.description)
                                         .setRequired(option.IntChoices.required)
-                                        .addChoices(
-                                            option.IntChoices.choices.map(c => [
-                                                String(c[0]).replace(/\s+/g, "_").toLowerCase(),
-                                                parseInt(c[1]),
-                                            ])
-                                        )
-                                );
+                                        .addChoices(...choices);
+                                });
                             } else {
                                 console.log(`A Option is missing the Name or/and the Description of ${pull.name}`);
                             }

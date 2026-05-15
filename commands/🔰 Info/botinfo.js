@@ -1,4 +1,7 @@
 const Discord = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const moment = require("moment");
 let os = require("os");
 let cpuStat = require("cpu-stat");
@@ -21,13 +24,9 @@ module.exports = {
         try {
             let tempmsg = await message.reply({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
-                        .setAuthor(
-                            client.la[ls].cmds.info.botinfo.loading,
-                            "https://cdn.discordapp.com/emojis/756773010123522058.gif",
-                            "https://discord.gg/milrato"
-                        ),
+                        .setAuthor({ name: client.la[ls].cmds.info.botinfo.loading, iconURL: "https://cdn.discordapp.com/emojis/756773010123522058.gif", url: "https://discord.gg/milrato" }),
                 ],
             });
             cpuStat.usagePercent(function (e, percent, seconds) {
@@ -42,14 +41,10 @@ module.exports = {
                 const totalGuilds = client.guilds.cache.size;
                 const totalMembers = client.users.cache.size;
                 countertest = 0;
-                const botinfo = new Discord.MessageEmbed()
-                    .setAuthor(
-                        client.user.tag + " Information",
-                        es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
+                const botinfo = new EmbedBuilder()
+                    .setAuthor({ name: client.user.tag + " Information", iconURL: es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
                             ? es.footericon
-                            : client.user.displayAvatarURL(),
-                        `https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands`
-                    )
+                            : client.user.displayAvatarURL(), url: `https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands` })
                     .setDescription(eval(client.la[ls]["cmds"]["info"]["botinfo"]["variable1"]))
                     .setColor(es.color)
                     .setThumbnail(
@@ -59,39 +54,21 @@ module.exports = {
                                 : client.user.displayAvatarURL()
                             : null
                     )
-                    .addField(
-                        client.la[ls].cmds.info.botinfo.field1.title,
-                        handlemsg(client.la[ls].cmds.info.botinfo.field1.value, {
+                    .addFields({ name: client.la[ls].cmds.info.botinfo.field1.title, value: handlemsg(client.la[ls].cmds.info.botinfo.field1.value, {
                             totalGuilds: totalGuilds,
                             totalMembers: totalMembers,
                             connections: connectedchannelsamount,
                             connectedchannelsamount: connectedchannelsamount,
-                        }),
-                        true
-                    )
-                    .addField(
-                        client.la[ls].cmds.info.botinfo.field2.title,
-                        `\`\`\`yml\nNode.js: ${process.version}\nDiscord.js: v${Discord.version}\nEnmap: v5.8.4\`\`\``,
-                        true
-                    )
-                    .addField(
-                        client.la[ls].cmds.info.botinfo.field3.title,
-                        handlemsg(client.la[ls].cmds.info.botinfo.field3.value, {
+                        }), inline: true })
+                    .addFields({ name: client.la[ls].cmds.info.botinfo.field2.title, value: `\`\`\`yml\nNode.js: ${process.version}\nDiscord.js: v${Discord.version}\nEnmap: v5.8.4\`\`\``, inline: true })
+                    .addFields({ name: client.la[ls].cmds.info.botinfo.field3.title, value: handlemsg(client.la[ls].cmds.info.botinfo.field3.value, {
                             cpu: percent.toFixed(2),
                             ram: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-                        })
-                    )
-                    .addField(
-                        client.la[ls].cmds.info.botinfo.field4.title,
-                        `\`\`\`yml\nName: Tomato#6966\nID: [442355791412854784]\`\`\``,
-                        true
-                    )
-                    .addField(
-                        client.la[ls].cmds.info.botinfo.field5.title,
-                        handlemsg(client.la[ls].cmds.info.botinfo.field5.value, {
+                        }) })
+                    .addFields({ name: client.la[ls].cmds.info.botinfo.field4.title, value: `\`\`\`yml\nName: Tomato#6966\nID: [442355791412854784]\`\`\``, inline: true })
+                    .addFields({ name: client.la[ls].cmds.info.botinfo.field5.title, value: handlemsg(client.la[ls].cmds.info.botinfo.field5.value, {
                             invitelink: `https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands`,
-                        })
-                    )
+                        }) })
                     .setFooter(client.getFooter(es));
                 tempmsg.edit({ embeds: [botinfo] });
             });
@@ -99,7 +76,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

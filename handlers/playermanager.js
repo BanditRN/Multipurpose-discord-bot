@@ -1,5 +1,8 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 ee = require(`${process.cwd()}/botconfig/embed.json`);
 const { format, delay, arrayMove } = require(`./functions`);
@@ -15,16 +18,16 @@ module.exports = async (client, message, args, type, slashCommand = false, extra
     let ls = client.settings.get(message.guild.id, "language");
 
     let { channel } = message.member.voice;
-    let botchannel = message.guild.me.voice.channel;
+    let botchannel = message.guild.members.me?.voice?.channel;
     const permissions = channel.permissionsFor(client.user);
 
-    if (!permissions.has("CONNECT")) {
+    if (!permissions.has(PermissionFlagsBits.Connect)) {
         if (slashCommand)
             return slashCommand
                 .reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setFooter(client.getFooter(ee))
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagerjs"]["playermanager"]["variable1"])),
@@ -34,7 +37,7 @@ module.exports = async (client, message, args, type, slashCommand = false, extra
         return message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setFooter(client.getFooter(ee))
                         .setTitle(eval(client.la[ls]["handlers"]["playermanagerjs"]["playermanager"]["variable1"])),
@@ -42,13 +45,13 @@ module.exports = async (client, message, args, type, slashCommand = false, extra
             })
             .catch(e => console.log(String(e).grey));
     }
-    if (!permissions.has("SPEAK")) {
+    if (!permissions.has(PermissionFlagsBits.Speak)) {
         if (slashCommand)
             return slashCommand
                 .reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setFooter(client.getFooter(ee))
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagerjs"]["playermanager"]["variable2"])),
@@ -58,7 +61,7 @@ module.exports = async (client, message, args, type, slashCommand = false, extra
         return message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setFooter(client.getFooter(ee))
                         .setTitle(eval(client.la[ls]["handlers"]["playermanagerjs"]["playermanager"]["variable2"])),
@@ -71,7 +74,7 @@ module.exports = async (client, message, args, type, slashCommand = false, extra
             return slashCommand
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle("❌ Your Voice Channel is full!")
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es)),
@@ -81,7 +84,7 @@ module.exports = async (client, message, args, type, slashCommand = false, extra
         return message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle("❌ Your Voice Channel is full!")
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es)),
@@ -102,7 +105,7 @@ module.exports = async (client, message, args, type, slashCommand = false, extra
                 .reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setFooter(client.getFooter(ee))
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagerjs"]["playermanager"]["variable3"])),
@@ -112,7 +115,7 @@ module.exports = async (client, message, args, type, slashCommand = false, extra
         return message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setFooter(client.getFooter(ee))
                         .setTitle(eval(client.la[ls]["handlers"]["playermanagerjs"]["playermanager"]["variable3"])),

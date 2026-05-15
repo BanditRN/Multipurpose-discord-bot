@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-aichat",
@@ -62,18 +66,14 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Ai-Chat",
-                        "https://cdn.discordapp.com/emojis/771804364582420532.gif?size=96",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Ai-Chat", iconURL: "https://cdn.discordapp.com/emojis/771804364582420532.gif?size=96", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -112,7 +112,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-aichat"]["variable5"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-aichat"]["variable6"]))
@@ -136,7 +136,7 @@ module.exports = {
                                         client.settings.set(message.guild.id, channel.id, `aichat`);
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-aichat"]["variable7"])
                                                     )
@@ -153,7 +153,7 @@ module.exports = {
                                 .catch(e => {
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-aichat"]["variable8"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -168,7 +168,7 @@ module.exports = {
                             client.settings.set(message.guild.id, "no", `aichat`);
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-aichat"]["variable9"]))
                                         .setColor(es.color)
                                         .setDescription(`I will not responde to messages anymore`.substring(0, 2048))
@@ -182,7 +182,7 @@ module.exports = {
                             let thesettings = client.settings.get(message.guild.id, `aichat`);
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-aichat"]["variable10"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -202,7 +202,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

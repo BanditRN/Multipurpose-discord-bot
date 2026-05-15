@@ -1,4 +1,10 @@
-var { MessageEmbed, MessageButton, MessageActionRow, MessageSelectMenu } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -83,7 +89,7 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
                     .setAuthor({
                         name: "Welcome Setup",
@@ -91,12 +97,12 @@ module.exports = {
                         iconURL:
                             "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png",
                     })
-                    //.setAuthor('Welcome Setup', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png', 'https://discord.gg/milrato')
+                    //.setAuthor({ name: 'Welcome Setup', iconURL: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png', url: 'https://discord.gg/milrato' })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -188,18 +194,14 @@ module.exports = {
                                     );
 
                                 //define the embed
-                                let MenuEmbed = new MessageEmbed()
+                                let MenuEmbed = new EmbedBuilder()
                                     .setColor(es.color)
-                                    .setAuthor(
-                                        "Welcome Setup",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png",
-                                        "https://discord.gg/milrato"
-                                    )
+                                    .setAuthor({ name: "Welcome Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png", url: "https://discord.gg/milrato" })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                                 //send the menu msg
                                 let menumsg = await message.reply({
                                     embeds: [MenuEmbed],
-                                    components: [new MessageActionRow().addComponents(Selection)],
+                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                 });
                                 //Create the collector
                                 const collector = menumsg.createMessageComponentCollector({
@@ -239,7 +241,7 @@ module.exports = {
                                         {
                                             tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable7"]
@@ -274,7 +276,7 @@ module.exports = {
                                                         client.settings.set(message.guild.id, channel.id, "welcome.channel");
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -299,7 +301,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -322,7 +324,7 @@ module.exports = {
                                             client.settings.set(message.guild.id, "nochannel", "welcome.channel");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable13"]
@@ -427,20 +429,16 @@ module.exports = {
                                                     );
 
                                                 //define the embed
-                                                let MenuEmbed = new MessageEmbed()
+                                                let MenuEmbed = new EmbedBuilder()
                                                     .setColor(es.color)
-                                                    .setAuthor(
-                                                        "Welcome Setup",
-                                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png",
-                                                        "https://discord.gg/milrato"
-                                                    )
+                                                    .setAuthor({ name: "Welcome Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png", url: "https://discord.gg/milrato" })
                                                     .setDescription(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"])
                                                     );
                                                 //send the menu msg
                                                 let menumsg = await message.reply({
                                                     embeds: [MenuEmbed],
-                                                    components: [new MessageActionRow().addComponents(Selection)],
+                                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                                 });
                                                 //Create the collector
                                                 const collector = menumsg.createMessageComponentCollector({
@@ -498,7 +496,7 @@ module.exports = {
                                                             client.settings.set(message.guild.id, false, "welcome.image");
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -523,7 +521,7 @@ module.exports = {
                                                             client.settings.set(message.guild.id, true, "welcome.image");
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -547,7 +545,7 @@ module.exports = {
                                                         {
                                                             tempmsg = await message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -593,7 +591,7 @@ module.exports = {
                                                                             );
                                                                             return message.reply({
                                                                                 embeds: [
-                                                                                    new Discord.MessageEmbed()
+                                                                                    new EmbedBuilder()
                                                                                         .setTitle(
                                                                                             eval(
                                                                                                 client.la[ls]["cmds"][
@@ -616,7 +614,7 @@ module.exports = {
                                                                         }
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -643,7 +641,7 @@ module.exports = {
                                                                         );
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -664,7 +662,7 @@ module.exports = {
                                                                     }
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -710,7 +708,7 @@ module.exports = {
                                                                     );
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -741,7 +739,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -765,7 +763,7 @@ module.exports = {
                                                         {
                                                             tempmsg = await message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -799,7 +797,7 @@ module.exports = {
                                                                             );
                                                                             return message.reply({
                                                                                 embeds: [
-                                                                                    new Discord.MessageEmbed()
+                                                                                    new EmbedBuilder()
                                                                                         .setTitle(
                                                                                             eval(
                                                                                                 client.la[ls]["cmds"][
@@ -822,7 +820,7 @@ module.exports = {
                                                                         }
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -844,7 +842,7 @@ module.exports = {
                                                                         );
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -865,7 +863,7 @@ module.exports = {
                                                                     }
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -911,7 +909,7 @@ module.exports = {
                                                                     );
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -942,7 +940,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -975,7 +973,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -1008,7 +1006,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -1038,7 +1036,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -1068,7 +1066,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -1090,46 +1088,46 @@ module.exports = {
                                                         break;
                                                     case `Frame Color`:
                                                         {
-                                                            let row1 = new MessageActionRow().addComponents([
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                            let row1 = new ActionRowBuilder().addComponents([
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#FFFFF9")
                                                                     .setEmoji("⬜")
                                                                     .setLabel("#FFFFF9"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#FAFA25")
                                                                     .setEmoji("🟨")
                                                                     .setLabel("#FAFA25"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#FA9E25")
                                                                     .setEmoji("🟧")
                                                                     .setLabel("#FA9E25"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#FA2525")
                                                                     .setEmoji("🟥")
                                                                     .setLabel("#FA2525"),
                                                             ]);
-                                                            let row2 = new MessageActionRow().addComponents([
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                            let row2 = new ActionRowBuilder().addComponents([
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#25FA6C")
                                                                     .setEmoji("🟩")
                                                                     .setLabel("#25FA6C"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#3A98F0")
                                                                     .setEmoji("🟦")
                                                                     .setLabel("#3A98F0"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#8525FA")
                                                                     .setEmoji("🟪")
                                                                     .setLabel("#8525FA"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#030303")
                                                                     .setEmoji("⬛")
                                                                     .setLabel("#030303"),
@@ -1138,7 +1136,7 @@ module.exports = {
                                                             tempmsg = await message.reply({
                                                                 components: [row1, row2],
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -1184,7 +1182,7 @@ module.exports = {
                                                                     );
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -1217,7 +1215,7 @@ module.exports = {
                                         {
                                             tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable64"]
@@ -1242,7 +1240,7 @@ module.exports = {
                                                     client.settings.set(message.guild.id, message.content, "welcome.msg");
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -1265,7 +1263,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -1292,7 +1290,7 @@ module.exports = {
                                             );
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable70"]
@@ -1361,18 +1359,14 @@ module.exports = {
                                     );
 
                                 //define the embed
-                                let MenuEmbed = new MessageEmbed()
+                                let MenuEmbed = new EmbedBuilder()
                                     .setColor(es.color)
-                                    .setAuthor(
-                                        "Welcome Setup",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png",
-                                        "https://discord.gg/milrato"
-                                    )
+                                    .setAuthor({ name: "Welcome Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png", url: "https://discord.gg/milrato" })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                                 //send the menu msg
                                 let menumsg = await message.reply({
                                     embeds: [MenuEmbed],
-                                    components: [new MessageActionRow().addComponents(Selection)],
+                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                 });
                                 //Create the collector
                                 const collector = menumsg.createMessageComponentCollector({
@@ -1412,7 +1406,7 @@ module.exports = {
                                         {
                                             tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable7"]
@@ -1451,7 +1445,7 @@ module.exports = {
                                                         );
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -1476,7 +1470,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -1499,7 +1493,7 @@ module.exports = {
                                             client.settings.set(message.guild.id, "nochannel", "welcome.secondchannel");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable13"]
@@ -1521,7 +1515,7 @@ module.exports = {
                                         {
                                             tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable64"]
@@ -1550,7 +1544,7 @@ module.exports = {
                                                     );
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -1573,7 +1567,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -1649,18 +1643,14 @@ module.exports = {
                                     );
 
                                 //define the embed
-                                let MenuEmbed = new MessageEmbed()
+                                let MenuEmbed = new EmbedBuilder()
                                     .setColor(es.color)
-                                    .setAuthor(
-                                        "DM - Welcome Setup",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png",
-                                        "https://discord.gg/milrato"
-                                    )
+                                    .setAuthor({ name: "DM - Welcome Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png", url: "https://discord.gg/milrato" })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                                 //send the menu msg
                                 let menumsg = await message.reply({
                                     embeds: [MenuEmbed],
-                                    components: [new MessageActionRow().addComponents(Selection)],
+                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                 });
                                 //Create the collector
                                 const collector = menumsg.createMessageComponentCollector({
@@ -1706,7 +1696,7 @@ module.exports = {
                                             if (!client.settings.set(message.guild.id, "nochannel", "welcome.dm")) {
                                                 return message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setTitle(
                                                                 eval(
                                                                     client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -1721,7 +1711,7 @@ module.exports = {
                                             }
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable76"]
@@ -1820,20 +1810,16 @@ module.exports = {
                                                     );
 
                                                 //define the embed
-                                                let MenuEmbed = new MessageEmbed()
+                                                let MenuEmbed = new EmbedBuilder()
                                                     .setColor(es.color)
-                                                    .setAuthor(
-                                                        "Welcome Setup",
-                                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png",
-                                                        "https://discord.gg/milrato"
-                                                    )
+                                                    .setAuthor({ name: "Welcome Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png", url: "https://discord.gg/milrato" })
                                                     .setDescription(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"])
                                                     );
                                                 //send the menu msg
                                                 let menumsg = await message.reply({
                                                     embeds: [MenuEmbed],
-                                                    components: [new MessageActionRow().addComponents(Selection)],
+                                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                                 });
                                                 //Create the collector
                                                 const collector = menumsg.createMessageComponentCollector({
@@ -1891,7 +1877,7 @@ module.exports = {
                                                             client.settings.set(message.guild.id, false, "welcome.imagedm");
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -1910,7 +1896,7 @@ module.exports = {
                                                             client.settings.set(message.guild.id, true, "welcome.imagedm");
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -1928,7 +1914,7 @@ module.exports = {
                                                         {
                                                             tempmsg = await message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -1974,7 +1960,7 @@ module.exports = {
                                                                             );
                                                                             return message.reply({
                                                                                 embeds: [
-                                                                                    new Discord.MessageEmbed()
+                                                                                    new EmbedBuilder()
                                                                                         .setTitle(
                                                                                             eval(
                                                                                                 client.la[ls]["cmds"][
@@ -1997,7 +1983,7 @@ module.exports = {
                                                                         }
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -2024,7 +2010,7 @@ module.exports = {
                                                                         );
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -2045,7 +2031,7 @@ module.exports = {
                                                                     }
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -2091,7 +2077,7 @@ module.exports = {
                                                                     );
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -2122,7 +2108,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2140,7 +2126,7 @@ module.exports = {
                                                         {
                                                             tempmsg = await message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2174,7 +2160,7 @@ module.exports = {
                                                                             );
                                                                             return message.reply({
                                                                                 embeds: [
-                                                                                    new Discord.MessageEmbed()
+                                                                                    new EmbedBuilder()
                                                                                         .setTitle(
                                                                                             eval(
                                                                                                 client.la[ls]["cmds"][
@@ -2197,7 +2183,7 @@ module.exports = {
                                                                         }
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -2219,7 +2205,7 @@ module.exports = {
                                                                         );
                                                                         return message.reply({
                                                                             embeds: [
-                                                                                new Discord.MessageEmbed()
+                                                                                new EmbedBuilder()
                                                                                     .setTitle(
                                                                                         eval(
                                                                                             client.la[ls]["cmds"]["setup"][
@@ -2240,7 +2226,7 @@ module.exports = {
                                                                     }
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -2286,7 +2272,7 @@ module.exports = {
                                                                     );
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -2317,7 +2303,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2344,7 +2330,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2377,7 +2363,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2410,7 +2396,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2440,7 +2426,7 @@ module.exports = {
                                                             );
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2462,46 +2448,46 @@ module.exports = {
                                                         break;
                                                     case `Frame Color`:
                                                         {
-                                                            let row1 = new MessageActionRow().addComponents([
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                            let row1 = new ActionRowBuilder().addComponents([
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#FFFFF9")
                                                                     .setEmoji("⬜")
                                                                     .setLabel("#FFFFF9"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#FAFA25")
                                                                     .setEmoji("🟨")
                                                                     .setLabel("#FAFA25"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#FA9E25")
                                                                     .setEmoji("🟧")
                                                                     .setLabel("#FA9E25"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#FA2525")
                                                                     .setEmoji("🟥")
                                                                     .setLabel("#FA2525"),
                                                             ]);
-                                                            let row2 = new MessageActionRow().addComponents([
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                            let row2 = new ActionRowBuilder().addComponents([
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#25FA6C")
                                                                     .setEmoji("🟩")
                                                                     .setLabel("#25FA6C"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#3A98F0")
                                                                     .setEmoji("🟦")
                                                                     .setLabel("#3A98F0"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#8525FA")
                                                                     .setEmoji("🟪")
                                                                     .setLabel("#8525FA"),
-                                                                new MessageButton()
-                                                                    .setStyle("SECONDARY")
+                                                                new ButtonBuilder()
+                                                                    .setStyle(ButtonStyle.Secondary)
                                                                     .setCustomId("#030303")
                                                                     .setEmoji("⬛")
                                                                     .setLabel("#030303"),
@@ -2510,7 +2496,7 @@ module.exports = {
                                                             tempmsg = await message.reply({
                                                                 components: [row1, row2],
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2556,7 +2542,7 @@ module.exports = {
                                                                     );
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new Discord.MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -2589,7 +2575,7 @@ module.exports = {
                                         {
                                             tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2620,7 +2606,7 @@ module.exports = {
                                                     client.settings.set(message.guild.id, message.content, "welcome.dm_msg");
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2643,7 +2629,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2670,7 +2656,7 @@ module.exports = {
                                             );
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2735,18 +2721,14 @@ module.exports = {
                                     );
 
                                 //define the embed
-                                let MenuEmbed = new MessageEmbed()
+                                let MenuEmbed = new EmbedBuilder()
                                     .setColor(es.color)
-                                    .setAuthor(
-                                        "Welcome Setup",
-                                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png",
-                                        "https://discord.gg/milrato"
-                                    )
+                                    .setAuthor({ name: "Welcome Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/samsung/306/waving-hand_1f44b?.png", url: "https://discord.gg/milrato" })
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                                 //send the menu msg
                                 let menumsg = await message.reply({
                                     embeds: [MenuEmbed],
-                                    components: [new MessageActionRow().addComponents(Selection)],
+                                    components: [new ActionRowBuilder().addComponents(Selection)],
                                 });
                                 //Create the collector
                                 const collector = menumsg.createMessageComponentCollector({
@@ -2786,7 +2768,7 @@ module.exports = {
                                         {
                                             var tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2825,7 +2807,7 @@ module.exports = {
                                                         if (welcomeroles.includes(role.id))
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2840,7 +2822,7 @@ module.exports = {
                                                         client.settings.push(message.guild.id, role.id, "welcome.roles");
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2865,7 +2847,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2887,7 +2869,7 @@ module.exports = {
                                         {
                                             var tempmsg = await message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2926,7 +2908,7 @@ module.exports = {
                                                         if (!welcomeroles.includes(role.id))
                                                             return message.reply({
                                                                 embeds: [
-                                                                    new Discord.MessageEmbed()
+                                                                    new EmbedBuilder()
                                                                         .setTitle(
                                                                             eval(
                                                                                 client.la[ls]["cmds"]["setup"][
@@ -2941,7 +2923,7 @@ module.exports = {
                                                         client.settings.remove(message.guild.id, role.id, "welcome.roles");
                                                         return message.reply({
                                                             embeds: [
-                                                                new Discord.MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2966,7 +2948,7 @@ module.exports = {
                                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                                     return message.reply({
                                                         embeds: [
-                                                            new Discord.MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     eval(
                                                                         client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -2988,7 +2970,7 @@ module.exports = {
                                         {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-welcome"][
@@ -3021,7 +3003,7 @@ module.exports = {
                             );
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-welcome"]["variable154"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -3050,8 +3032,8 @@ module.exports = {
                                     .replace("{usertag}", `${member.user.tag}`);
                                 if (
                                     message.channel
-                                        .permissionsFor(message.channel.guild.me)
-                                        .has(Discord.Permissions.FLAGS.SEND_MESSAGES)
+                                        .permissionsFor(message.channel.guild.members.me)
+                                        .has(PermissionFlagsBits.SendMessages)
                                 ) {
                                     message.channel
                                         .send({
@@ -3085,7 +3067,7 @@ module.exports = {
                                 let { channel } = message;
 
                                 //define the welcome embed
-                                const welcomeembed = new Discord.MessageEmbed()
+                                const welcomeembed = new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -3096,12 +3078,9 @@ module.exports = {
                                             : null
                                     )
                                     .setTimestamp()
-                                    .setFooter(
-                                        "ID: " + member.user.id,
-                                        member.user.displayAvatarURL({
+                                    .setFooter({ text: "ID: " + member.user.id, iconURL: member.user.displayAvatarURL({
                                             dynamic: true,
-                                        })
-                                    )
+                                        }) })
                                     .setTitle(eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variable7"]))
                                     .setDescription(
                                         client.settings
@@ -3110,15 +3089,12 @@ module.exports = {
                                             .replace("{username}", `${member.user.username}`)
                                             .replace("{usertag}", `${member.user.tag}`)
                                     )
-                                    .addField(
-                                        eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variablex_8"]),
-                                        eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variable8"])
-                                    );
+                                    .addFields({ name: eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variablex_8"]), value: eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variable8"]) });
 
                                 //send the welcome embed to there
-                                if (channel.permissionsFor(channel.guild.me).has(Discord.Permissions.FLAGS.SEND_MESSAGES)) {
+                                if (channel.permissionsFor(channel.guild.members.me).has(PermissionFlagsBits.SendMessages)) {
                                     if (
-                                        channel.permissionsFor(channel.guild.me).has(Discord.Permissions.FLAGS.EMBED_LINKS)
+                                        channel.permissionsFor(channel.guild.members.me).has(PermissionFlagsBits.EmbedLinks)
                                     ) {
                                         channel
                                             .send({
@@ -3142,7 +3118,7 @@ module.exports = {
                             async function dm_msg_withoutimg(member) {
                                 let { channel } = message;
                                 //define the welcome embed
-                                const welcomeembed = new Discord.MessageEmbed()
+                                const welcomeembed = new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -3153,12 +3129,9 @@ module.exports = {
                                             : null
                                     )
                                     .setTimestamp()
-                                    .setFooter(
-                                        "ID: " + member.user.id,
-                                        member.user.displayAvatarURL({
+                                    .setFooter({ text: "ID: " + member.user.id, iconURL: member.user.displayAvatarURL({
                                             dynamic: true,
-                                        })
-                                    )
+                                        }) })
                                     .setTitle(eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variable9"]))
                                     .setDescription(
                                         client.settings
@@ -3168,7 +3141,7 @@ module.exports = {
                                             .replace("{usertag}", `${member.user.tag}`)
                                     );
                                 if (client.settings.get(member.guild.id, "welcome.invitedm"))
-                                    welcomeembed.addField("\u200b", `${invitemessage}`);
+                                    welcomeembed.addFields({ name: "\u200b", value: `${invitemessage}` });
                                 //send the welcome embed to there
                                 channel
                                     .send({
@@ -3181,7 +3154,7 @@ module.exports = {
                             async function dm_msg_withimg(member) {
                                 let { channel } = message;
                                 //define the welcome embed
-                                const welcomeembed = new Discord.MessageEmbed()
+                                const welcomeembed = new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -3192,12 +3165,9 @@ module.exports = {
                                             : null
                                     )
                                     .setTimestamp()
-                                    .setFooter(
-                                        "ID: " + member.user.id,
-                                        member.user.displayAvatarURL({
+                                    .setFooter({ text: "ID: " + member.user.id, iconURL: member.user.displayAvatarURL({
                                             dynamic: true,
-                                        })
-                                    )
+                                        }) })
                                     .setTitle(eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variable10"]))
                                     .setDescription(
                                         client.settings
@@ -3208,7 +3178,7 @@ module.exports = {
                                     )
                                     .setImage(client.settings.get(member.guild.id, "welcome.customdm"));
                                 if (client.settings.get(member.guild.id, "welcome.invitedm"))
-                                    welcomeembed.addField("\u200b", `${invitemessage}`);
+                                    welcomeembed.addFields({ name: "\u200b", value: `${invitemessage}` });
                                 //send the welcome embed to there
                                 channel
                                     .send({
@@ -3221,7 +3191,7 @@ module.exports = {
                                 let { channel } = message;
 
                                 //define the welcome embed
-                                const welcomeembed = new Discord.MessageEmbed()
+                                const welcomeembed = new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -3232,12 +3202,9 @@ module.exports = {
                                             : null
                                     )
                                     .setTimestamp()
-                                    .setFooter(
-                                        "ID: " + member.user.id,
-                                        member.user.displayAvatarURL({
+                                    .setFooter({ text: "ID: " + member.user.id, iconURL: member.user.displayAvatarURL({
                                             dynamic: true,
-                                        })
-                                    )
+                                        }) })
                                     .setTitle(eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variable11"]))
                                     .setDescription(
                                         client.settings
@@ -3248,11 +3215,11 @@ module.exports = {
                                     )
                                     .setImage(client.settings.get(member.guild.id, "welcome.custom"));
                                 if (client.settings.get(member.guild.id, "welcome.invite"))
-                                    welcomeembed.addField("\u200b", `${invitemessage}`);
+                                    welcomeembed.addFields({ name: "\u200b", value: `${invitemessage}` });
                                 //send the welcome embed to there
-                                if (channel.permissionsFor(channel.guild.me).has(Discord.Permissions.FLAGS.SEND_MESSAGES)) {
+                                if (channel.permissionsFor(channel.guild.members.me).has(PermissionFlagsBits.SendMessages)) {
                                     if (
-                                        channel.permissionsFor(channel.guild.me).has(Discord.Permissions.FLAGS.EMBED_LINKS)
+                                        channel.permissionsFor(channel.guild.members.me).has(PermissionFlagsBits.EmbedLinks)
                                     ) {
                                         channel
                                             .send({
@@ -3278,7 +3245,7 @@ module.exports = {
                                 let { channel } = message;
                                 try {
                                     //define the welcome embed
-                                    const welcomeembed = new Discord.MessageEmbed()
+                                    const welcomeembed = new EmbedBuilder()
                                         .setColor(es.color)
                                         .setThumbnail(
                                             es.thumb
@@ -3289,12 +3256,9 @@ module.exports = {
                                                 : null
                                         )
                                         .setTimestamp()
-                                        .setFooter(
-                                            "ID: " + member.user.id,
-                                            member.user.displayAvatarURL({
+                                        .setFooter({ text: "ID: " + member.user.id, iconURL: member.user.displayAvatarURL({
                                                 dynamic: true,
-                                            })
-                                        )
+                                            }) })
                                         .setTitle(eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variable12"]))
                                         .setDescription(
                                             client.settings
@@ -3304,7 +3268,7 @@ module.exports = {
                                                 .replace("{usertag}", `${member.user.tag}`)
                                         );
                                     if (client.settings.get(member.guild.id, "welcome.invitedm"))
-                                        welcomeembed.addField("\u200b", `${invitemessage}`);
+                                        welcomeembed.addFields({ name: "\u200b", value: `${invitemessage}` });
                                     //member roles add on welcome every single role
                                     const canvas = Canvas.createCanvas(1772, 633);
                                     //make it "2D"
@@ -3456,7 +3420,7 @@ module.exports = {
                                 let { channel } = message;
                                 try {
                                     //define the welcome embed
-                                    const welcomeembed = new Discord.MessageEmbed()
+                                    const welcomeembed = new EmbedBuilder()
                                         .setColor(es.color)
                                         .setThumbnail(
                                             es.thumb
@@ -3467,12 +3431,9 @@ module.exports = {
                                                 : null
                                         )
                                         .setTimestamp()
-                                        .setFooter(
-                                            "ID: " + member.user.id,
-                                            member.user.displayAvatarURL({
+                                        .setFooter({ text: "ID: " + member.user.id, iconURL: member.user.displayAvatarURL({
                                                 dynamic: true,
-                                            })
-                                        )
+                                            }) })
 
                                         .setTitle(eval(client.la[ls]["handlers"]["welcomejs"]["welcome"]["variable13"]))
                                         .setDescription(
@@ -3483,7 +3444,7 @@ module.exports = {
                                                 .replace("{usertag}", `${member.user.tag}`)
                                         );
                                     if (client.settings.get(member.guild.id, "welcome.invite"))
-                                        welcomeembed.addField("\u200b", `${invitemessage}`);
+                                        welcomeembed.addFields({ name: "\u200b", value: `${invitemessage}` });
                                     try {
                                         //member roles add on welcome every single role
                                         const canvas = Canvas.createCanvas(1772, 633);
@@ -3624,16 +3585,16 @@ module.exports = {
                                         //send the welcome embed to there
                                         if (
                                             channel
-                                                .permissionsFor(channel.guild.me)
-                                                .has(Discord.Permissions.FLAGS.SEND_MESSAGES)
+                                                .permissionsFor(channel.guild.members.me)
+                                                .has(PermissionFlagsBits.SendMessages)
                                         ) {
                                             if (
                                                 channel
-                                                    .permissionsFor(channel.guild.me)
-                                                    .has(Discord.Permissions.FLAGS.EMBED_LINKS) &&
+                                                    .permissionsFor(channel.guild.members.me)
+                                                    .has(PermissionFlagsBits.EmbedLinks) &&
                                                 channel
-                                                    .permissionsFor(channel.guild.me)
-                                                    .has(Discord.Permissions.FLAGS.ATTACH_FILES)
+                                                    .permissionsFor(channel.guild.members.me)
+                                                    .has(PermissionFlagsBits.AttachFiles)
                                             ) {
                                                 channel
                                                     .send({
@@ -3644,8 +3605,8 @@ module.exports = {
                                                     .catch(() => {});
                                             } else if (
                                                 channel
-                                                    .permissionsFor(channel.guild.me)
-                                                    .has(Discord.Permissions.FLAGS.ATTACH_FILES)
+                                                    .permissionsFor(channel.guild.members.me)
+                                                    .has(PermissionFlagsBits.AttachFiles)
                                             ) {
                                                 channel
                                                     .send({
@@ -3685,7 +3646,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

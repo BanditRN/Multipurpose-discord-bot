@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -18,7 +20,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "ECONOMY")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -38,9 +40,9 @@ module.exports = {
             if (!topay)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["pay"]["variable1"]))
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["pay"]["variable2"])),
                     ],
@@ -50,9 +52,9 @@ module.exports = {
             if (!payamount)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["pay"]["variable3"]))
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["pay"]["variable4"])),
                     ],
@@ -60,9 +62,9 @@ module.exports = {
             if (payamount <= 0)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["pay"]["variable5"])),
                     ],
                 });
@@ -79,9 +81,9 @@ module.exports = {
             if (payamount <= 0)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["pay"]["variable7"])),
                     ],
                 });
@@ -89,9 +91,9 @@ module.exports = {
             if (payamount > data.balance)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["pay"]["variable8"])),
                     ],
                 });
@@ -103,7 +105,7 @@ module.exports = {
             //return some message!
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -112,7 +114,7 @@ module.exports = {
                                     : client.user.displayAvatarURL()
                                 : null
                         )
-                        .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                        .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                         .setTitle(eval(client.la[ls]["cmds"]["economy"]["pay"]["variable9"]))
                         .setDescription(eval(client.la[ls]["cmds"]["economy"]["pay"]["variable10"])),
                 ],
@@ -121,7 +123,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

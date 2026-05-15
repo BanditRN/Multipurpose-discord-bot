@@ -70,7 +70,7 @@ module.exports = client => {
                                 currrole = rr[j].Role;
                                 let guildRole = messagereaction.guild.roles.cache.get(rr[j].Role);
                                 if (guildRole) {
-                                    if (messagereaction.guild.me.roles.highest.rawPosition > guildRole.rawPosition) {
+                                    if (messagereaction.guild.members.me?.roles.highest.rawPosition > guildRole.rawPosition) {
                                         if (!messagereaction.roles.cache.has(rr[j].Role))
                                             await messagereaction.roles.add(rr[j].Role).catch(() => {});
                                     } else {
@@ -104,7 +104,7 @@ module.exports = client => {
                                 currrole = rr[j].Role;
                                 let guildRole = messagereaction.guild.roles.cache.get(rr[j].Role);
                                 if (guildRole) {
-                                    if (messagereaction.guild.me.roles.highest.rawPosition > guildRole.rawPosition) {
+                                    if (messagereaction.guild.members.me?.roles.highest.rawPosition > guildRole.rawPosition) {
                                         if (!messagereaction.roles.cache.has(rr[j].Role))
                                             await messagereaction.roles.add(rr[j].Role).catch(() => {});
                                     } else {
@@ -159,7 +159,7 @@ module.exports = client => {
                                 if (rr2[z].Role != currrole) {
                                     let guildRole = messagereaction.guild.roles.cache.get(rr2[z].Role);
                                     if (guildRole) {
-                                        if (messagereaction.guild.me.roles.highest.rawPosition > guildRole.rawPosition) {
+                                        if (messagereaction.guild.members.me?.roles.highest.rawPosition > guildRole.rawPosition) {
                                             if (!messagereaction.roles.cache.has(rr[z].Role))
                                                 await messagereaction.roles.remove(rr[z].Role).catch(() => {});
                                         } else {
@@ -223,7 +223,7 @@ module.exports = client => {
                             try {
                                 let guildRole = messagereaction.guild.roles.cache.get(rr[j].Role);
                                 if (guildRole) {
-                                    if (messagereaction.guild.me.roles.highest.rawPosition > guildRole.rawPosition) {
+                                    if (messagereaction.guild.members.me?.roles.highest.rawPosition > guildRole.rawPosition) {
                                         if (messagereaction.roles.cache.has(rr[j].Role))
                                             await messagereaction.roles.remove(rr[j].Role).catch(() => {});
                                     } else {
@@ -258,7 +258,7 @@ module.exports = client => {
                             try {
                                 let guildRole = messagereaction.guild.roles.cache.get(rr[j].Role);
                                 if (guildRole) {
-                                    if (messagereaction.guild.me.roles.highest.rawPosition > guildRole.rawPosition) {
+                                    if (messagereaction.guild.members.me?.roles.highest.rawPosition > guildRole.rawPosition) {
                                         if (messagereaction.roles.cache.has(rr[j].Role))
                                             await messagereaction.roles.remove(rr[j].Role).catch(() => {});
                                     } else {

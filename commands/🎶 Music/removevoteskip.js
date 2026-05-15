@@ -1,6 +1,6 @@
 /*const {
-  MessageEmbed
-} = require(`discord.js`);
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -20,7 +20,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
     
     let es = client.settings.get(message.guild.id, "embed");let ls = client.settings.get(message.guild.id, "language")
     if (!client.settings.get(message.guild.id, "MUSIC")) {
-      return message.reply({embeds : [new MessageEmbed()
+      return message.reply({embeds : [new EmbedBuilder()
         .setColor(es.wrongcolor)
         .setFooter(client.getFooter(es))
         .setTitle(client.la[ls].common.disabled.title)
@@ -39,14 +39,14 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
         if (player.get(`vote-${message.author.id}`)) {
           player.set(`vote-${message.author.id}`, false)
           player.set(`votes`, String(Number(player.get(`votes`)) - 1));
-          return message.reply({embeds : [new MessageEmbed()
+          return message.reply({embeds : [new EmbedBuilder()
             .setColor(es.color)
 
             .setTitle(eval(client.la[ls]["cmds"]["music"]["removevoteskip"]["variable1"]))
             .setDescription(eval(client.la[ls]["cmds"]["music"]["removevoteskip"]["variable2"]))
           ]});
         } else {
-          return message.reply({embeds : [new MessageEmbed()
+          return message.reply({embeds : [new EmbedBuilder()
             .setColor(es.wrongcolor)
 
             .setTitle(eval(client.la[ls]["cmds"]["music"]["removevoteskip"]["variable3"]))
@@ -54,7 +54,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
           ]});
         }
       } else
-        return message.reply({embeds :[new MessageEmbed()
+        return message.reply({embeds :[new EmbedBuilder()
           .setColor(es.wrongcolor)
 
           .setTitle(eval(client.la[ls]["cmds"]["music"]["removevoteskip"]["variable5"]))
@@ -62,7 +62,7 @@ const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
         ]});
     } catch (e) {
       console.log(String(e.stack).dim.bgRed)
-      return message.reply({embeds : [new MessageEmbed()
+      return message.reply({embeds : [new EmbedBuilder()
         .setColor(es.wrongcolor)
 
         .setTitle(client.la[ls].common.erroroccur)

@@ -1,4 +1,6 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -22,7 +24,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -35,7 +37,7 @@ module.exports = {
             if (!args[0])
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(client.la[ls].cmds.music.loop.errortitle)
                             .setDescription(client.la[ls].cmds.music.loop.errordescription),
@@ -49,7 +51,7 @@ module.exports = {
                 args[0].toLowerCase() === `t`
             ) {
                 //Create the Embed
-                let embed = new MessageEmbed()
+                let embed = new EmbedBuilder()
                     .setTitle(
                         player.trackRepeat
                             ? client.la[ls].cmds.music.loop.track.disabled
@@ -70,7 +72,7 @@ module.exports = {
             //if input is queue
             else if (args[0].toLowerCase() === `queue` || args[0].toLowerCase() === `qu` || args[0].toLowerCase() === `q`) {
                 //Create the Embed
-                let embed = new MessageEmbed()
+                let embed = new EmbedBuilder()
                     .setTitle(
                         player.queueRepeat
                             ? client.la[ls].cmds.music.loop.queue.disabled
@@ -89,7 +91,7 @@ module.exports = {
                 return message.reply({ embeds: [embed] });
             } else if (args[0].toLowerCase() === `off` || args[0].toLowerCase() === `stop`) {
                 //Create the Embed
-                let embed = new MessageEmbed()
+                let embed = new EmbedBuilder()
                     .setTitle(client.la[ls].cmds.music.loop.queue.disabled)
                     .setColor(es.color)
                     .setDescription(client.la[ls].cmds.music.loop.andsong);
@@ -99,7 +101,7 @@ module.exports = {
             }
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setTitle(client.la[ls].cmds.music.loop.errortitle)
                         .setDescription(client.la[ls].cmds.music.loop.errordescription),
@@ -109,7 +111,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setTitle(client.la[ls].common.erroroccur)
                         .setDescription(eval(client.la[ls]["cmds"]["music"]["loop"]["variable1"])),

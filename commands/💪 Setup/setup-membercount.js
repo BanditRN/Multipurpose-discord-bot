@@ -1,4 +1,7 @@
-var { MessageEmbed, MessageSelectMenu, MessageActionRow } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
 var Discord = require(`discord.js`);
 const { getNumberEmojis } = require("../../botconfig/emojiFunctions");
 var config = require(`${process.cwd()}/botconfig/config.json`);
@@ -57,19 +60,15 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Member Counter Setup",
-                        "https://cdn.discordapp.com/emojis/891040423605321778.png?size=96",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Member Counter Setup", iconURL: "https://cdn.discordapp.com/emojis/891040423605321778.png?size=96", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 let used1 = false;
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //function to handle the menuselection
                 function menuselection(menu) {
@@ -112,7 +111,7 @@ module.exports = {
             async function second_layer(SetupNumber, menuoptiondata) {
                 var tempmsg = await message.reply({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-membercount"]["variable6"]))
                             .setColor(es.color)
                             .setThumbnail(
@@ -143,7 +142,7 @@ module.exports = {
                             let temptype = SetupNumber;
                             message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-membercount"]["variable8"]))
                                         .setColor(es.color)
                                         .setThumbnail(
@@ -161,7 +160,7 @@ module.exports = {
 
                             tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-membercount"]["variable9"]))
                                         .setColor(es.color)
                                         .setThumbnail(
@@ -177,29 +176,21 @@ module.exports = {
 
 *Send the Name NOW!, mind that the Name must be shorter then 32 Characters!!!*`
                                         )
-                                        .addField(
-                                            `**USER KEYWORDS** (USERS __including__ Bots):`,
-                                            `> \`{user}\` / \`{users}\` will be replaced with the amount of all users, no matter if bot or not
+                                        .addFields({ name: `**USER KEYWORDS** (USERS __including__ Bots):`, value: `> \`{user}\` / \`{users}\` will be replaced with the amount of all users, no matter if bot or not
 
 > \`{online}\` will be replaced with the amount of **ONLINE** USERS
 > \`{idle}\` will be replaced with the amount of **IDLE** USERS
 > \`{dnd}\` will be replaced with the amount of **DND** USERS
 > \`{offline}\` will be replaced with the amount of **OFFLINE** USERS
-> \`{allonline}\` will be replaced with the amount of **ONLINE**+**IDLE**+**DND** USERS  `
-                                        )
-                                        .addField(
-                                            `**MEMBER KEYWORDS** (Members __without__ Bots):`,
-                                            `> \`{member}\` / \`{members}\` will be replaced with the amount of all Members (Humans)
+> \`{allonline}\` will be replaced with the amount of **ONLINE**+**IDLE**+**DND** USERS  ` })
+                                        .addFields({ name: `**MEMBER KEYWORDS** (Members __without__ Bots):`, value: `> \`{member}\` / \`{members}\` will be replaced with the amount of all Members (Humans)
 
 > \`{onlinemember}\` will be replaced with the amount of **ONLINE** MEMBERS
 > \`{idlemember}\` will be replaced with the amount of **IDLE** MEMBERS
 > \`{dndmember}\` will be replaced with the amount of **DND** MEMBERS
 > \`{offlinemember}\` will be replaced with the amount of **OFFLINE** MEMBERS
-> \`{allonlinemember}\` will be replaced with the amount of **ONLINE**+**IDLE**+**DND** MEMBERS (no Bots)  `
-                                        )
-                                        .addField(
-                                            `**OTHER KEYWORDS:**`,
-                                            `> \`{bot}\` / \`{bots}\` will be replaced with the amount of all bots
+> \`{allonlinemember}\` will be replaced with the amount of **ONLINE**+**IDLE**+**DND** MEMBERS (no Bots)  ` })
+                                        .addFields({ name: `**OTHER KEYWORDS:**`, value: `> \`{bot}\` / \`{bots}\` will be replaced with the amount of all bots
 > \`{channel}\` / \`{channels}\` will be replaced with the amount of all Channels
 > \`{text}\` / \`{texts}\` will be replaced with the amount of Text Channels
 > \`{voice}\` / \`{voices}\` will be replaced with the amount of Voice Channels
@@ -210,16 +201,12 @@ module.exports = {
 > \`{openthread}\` / \`{openthreads}\` will be replaced with the amount of open Threads
 > \`{archivedthread}\` / \`{archivedthreads}\` will be replaced with the amount of archived Threads
 
-> \`{role}\` / \`{roles}\` will be replaced with the amount of Roles`
-                                        )
-                                        .addField(
-                                            `**Examples:**`,
-                                            `> \`🗣 Members: {members}\`
+> \`{role}\` / \`{roles}\` will be replaced with the amount of Roles` })
+                                        .addFields({ name: `**Examples:**`, value: `> \`🗣 Members: {members}\`
 > \`🗣 Roles: {roles}\`
 > \`🗣 Channels: {channels}\`
 > \`🗣 Bots: {bots} \`
-> \`🗣 All Users: {users}\``
-                                        )
+> \`🗣 All Users: {users}\`` })
                                         .setFooter(client.getFooter(es)),
                                 ],
                             });
@@ -407,7 +394,7 @@ module.exports = {
                                         );
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(
                                                             client.la[ls]["cmds"]["setup"]["setup-membercount"]["variable10"]
@@ -621,7 +608,7 @@ module.exports = {
                                     console.log(String(e).grey);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-membercount"]["variable11"])
                                                 )
@@ -639,7 +626,7 @@ module.exports = {
                         console.log(e.stack ? String(e.stack).grey : String(e).grey);
                         return message.reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-membercount"]["variable12"]))
                                     .setColor(es.wrongcolor)
                                     .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -652,7 +639,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-membercount"]["variable15"]))

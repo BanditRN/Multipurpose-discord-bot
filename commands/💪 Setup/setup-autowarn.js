@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-autowarn",
@@ -96,20 +100,16 @@ module.exports = {
                     .addOptions(menuoptions);
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Auto-Warn Setup",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/prohibited_1f6ab?.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Auto-Warn Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/prohibited_1f6ab?.png", url: "https://discord.gg/milrato" })
                     .setDescription(
                         "***Select all Auto-Warn Rules you want to enable/disable in the `Selection` down below!***\n> *The Warns will only be applied, if the responsible System for it, is enabled!*\n> **You must select at least 1 or more!**"
                     );
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 const collector = menumsg.createMessageComponentCollector({
                     filter: i => i?.isSelectMenu() && i?.user && i?.message.author.id == client.user.id,
@@ -159,7 +159,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

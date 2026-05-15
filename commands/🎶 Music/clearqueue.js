@@ -1,4 +1,6 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -23,7 +25,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -36,14 +38,14 @@ module.exports = {
             player.queue.clear();
             //Send Success Message
             message.reply({
-                embeds: [new MessageEmbed().setTitle(client.la[ls].cmds.music.clearqueue.title).setColor(es.color)],
+                embeds: [new EmbedBuilder().setTitle(client.la[ls].cmds.music.clearqueue.title).setColor(es.color)],
             });
             message.react("💥").catch(() => {});
         } catch (e) {
             console.log(String(e.stack).dim.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setTitle(client.la[ls].common.erroroccur)
                         .setDescription(eval(client.la[ls]["cmds"]["music"]["clearqueue"]["variable1"])),

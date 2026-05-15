@@ -1,5 +1,7 @@
 const { WillYouPressTheButton } = require("@m3rcena/weky");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 
@@ -15,7 +17,7 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
         if (!client.settings.get(message.guild.id, "MINIGAMES")) {
             return message.reply(
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.wrongcolor)
                     .setFooter(client.getFooter(es))
                     .setTitle(client.la[ls].common.disabled.title)

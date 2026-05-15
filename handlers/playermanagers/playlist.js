@@ -1,4 +1,6 @@
-var { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var { format, delay, arrayMove } = require("../functions");
@@ -28,13 +30,12 @@ async function playlist(client, message, args, type, slashCommand = false) {
             //set the variables
             player.set("message", message);
             player.set("playerauthor", message.author.id);
-            player.connect();
+            await player.connect();
             try {
                 message.react("863876115584385074").catch(() => {});
             } catch (e) {
                 console.log(String(e).grey);
             }
-            player.stop();
         }
         try {
             // Search for tracks using a query or url, using a query searches youtube automatically and the track requester object
@@ -52,7 +53,7 @@ async function playlist(client, message, args, type, slashCommand = false) {
                     .reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.wrongcolor)
                                 .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["playlist"]["variable1"]))
                                 .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playlist"]["variable2"])),
@@ -62,7 +63,7 @@ async function playlist(client, message, args, type, slashCommand = false) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["playlist"]["variable1"]))
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playlist"]["variable2"])),
@@ -82,7 +83,7 @@ async function playlist(client, message, args, type, slashCommand = false) {
                     .reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(ee.wrongcolor)
                                 .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                                 .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playlist"]["variable3"])),
@@ -92,7 +93,7 @@ async function playlist(client, message, args, type, slashCommand = false) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playlist"]["variable3"])),
@@ -110,7 +111,7 @@ async function playlist(client, message, args, type, slashCommand = false) {
             //set the variables
             player.set("message", message);
             player.set("playerauthor", message.author.id);
-            player.connect();
+            await player.connect();
             try {
                 message.react("863876115584385074").catch(() => {});
             } catch (e) {
@@ -119,25 +120,25 @@ async function playlist(client, message, args, type, slashCommand = false) {
             //add track
             player.queue.add(res.tracks);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else if (!player.queue || !player.queue.current) {
             //add track
             player.queue.add(res.tracks);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else {
             //add the tracks
             player.queue.add(res.tracks);
         }
         //send information
-        var playlistembed = new MessageEmbed()
+        var playlistembed = new EmbedBuilder()
             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["playlist"]["variable4"]))
             .setColor(ee.color)
             .setThumbnail(`https://img.youtube.com/vi/${res.tracks[0].identifier}/mqdefault.jpg`)
-            .addField("⌛ Duration: ", `\`${format(res.playlist.duration)}\``, true)
-            .addField("🔂 Queue length: ", `\`${player.queue.length} Songs\``, true);
+            .addFields({ name: "⌛ Duration: ", value: `\`${format(res.playlist.duration)}\``, inline: true })
+            .addFields({ name: "🔂 Queue length: ", value: `\`${player.queue.length} Songs\``, inline: true });
 
         if (slashCommand) slashCommand.reply({ ephemeral: true, embeds: [playlistembed] }).catch(() => {});
         else message.reply({ embeds: [playlistembed] }).catch(() => {});
@@ -168,7 +169,7 @@ async function playlist(client, message, args, type, slashCommand = false) {
                 .reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**"),
                     ],
@@ -177,7 +178,7 @@ async function playlist(client, message, args, type, slashCommand = false) {
         message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**"),
                 ],

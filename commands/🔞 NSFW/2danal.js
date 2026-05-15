@@ -2,7 +2,9 @@ const client = require("nekos.life");
 const Discord = require("discord.js");
 const neko = new client();
 const config = require(`${process.cwd()}/botconfig/config.json`);
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 module.exports = {
     name: "2danal",
     category: "🔞 NSFW",
@@ -12,7 +14,7 @@ module.exports = {
         let es = client.settings.get(message.guild.id, "embed");
         let ls = client.settings.get(message.guild.id, "language");
         if (!client.settings.get(message.guild.id, "NSFW")) {
-            const x = new MessageEmbed()
+            const x = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setFooter(client.getFooter(es))
                 .setTitle(client.la[ls].common.disabled.title)

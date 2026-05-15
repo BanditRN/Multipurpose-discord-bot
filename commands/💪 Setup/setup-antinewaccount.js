@@ -1,11 +1,17 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+    PermissionFlagsBits,
+    StringSelectMenuBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing, duration } = require(`${process.cwd()}/handlers/functions`);
 const ms = require("ms");
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-antinewaccount",
@@ -22,7 +28,7 @@ module.exports = {
     cooldown: 5,
     usage: "setup-antinewaccount  -->  Follow the Steps",
     description: "Setup a System which Blocks too new Accounts!",
-    memberpermissions: ["ADMINISTRATOR"],
+    memberpermissions: [PermissionFlagsBits.Administrator],
     type: "security",
     run: async (client, message, args, cmduser, text, prefix) => {
         let es = client.settings.get(message.guild.id, "embed");
@@ -75,7 +81,7 @@ module.exports = {
                     },
                 ];
                 //define the selection
-                let Selection = new MessageSelectMenu()
+                let Selection = new StringSelectMenuBuilder()
                     .setCustomId("MenuSelection")
                     .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                     .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -93,18 +99,14 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Anti-New-Account",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/310/hammer_1f528.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Anti-New-Account", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/310/hammer_1f528.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -145,7 +147,7 @@ module.exports = {
                             let thesettings = client.settings.get(message.guild.id, `antinewaccount`);
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(
                                             `${thesettings ? `Enabled New Account Detection` : `Disabled New Account Detection`}`
                                         )
@@ -171,16 +173,13 @@ module.exports = {
                             let extramessage = settings.extra_message;
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(`What should be the new Extra Message?`)
                                         .setColor(es.color)
-                                        .addField(
-                                            `**Current Extra-Message:**`,
-                                            `${extramessage && extramessage.length > 1 ? extramessage : "No Extra Message provided"}`.substring(
+                                        .addFields({ name: `**Current Extra-Message:**`, value: `${extramessage && extramessage.length > 1 ? extramessage : "No Extra Message provided"}`.substring(
                                                 0,
                                                 1024
-                                            )
-                                        )
+                                            ) })
                                         .setDescription(`Send it now!`)
                                         .setFooter(client.getFooter(es)),
                                 ],
@@ -200,16 +199,13 @@ module.exports = {
                                         client.settings.set(message.guild.id, extramessage, `antinewaccount.extra_message`);
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(`Defined the New Extra Message!`)
                                                     .setColor(es.color)
-                                                    .addField(
-                                                        `**New Extra-Message:**`,
-                                                        `${extramessage && extramessage.length > 1 ? extramessage : "No Extra Message provided"}`.substring(
+                                                    .addFields({ name: `**New Extra-Message:**`, value: `${extramessage && extramessage.length > 1 ? extramessage : "No Extra Message provided"}`.substring(
                                                             0,
                                                             1024
-                                                        )
-                                                    )
+                                                        ) })
                                                     .setFooter(client.getFooter(es)),
                                             ],
                                         });
@@ -219,7 +215,7 @@ module.exports = {
                                 .catch(e => {
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(`Something went wrong`)
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -235,7 +231,7 @@ module.exports = {
                             const extramessage = thesettings.extra_message;
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(`Settings of the New Account Detection Setup`)
                                         .setColor(es.color)
                                         .setDescription(
@@ -245,13 +241,10 @@ module.exports = {
                                                 .map(i => `\`${i}\``)
                                                 .join(", ")}\n\n**Action:**\n> ${thesettings.action}`.substring(0, 2048)
                                         )
-                                        .addField(
-                                            `**Current Extra-Message:**`,
-                                            `${extramessage && extramessage.length > 1 ? extramessage : "No Extra Message provided"}`.substring(
+                                        .addFields({ name: `**Current Extra-Message:**`, value: `${extramessage && extramessage.length > 1 ? extramessage : "No Extra Message provided"}`.substring(
                                                 0,
                                                 1024
-                                            )
-                                        )
+                                            ) })
                                         .setFooter(client.getFooter(es)),
                                 ],
                             });
@@ -278,7 +271,7 @@ module.exports = {
                                 },
                             ];
                             //define the selection
-                            let Selection = new MessageSelectMenu()
+                            let Selection = new StringSelectMenuBuilder()
                                 .setCustomId("MenuSelection")
                                 .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                                 .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -298,18 +291,14 @@ module.exports = {
                                 );
 
                             //define the embed
-                            let MenuEmbed = new MessageEmbed()
+                            let MenuEmbed = new EmbedBuilder()
                                 .setColor(es.color)
-                                .setAuthor(
-                                    "Anti-New-Account",
-                                    "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/310/hammer_1f528.png",
-                                    "https://discord.gg/milrato"
-                                )
+                                .setAuthor({ name: "Anti-New-Account", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/310/hammer_1f528.png", url: "https://discord.gg/milrato" })
                                 .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                             //send the menu msg
                             let menumsg = await message.reply({
                                 embeds: [MenuEmbed],
-                                components: [new MessageActionRow().addComponents(Selection)],
+                                components: [new ActionRowBuilder().addComponents(Selection)],
                             });
                             //Create the collector
                             const collector = menumsg.createMessageComponentCollector({
@@ -329,7 +318,7 @@ module.exports = {
                                     client.settings.set(message.guild.id, menu?.values[0], `antinewaccount.action`);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(`Successfully set the new Action to: ${menu?.values[0]}`)
                                                 .setColor(es.color)
                                                 .setDescription(
@@ -361,15 +350,12 @@ module.exports = {
                         let extramessage = settings.extra_message;
                         var tempmsg = await message.reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(`What should be the new Minimum Account Age?`)
                                     .setColor(es.color)
-                                    .addField(
-                                        `**Current Minimum Account Age:**`,
-                                        `${duration(settings.delay)
+                                    .addFields({ name: `**Current Minimum Account Age:**`, value: `${duration(settings.delay)
                                             .map(i => `\`${i}\``)
-                                            .join(", ")}`.substring(0, 1024)
-                                    )
+                                            .join(", ")}`.substring(0, 1024) })
                                     .setDescription(`Send it now!\nExample: \`2 Days\`, \`6 hours + 2 Days\``)
                                     .setFooter(client.getFooter(es)),
                             ],
@@ -395,15 +381,12 @@ module.exports = {
                                     client.settings.set(message.guild.id, time, `antinewaccount.delay`);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(`Defined the New Minimum Account Duration!`)
                                                 .setColor(es.color)
-                                                .addField(
-                                                    `**New Minimum Account Age:**`,
-                                                    `${duration(time)
+                                                .addFields({ name: `**New Minimum Account Age:**`, value: `${duration(time)
                                                         .map(i => `\`${i}\``)
-                                                        .join(", ")}`.substring(0, 1024)
-                                                )
+                                                        .join(", ")}`.substring(0, 1024) })
                                                 .setFooter(client.getFooter(es)),
                                         ],
                                     });
@@ -413,7 +396,7 @@ module.exports = {
                             .catch(e => {
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(`Something went wrong`)
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -428,7 +411,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

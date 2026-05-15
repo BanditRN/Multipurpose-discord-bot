@@ -1,4 +1,6 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var Discord = require(`discord.js`);
 var config = require(`../../botconfig/config.json`);
 var ee = require(`../../botconfig/embed.json`);
@@ -16,14 +18,11 @@ module.exports = {
         if (!config.ownerIDS.includes(message.author.id))
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
-                        .setFooter(
-                            client.user.username,
-                            es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
+                        .setFooter({ text: client.user.username, iconURL: es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
                                 ? es.footericon
-                                : client.user.displayAvatarURL()
-                        )
+                                : client.user.displayAvatarURL() })
                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["cmdreload"]["variable1"])),
                 ],
             });
@@ -57,7 +56,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

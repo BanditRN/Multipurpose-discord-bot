@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -38,7 +40,7 @@ module.exports = {
                     if (err) return message.reply(client.la[ls].common.usernotfound);
                     var user = data[0];
                     if (!user) message.reply(client.la[ls].common.usernotfound);
-                    var embed = new Discord.MessageEmbed()
+                    var embed = new EmbedBuilder()
                         .setColor(`#${user.profile_background_color}`)
                         .setThumbnail(user.profile_image_url_https ? user.profile_image_url_https : user.profile_image_url)
                         .setFooter(
@@ -47,30 +49,14 @@ module.exports = {
                                 user.profile_image_url_https ? user.profile_image_url_https : user.profile_image_url
                             )
                         )
-                        .addField(client.la[ls].cmds.info.twitterinfo.field1.title, `\`${user.name}\``, true)
-                        .addField(
-                            client.la[ls].cmds.info.twitterinfo.field2.title,
-                            `\`${moment(user.created_at).format("DD/MM/YYYY")}\`\n\`${moment(user.created_at).format("hh:mm:ss")}\``,
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.twitterinfo.field3.title,
-                            handlemsg(client.la[ls].cmds.info.twitterinfo.field3.value, { followers: user.followers_count }),
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.twitterinfo.field4.title,
-                            handlemsg(client.la[ls].cmds.info.twitterinfo.field4.value, { friends: user.friends_count }),
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.twitterinfo.field5.title,
-                            handlemsg(client.la[ls].cmds.info.twitterinfo.field5.value, { statuses: user.statuses_count }),
-                            true
-                        );
+                        .addFields({ name: client.la[ls].cmds.info.twitterinfo.field1.title, value: `\`${user.name}\``, inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.twitterinfo.field2.title, value: `\`${moment(user.created_at).format("DD/MM/YYYY")}\`\n\`${moment(user.created_at).format("hh:mm:ss")}\``, inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.twitterinfo.field3.title, value: handlemsg(client.la[ls].cmds.info.twitterinfo.field3.value, { followers: user.followers_count }), inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.twitterinfo.field4.title, value: handlemsg(client.la[ls].cmds.info.twitterinfo.field4.value, { friends: user.friends_count }), inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.twitterinfo.field5.title, value: handlemsg(client.la[ls].cmds.info.twitterinfo.field5.value, { statuses: user.statuses_count }), inline: true });
                     if (user.location)
                         embed
-                            .addField(client.la[ls].cmds.info.twitterinfo.field6.title, `\`${user.location}\``, true)
+                            .addFields({ name: client.la[ls].cmds.info.twitterinfo.field6.title, value: `\`${user.location}\``, inline: true })
                             .setTitle(handlemsg(client.la[ls].cmds.info.twitterinfo.title, { name: user.screen_name }))
                             .setURL(`https://twitter.com/${user.screen_name}`);
                     if (user.description)
@@ -82,7 +68,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

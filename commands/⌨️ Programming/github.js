@@ -2,7 +2,9 @@
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const fetch = require("node-fetch");
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 module.exports = {
     //definition
     name: "github", //the name of the command
@@ -21,7 +23,7 @@ module.exports = {
             if (!repo)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["programming"]["github"]["variable1"]))
@@ -32,7 +34,7 @@ module.exports = {
             if (!username || !repository)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["programming"]["github"]["variable3"]))
@@ -46,7 +48,7 @@ module.exports = {
             if (!body)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["programming"]["github"]["variable5"]))
@@ -69,9 +71,9 @@ module.exports = {
 
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(body.full_name)
-                        .setAuthor("GitHub", "https://github?.githubassets.com/images/modules/logos_page/GitHub-Mark.png")
+                        .setAuthor({ name: "GitHub", iconURL: "https://github?.githubassets.com/images/modules/logos_page/GitHub-Mark.png" })
                         .setURL(body.html_url)
                         .setThumbnail(body.owner.avatar_url)
                         .setColor(es.color)
@@ -83,7 +85,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const canvacord = require("canvacord");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -18,7 +20,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "FUN")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -34,13 +36,10 @@ module.exports = {
         try {
             let tempmsg = await message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setFooter(client.getFooter(es))
-                        .setAuthor(
-                            "Getting Image Data..",
-                            "https://images-ext-1.discordapp.net/external/ANU162U1fDdmQhim_BcbQ3lf4dLaIQl7p0HcqzD5wJA/https/cdn.discordapp.com/emojis/756773010123522058.gif"
-                        ),
+                        .setAuthor({ name: "Getting Image Data..", iconURL: "https://images-ext-1.discordapp.net/external/ANU162U1fDdmQhim_BcbQ3lf4dLaIQl7p0HcqzD5wJA/https/cdn.discordapp.com/emojis/756773010123522058.gif" }),
                 ],
             });
             //find the USER
@@ -64,9 +63,9 @@ module.exports = {
             });
             let image = await canvacord.Canvas.rip(avatar);
             let attachment = await new Discord.MessageAttachment(image, "rip.png");
-            let fastembed2 = new Discord.MessageEmbed()
+            let fastembed2 = new EmbedBuilder()
                 .setFooter(client.getFooter(es))
-                .setAuthor(`Meme for: ${user.tag}`, avatar)
+                .setAuthor({ name: `Meme for: ${user.tag}`, iconURL: avatar })
                 .setColor(es.color)
                 .setImage("attachment://rip.png");
             await message.reply({ embeds: [fastembed2], files: [attachment] });
@@ -75,7 +74,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

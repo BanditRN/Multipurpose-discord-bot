@@ -1,4 +1,6 @@
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -25,7 +27,7 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
         if (!client.settings.get(message.guild.id, "MINIGAMES")) {
             return message.reply(
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.wrongcolor)
                     .setFooter(client.getFooter(es))
                     .setTitle(client.la[ls].common.disabled.title)
@@ -40,13 +42,13 @@ module.exports = {
             const { channel } = message.member.voice;
             if (!channel)
                 return message.reply(
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["minigames"]["poker-night"]["variable1"]))
                 );
-            if (!channel.permissionsFor(channel.guild.me).has("CREATE_INSTANT_INVITE")) {
-                const nochannel = new MessageEmbed()
+            if (!channel.permissionsFor(channel.guild.members.me).has("CREATE_INSTANT_INVITE")) {
+                const nochannel = new EmbedBuilder()
                     .setDescription(eval(client.la[ls]["cmds"]["minigames"]["poker-night"]["variable2"]))
                     .setColor(es.wrongcolor)
                     .setFooter(client.getFooter(es));
@@ -72,7 +74,7 @@ module.exports = {
                 .then(invite => {
                     if (!invite.code) {
                         return message.reply(
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setDescription(eval(client.la[ls]["cmds"]["minigames"]["poker-night"]["variable3"]))
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
@@ -84,7 +86,7 @@ module.exports = {
         } catch (e) {
             console.log(String(e.stack).grey.bgRed);
             return message.reply(
-                new Discord.MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.wrongcolor)
                     .setFooter(client.getFooter(es))
                     .setTitle(client.la[ls].common.erroroccur)

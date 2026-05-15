@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const canvacord = require("canvacord");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -15,7 +17,7 @@ module.exports = {
         let es = client.settings.get(message.guild.id, "embed");
         let ls = client.settings.get(message.guild.id, "language");
         if (!client.settings.get(message.guild.id, "FUN")) {
-            const embed1 = new MessageEmbed()
+            const embed1 = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setFooter(client.getFooter(es))
                 .setTitle(client.la[ls].common.disabled.title)
@@ -29,7 +31,7 @@ module.exports = {
         }
         try {
             const question = args.slice(0).join(" ");
-            const embed2 = new MessageEmbed()
+            const embed2 = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setFooter(client.getFooter(es))
                 .setTitle(eval(client.la[ls]["cmds"]["fun"]["8ball"]["variable1"]));
@@ -44,7 +46,7 @@ module.exports = {
                 if (body.magic.type === "Affirmative") embedColor = "#0dba35";
                 if (body.magic.type === "Contrary") embedColor = "#ba0d0d";
                 if (body.magic.type === "Neutral") embedColor = "#6f7275";
-                const embed3 = new Discord.MessageEmbed()
+                const embed3 = new EmbedBuilder()
                     .setTitle("8ball")
                     .setColor(embedColor)
                     .setThumbnail(
@@ -52,16 +54,16 @@ module.exports = {
                             dynamic: true,
                         })
                     )
-                    .addField("Question: ", question, false)
-                    .addField("Asked by: ", message.author.tag, false)
-                    .addField("Reply: ", body.magic.answer, false)
-                    .setFooter(eval(client.la[ls]["cmds"]["fun"]["8ball"]["variable4"]));
+                    .addFields({ name: "Question: ", value: question, inline: false })
+                    .addFields({ name: "Asked by: ", value: message.author.tag, inline: false })
+                    .addFields({ name: "Reply: ", value: body.magic.answer, inline: false })
+                    .setFooter({ text: eval(client.la[ls]["cmds"]["fun"]["8ball"]["variable4"]) });
 
                 message.reply({ embeds: [embed3] });
             });
         } catch (e) {
             console.log(String(e.stack).grey.bgRed);
-            const embed4 = new MessageEmbed()
+            const embed4 = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setFooter(client.getFooter(es))
                 .setTitle(client.la[ls].common.erroroccur)

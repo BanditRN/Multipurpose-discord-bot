@@ -1,4 +1,6 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -24,7 +26,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -39,7 +41,7 @@ module.exports = {
             if (isNaN(args[0])) {
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["radio"]["variable1"]))
                             .setDescription(eval(client.la[ls]["cmds"]["music"]["radio"]["variable2"])),
@@ -50,7 +52,7 @@ module.exports = {
             if (Number(args[1]) > 150 || Number(args[1]) < 1)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["radio"]["variable3"]))
                             .setDescription(eval(client.la[ls]["cmds"]["music"]["radio"]["variable4"])),
@@ -163,7 +165,7 @@ module.exports = {
             else
                 return message.channel.send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(`${emoji.msg.ERROR} Error | Radio Station not found`)
                             .setDescription(
@@ -177,7 +179,7 @@ module.exports = {
                 url: args2[1],
             };
             //define an embed
-            let embed = new MessageEmbed()
+            let embed = new EmbedBuilder()
                 .setColor(es.color)
 
                 .setTitle(`Searching: ${emoji?.msg.search}` + song.title);
@@ -192,7 +194,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
 
                         .setTitle(client.la[ls].common.erroroccur)

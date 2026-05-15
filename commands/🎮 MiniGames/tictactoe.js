@@ -1,4 +1,9 @@
-const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 class TicTacToe {
     /**
@@ -60,12 +65,12 @@ class TicTacToe {
 
         let Embed;
         if (player == 0) {
-            Embed = new MessageEmbed()
+            Embed = new EmbedBuilder()
                 .setTitle(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                 .setDescription(`It is ${authorName}'s Turn!`)
                 .setColor(3426654);
         } else {
-            Embed = new MessageEmbed()
+            Embed = new EmbedBuilder()
                 .setTitle(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                 .setDescription(`It is ${this.opponent.username}'s Turn!`)
                 .setColor(3426654);
@@ -75,9 +80,9 @@ class TicTacToe {
             .reply({
                 embeds: [Embed],
                 components: [
-                    new MessageActionRow().addComponents([A1, A2, A3]),
-                    new MessageActionRow().addComponents([B1, B2, B3]),
-                    new MessageActionRow().addComponents([C1, C2, C3]),
+                    new ActionRowBuilder().addComponents([A1, A2, A3]),
+                    new ActionRowBuilder().addComponents([B1, B2, B3]),
+                    new ActionRowBuilder().addComponents([C1, C2, C3]),
                 ],
             })
             .then(async msg => {
@@ -143,15 +148,15 @@ class TicTacToe {
                             }
                             player = (player + 1) % 2;
                             if (player == 0) {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                                     .setColor(3426654);
                             } else {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                                     .setColor(3426654);
                             }
-                            A1 = new MessageButton()
+                            A1 = new ButtonBuilder()
                                 .setCustomId(a11)
                                 .setStyle(`${gameData[player].color}`)
                                 .setEmoji(gameData[player].em)
@@ -208,15 +213,15 @@ class TicTacToe {
                             }
                             player = (player + 1) % 2;
                             if (player == 0) {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                                     .setColor(3426654);
                             } else {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                                     .setColor(3426654);
                             }
-                            A2 = new MessageButton()
+                            A2 = new ButtonBuilder()
                                 .setCustomId(a22)
                                 .setStyle(`${gameData[player].color}`)
                                 .setEmoji(gameData[player].em)
@@ -273,15 +278,15 @@ class TicTacToe {
                             }
                             player = (player + 1) % 2;
                             if (player == 0) {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                                     .setColor(3426654);
                             } else {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                                     .setColor(3426654);
                             }
-                            A3 = new MessageButton()
+                            A3 = new ButtonBuilder()
                                 .setCustomId(a33)
                                 .setStyle(`${gameData[player].color}`)
                                 .setEmoji(gameData[player].em)
@@ -338,15 +343,15 @@ class TicTacToe {
                             }
                             player = (player + 1) % 2;
                             if (player == 0) {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                                     .setColor(3426654);
                             } else {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                                     .setColor(3426654);
                             }
-                            B1 = new MessageButton()
+                            B1 = new ButtonBuilder()
                                 .setCustomId(b11)
                                 .setStyle(`${gameData[player].color}`)
                                 .setEmoji(gameData[player].em)
@@ -403,15 +408,15 @@ class TicTacToe {
                             }
                             player = (player + 1) % 2;
                             if (player == 0) {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                                     .setColor(3426654);
                             } else {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                                     .setColor(3426654);
                             }
-                            B2 = new MessageButton()
+                            B2 = new ButtonBuilder()
                                 .setCustomId(b22)
                                 .setStyle(`${gameData[player].color}`)
                                 .setEmoji(gameData[player].em)
@@ -468,15 +473,15 @@ class TicTacToe {
                             }
                             player = (player + 1) % 2;
                             if (player == 0) {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                                     .setColor(3426654);
                             } else {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                                     .setColor(3426654);
                             }
-                            B3 = new MessageButton()
+                            B3 = new ButtonBuilder()
                                 .setCustomId(b33)
                                 .setStyle(`${gameData[player].color}`)
                                 .setEmoji(gameData[player].em)
@@ -533,15 +538,15 @@ class TicTacToe {
                             }
                             player = (player + 1) % 2;
                             if (player == 0) {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                                     .setColor(3426654);
                             } else {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                                     .setColor(3426654);
                             }
-                            C1 = new MessageButton()
+                            C1 = new ButtonBuilder()
                                 .setCustomId(c11)
                                 .setStyle(`${gameData[player].color}`)
                                 .setEmoji(gameData[player].em)
@@ -598,15 +603,15 @@ class TicTacToe {
                             }
                             player = (player + 1) % 2;
                             if (player == 0) {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                                     .setColor(3426654);
                             } else {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                                     .setColor(3426654);
                             }
-                            C2 = new MessageButton()
+                            C2 = new ButtonBuilder()
                                 .setCustomId(c22)
                                 .setStyle(`${gameData[player].color}`)
                                 .setEmoji(gameData[player].em)
@@ -663,15 +668,15 @@ class TicTacToe {
                             }
                             player = (player + 1) % 2;
                             if (player == 0) {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 __**${authorName}**__ VS ${this.opponent.username} 🎮`)
                                     .setColor(3426654);
                             } else {
-                                Embed = new MessageEmbed()
+                                Embed = new EmbedBuilder()
                                     .setDescription(`🎮 ${authorName} VS __**${this.opponent.username}**__ 🎮`)
                                     .setColor(3426654);
                             }
-                            C3 = new MessageButton()
+                            C3 = new ButtonBuilder()
                                 .setCustomId(c33)
                                 .setStyle(`${gameData[player].color}`)
                                 .setEmoji(gameData[player].em)
@@ -687,9 +692,9 @@ class TicTacToe {
                     msg.edit({
                         embeds: [Embed],
                         components: [
-                            new MessageActionRow().addComponents([A1, A2, A3]),
-                            new MessageActionRow().addComponents([B1, B2, B3]),
-                            new MessageActionRow().addComponents([C1, C2, C3]),
+                            new ActionRowBuilder().addComponents([A1, A2, A3]),
+                            new ActionRowBuilder().addComponents([B1, B2, B3]),
+                            new ActionRowBuilder().addComponents([C1, C2, C3]),
                         ],
                     });
                 });
@@ -698,9 +703,9 @@ class TicTacToe {
                     msg.edit({
                         embeds: [Embed],
                         components: [
-                            new MessageActionRow().addComponents([A1.setDisabled(), A2.setDisabled(), A3.setDisabled()]),
-                            new MessageActionRow().addComponents([B1.setDisabled(), B2.setDisabled(), B3.setDisabled()]),
-                            new MessageActionRow().addComponents([C1.setDisabled(), C2.setDisabled(), C3.setDisabled()]),
+                            new ActionRowBuilder().addComponents([A1.setDisabled(), A2.setDisabled(), A3.setDisabled()]),
+                            new ActionRowBuilder().addComponents([B1.setDisabled(), B2.setDisabled(), B3.setDisabled()]),
+                            new ActionRowBuilder().addComponents([C1.setDisabled(), C2.setDisabled(), C3.setDisabled()]),
                         ],
                     }).catch(() => {});
                 });
@@ -716,15 +721,15 @@ class TicTacToe {
 
         function getButtons() {
             return [
-                new MessageButton().setCustomId(a11).setStyle("SECONDARY").setLabel("~"),
-                new MessageButton().setCustomId(a22).setStyle("SECONDARY").setLabel("~"),
-                new MessageButton().setCustomId(a33).setStyle("SECONDARY").setLabel("~"),
-                new MessageButton().setCustomId(b11).setStyle("SECONDARY").setLabel("~"),
-                new MessageButton().setCustomId(b22).setStyle("SECONDARY").setLabel("~"),
-                new MessageButton().setCustomId(b33).setStyle("SECONDARY").setLabel("~"),
-                new MessageButton().setCustomId(c11).setStyle("SECONDARY").setLabel("~"),
-                new MessageButton().setCustomId(c22).setStyle("SECONDARY").setLabel("~"),
-                new MessageButton().setCustomId(c33).setStyle("SECONDARY").setLabel("~"),
+                new ButtonBuilder().setCustomId(a11).setStyle(ButtonStyle.Secondary).setLabel("~"),
+                new ButtonBuilder().setCustomId(a22).setStyle(ButtonStyle.Secondary).setLabel("~"),
+                new ButtonBuilder().setCustomId(a33).setStyle(ButtonStyle.Secondary).setLabel("~"),
+                new ButtonBuilder().setCustomId(b11).setStyle(ButtonStyle.Secondary).setLabel("~"),
+                new ButtonBuilder().setCustomId(b22).setStyle(ButtonStyle.Secondary).setLabel("~"),
+                new ButtonBuilder().setCustomId(b33).setStyle(ButtonStyle.Secondary).setLabel("~"),
+                new ButtonBuilder().setCustomId(c11).setStyle(ButtonStyle.Secondary).setLabel("~"),
+                new ButtonBuilder().setCustomId(c22).setStyle(ButtonStyle.Secondary).setLabel("~"),
+                new ButtonBuilder().setCustomId(c33).setStyle(ButtonStyle.Secondary).setLabel("~"),
             ];
         }
     }
@@ -744,7 +749,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MINIGAMES")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)

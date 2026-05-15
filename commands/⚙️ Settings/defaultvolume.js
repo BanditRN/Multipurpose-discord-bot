@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -21,7 +23,7 @@ module.exports = {
             if (!args[0]) {
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setFooter(client.getFooter(es))
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["settings"]["defaultvolume"]["variable1"]))
@@ -33,7 +35,7 @@ module.exports = {
             if (isNaN(volume)) {
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setFooter(client.getFooter(es))
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["settings"]["defaultvolume"]["variable3"]))
@@ -44,7 +46,7 @@ module.exports = {
             if (Number(volume) > 150 || Number(volume) < 1) {
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setFooter(client.getFooter(es))
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["settings"]["defaultvolume"]["variable5"]))
@@ -55,7 +57,7 @@ module.exports = {
             client.settings.set(message.guild.id, Number(volume), "defaultvolume");
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setFooter(client.getFooter(es))
                         .setColor(es.color)
                         .setThumbnail(
@@ -72,7 +74,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setFooter(client.getFooter(es))
                         .setColor(es.wrongcolor)
                         .setTitle(client.la[ls].common.erroroccur)

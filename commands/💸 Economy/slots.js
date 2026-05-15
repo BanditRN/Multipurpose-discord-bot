@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -18,7 +20,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "ECONOMY")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -48,9 +50,9 @@ module.exports = {
             if (!amount)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["slots"]["variable2"]))
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["slots"]["variable3"])),
                     ],
@@ -58,18 +60,18 @@ module.exports = {
             if (amount <= 0)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["slots"]["variable4"])),
                     ],
                 });
             if (amount > data.balance)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["slots"]["variable5"])),
                     ],
                 });
@@ -94,7 +96,7 @@ module.exports = {
                 //send the Information Message
                 message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["slots"]["variable6"]))
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["slots"]["variable7"]))
                             .setColor(es.color)
@@ -106,7 +108,7 @@ module.exports = {
                                         : client.user.displayAvatarURL()
                                     : null
                             )
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true })),
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) }),
                     ],
                 });
             } else {
@@ -117,11 +119,11 @@ module.exports = {
                 //send the Information Message
                 message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["economy"]["slots"]["variable8"]))
                             .setDescription(eval(client.la[ls]["cmds"]["economy"]["slots"]["variable9"]))
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true })),
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) }),
                     ],
                 });
             }
@@ -129,7 +131,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

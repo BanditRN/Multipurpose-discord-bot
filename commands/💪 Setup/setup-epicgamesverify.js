@@ -1,10 +1,16 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-epicgamesverify",
@@ -62,18 +68,14 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Epic Games Verify Setup",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Epic_Games_logo.svg/882px-Epic_Games_logo.svg.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Epic Games Verify Setup", iconURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Epic_Games_logo.svg/882px-Epic_Games_logo.svg.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -116,7 +118,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-admincmdlog"]["variable4"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -143,12 +145,9 @@ module.exports = {
 
                                         channel.send({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setColor(es.color)
-                                                    .setFooter(
-                                                        message.guild.name + " | Powered by: discord.gg/milrato",
-                                                        message.guild.iconURL({ dynamic: true })
-                                                    )
+                                                    .setFooter({ text: message.guild.name + " | Powered by: discord.gg/milrato", iconURL: message.guild.iconURL({ dynamic: true }) })
                                                     .setThumbnail(es.thumb ? message.guild.iconURL({ dynamic: true }) : null)
                                                     .setTitle(`Click the Button to Verify and Link your Epic Games Account`)
                                                     .setDescription(
@@ -156,10 +155,10 @@ module.exports = {
                                                     ),
                                             ],
                                             components: [
-                                                new MessageActionRow().addComponents([
-                                                    new MessageButton()
+                                                new ActionRowBuilder().addComponents([
+                                                    new ButtonBuilder()
                                                         .setCustomId("epicgamesverify")
-                                                        .setStyle("PRIMARY")
+                                                        .setStyle(ButtonStyle.Primary)
                                                         .setLabel("Verify")
                                                         .setEmoji("✋"),
                                                 ]),
@@ -170,7 +169,7 @@ module.exports = {
 
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle("Enabled the Verification System!")
                                                     .setColor(es.color)
                                                     .setDescription(
@@ -189,7 +188,7 @@ module.exports = {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-admincmdlog"]["variable7"])
                                                 )
@@ -205,7 +204,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-admincmdlog"]["variable4"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -234,7 +233,7 @@ module.exports = {
                                         );
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle("Enabled the Log")
                                                     .setColor(es.color)
                                                     .setDescription(
@@ -253,7 +252,7 @@ module.exports = {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-admincmdlog"]["variable7"])
                                                 )
@@ -270,7 +269,7 @@ module.exports = {
                             client.epicgamesDB.set(message.guild.id, "", `logChannel`);
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle("Disabled the Log Channel")
                                         .setColor(es.color)
                                         .setFooter(client.getFooter(es)),
@@ -284,7 +283,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

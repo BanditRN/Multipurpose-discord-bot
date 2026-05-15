@@ -1,5 +1,7 @@
 const Discord = require(`discord.js`);
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -24,7 +26,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -37,59 +39,33 @@ module.exports = {
                 playmsg: true,
             });
             //toggle autoplay
-            let embed = new MessageEmbed();
+            let embed = new EmbedBuilder();
             embed.setTitle(eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variable1"]));
             embed.setDescription(eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variable2"]));
-            embed.addField(`${emoji?.msg.raise_volume} Volume`, `\`\`\`${player.volume}%\`\`\``, true);
-            embed.addField(`${emoji?.msg.repeat_mode} Queue Length: `, `\`\`\`${player.queue.length} Songs\`\`\``, true);
-            embed.addField(
-                `📨 Pruning: `,
-                `\`\`\`${client.settings.get(message.guild.id, "playmsg") ? `✅ Enabled` : `❌ Disabled`}\`\`\``,
-                true
-            );
+            embed.addFields({ name: `${emoji?.msg.raise_volume} Volume`, value: `\`\`\`${player.volume}%\`\`\``, inline: true });
+            embed.addFields({ name: `${emoji?.msg.repeat_mode} Queue Length: `, value: `\`\`\`${player.queue.length} Songs\`\`\``, inline: true });
+            embed.addFields({ name: `📨 Pruning: `, value: `\`\`\`${client.settings.get(message.guild.id, "playmsg") ? `✅ Enabled` : `❌ Disabled`}\`\`\``, inline: true });
 
-            embed.addField(
-                `${emoji?.msg.autoplay_mode} Song Loop: `,
-                `\`\`\`${player.trackRepeat ? `✅ Enabled` : `❌ Disabled`}\`\`\``,
-                true
-            );
-            embed.addField(
-                `${emoji?.msg.autoplay_mode} Queue Loop: `,
-                `\`\`\`${player.queueRepeat ? `✅ Enabled` : `❌ Disabled`}\`\`\``,
-                true
-            );
-            embed.addField(
-                eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variablex_3"]),
-                eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variable3"]),
-                true
-            );
+            embed.addFields({ name: `${emoji?.msg.autoplay_mode} Song Loop: `, value: `\`\`\`${player.trackRepeat ? `✅ Enabled` : `❌ Disabled`}\`\`\``, inline: true });
+            embed.addFields({ name: `${emoji?.msg.autoplay_mode} Queue Loop: `, value: `\`\`\`${player.queueRepeat ? `✅ Enabled` : `❌ Disabled`}\`\`\``, inline: true });
+            embed.addFields({ name: eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variablex_3"]), value: eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variable3"]), inline: true });
 
-            embed.addField(`${emoji?.msg.equalizer} Equalizer: `, `\`\`\`${player.get("eq")}\`\`\``, true);
-            embed.addField(`🎛 Filter: `, `\`\`\`${player.get("filter")}\`\`\``, true);
-            embed.addField(
-                `:clock1: AFK Mode`,
-                `\`\`\`PLAYER: ${player.get("afk") ? `✅ Enabled` : `❌ Disabled`}\`\`\``,
-                true
-            );
+            embed.addFields({ name: `${emoji?.msg.equalizer} Equalizer: `, value: `\`\`\`${player.get("eq")}\`\`\``, inline: true });
+            embed.addFields({ name: `🎛 Filter: `, value: `\`\`\`${player.get("filter")}\`\`\``, inline: true });
+            embed.addFields({ name: `:clock1: AFK Mode`, value: `\`\`\`PLAYER: ${player.get("afk") ? `✅ Enabled` : `❌ Disabled`}\`\`\``, inline: true });
 
             embed.setColor(es.color);
 
-            embed.addField(
-                eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variablex_4"]),
-                eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variable4"])
-            );
+            embed.addFields({ name: eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variablex_4"]), value: eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variable4"]) });
             if (player.queue && player.queue.current) {
-                embed.addField(
-                    eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variablex_5"]),
-                    eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variable5"])
-                );
+                embed.addFields({ name: eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variablex_5"]), value: eval(client.la[ls]["cmds"]["music"]["queuestatus"]["variable5"]) });
             }
             message.reply({ embeds: [embed] });
         } catch (e) {
             console.log(String(e.stack).dim.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
 
                         .setTitle(client.la[ls].common.erroroccur)

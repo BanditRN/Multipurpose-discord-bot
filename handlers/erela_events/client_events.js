@@ -1,10 +1,6 @@
-var { Manager } = require("erela.js"),
-    { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js"),
-    ms = require("ms"),
-    config = require(`${process.cwd()}/botconfig/config.json`),
-    emoji = require("../../botconfig/emojis.json"),
-    ee = require(`${process.cwd()}/botconfig/embed.json`),
-    { databasing } = require(`../functions`);
+const {
+    ChannelType,
+} = require("discord.js");
 module.exports = client => {
     client.once("ready", () => {
         client.manager.init(client.user.id);
@@ -15,7 +11,7 @@ module.exports = client => {
     //Log if a Channel gets deleted, and the Bot was in, then delete the player if the player exists!
     client.on("channelDelete", async channel => {
         try {
-            if (channel.type === "GUILD_VOICE") {
+            if (channel.type === ChannelType.GuildVoice) {
                 if (channel.members.has(client.user.id)) {
                     var player = client.manager.players.get(channel.guild.id);
                     if (!player) return;
@@ -41,9 +37,9 @@ module.exports = client => {
         }
     });
     client.on("voiceStateUpdate", async (oS, nS) => {
-        if (nS.channelId && nS.channel.type == "GUILD_STAGE_VOICE" && nS.guild.me.voice.suppress) {
+        if (nS.channelId && nS.channel?.type == "GUILD_STAGE_VOICE" && nS.guild.members.me?.voice?.suppress) {
             try {
-                await nS.guild.me.voice.setSuppressed(false);
+                await nS.guild.members.me?.voice?.setSuppressed(false);
             } catch (e) {
                 console.log(e.stack ? String(e.stack).grey : String(e).grey);
             }
@@ -69,7 +65,7 @@ module.exports = client => {
                 )
                     return; //not the right voicestate
                 //if player exist, but not connected or channel got empty (for no bots)
-                if (player && (!oS.guild.me.voice.channel || oS.channel.members.filter(m => !m.user.bot).size < 1)) {
+                if (player && (!oS.guild.members.me?.voice?.channel || oS.channel?.members.filter(m => !m.user.bot).size < 1)) {
                     try {
                         player.destroy();
                     } catch (e) {}

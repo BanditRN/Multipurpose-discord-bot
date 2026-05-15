@@ -1,4 +1,7 @@
-const { MessageEmbed, Permissions } = require(`discord.js`);
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -16,10 +19,10 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
 
         try {
-            if (!message.guild.me.permissions.has([Permissions.FLAGS.BAN_MEMBERS]))
+            if (!message.guild.members.me?.permissions.has([PermissionFlagsBits.BanMembers]))
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["ban"]["variable1"])),
@@ -30,7 +33,7 @@ module.exports = {
             if (!args[0])
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(`${emoji?.msg.ERROR} Please add a valid USERID`)
@@ -44,7 +47,7 @@ module.exports = {
             if (!bans.map(b => b?.user.id).includes(args[0]))
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(`${emoji?.msg.ERROR} The User with that Id is not banned in this Server!`)
@@ -56,7 +59,7 @@ module.exports = {
                 message.guild.members.unban(banuser ? banuser.id : args[0]);
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setFooter(client.getFooter(es))
                             .setTitle(`${emoji?.msg.SUCCESS} Successfully Unbanned ${banuser ? banuser.tag : args[0]}`)
@@ -67,7 +70,7 @@ module.exports = {
                 console.log(e.stack ? String(e.stack).grey : String(e).grey);
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["ban"]["variable10"]))
@@ -79,7 +82,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["administration"]["ban"]["variable18"]))

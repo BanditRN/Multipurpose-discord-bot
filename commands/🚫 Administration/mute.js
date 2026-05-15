@@ -2,7 +2,10 @@ const config = require(`${process.cwd()}/botconfig/config.json`);
 const ms = require(`ms`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
-const { MessageEmbed, Permissions } = require(`discord.js`);
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const { databasing, delay } = require(`${process.cwd()}/handlers/functions`);
 module.exports = {
     name: `mute`,
@@ -16,10 +19,10 @@ module.exports = {
         let es = client.settings.get(message.guild.id, "embed");
         let ls = client.settings.get(message.guild.id, "language");
         try {
-            if (!message.guild.me.permissions.has([Permissions.FLAGS.MANAGE_ROLES]))
+            if (!message.guild.members.me?.permissions.has([PermissionFlagsBits.ManageRoles]))
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["mute"]["variable1"])),
@@ -46,11 +49,11 @@ module.exports = {
                 !cmdroles.includes(message.author.id) && [...message.member.roles.cache.values()] &&
                 !message.member.roles.cache.some(r => adminroles.includes(r ? r.id : r)) &&
                 ![message.guild.ownerId, config.ownerid].includes(message.author.id) &&
-                !message.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR])
+                !message.member.permissions.has([PermissionFlagsBits.Administrator])
             )
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["mute"]["variable2"]))
@@ -63,7 +66,7 @@ module.exports = {
             if (!member)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["mute"]["variable4"]))
@@ -77,7 +80,7 @@ module.exports = {
             if (member.roles.highest.position >= message.member.roles.highest.position)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["mute"]["variable6"])),
@@ -104,7 +107,7 @@ module.exports = {
                     return message
                         .reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.wrongcolor)
                                     .setFooter(client.getFooter(es))
                                     .setTitle("❌ **I am not able to manage this User**"),
@@ -137,7 +140,7 @@ module.exports = {
                             .reply({
                                 content: `||**Timeout until <t:${Math.floor((mutetime + Date.now()) / 1000)}:F>** - *Because no valid Role*||`,
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.color)
                                         .setThumbnail(
                                             es.thumb
@@ -163,7 +166,7 @@ module.exports = {
                         member
                             .send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.color)
                                         .setThumbnail(
                                             es.thumb
@@ -190,10 +193,10 @@ module.exports = {
                     });
             } else {
                 let allguildroles = [...message.guild.roles.cache.values()];
-                if (mutedRole.position > message.guild.me.roles.highest.position)
+                if (mutedRole.position > message.guild.members.me?.roles.highest.position)
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["mute"]["variable10"])),
@@ -209,7 +212,7 @@ module.exports = {
                         //send Information in the Chat
                         message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -230,7 +233,7 @@ module.exports = {
                         member
                             .send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.color)
                                         .setThumbnail(
                                             es.thumb
@@ -281,7 +284,7 @@ module.exports = {
                             )
                             .forEach(async ch => {
                                 try {
-                                    if (ch.permissionsFor(ch.guild.me).has(Permissions.FLAGS.MANAGE_CHANNELS)) {
+                                    if (ch.permissionsFor(ch.guild.members.me).has(PermissionFlagsBits.ManageChannels)) {
                                         await ch.permissionOverwrites
                                             .edit(mutedRole, {
                                                 SEND_MESSAGES: false,
@@ -299,7 +302,7 @@ module.exports = {
                     } catch (e) {
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.wrongcolor)
                                     .setFooter(client.getFooter(es))
                                     .setTitle(client.la[ls].common.erroroccur)
@@ -316,7 +319,7 @@ module.exports = {
                     } catch (e) {
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.wrongcolor)
                                     .setFooter(client.getFooter(es))
                                     .setTitle(eval(client.la[ls]["cmds"]["administration"]["mute"]["variable11"]))
@@ -331,7 +334,7 @@ module.exports = {
                         if (!mutetime || mutetime === undefined) {
                             return message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["administration"]["mute"]["variable18"]))
@@ -342,7 +345,7 @@ module.exports = {
                         //Send information in the Chat
                         message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -376,7 +379,7 @@ module.exports = {
                         //Send information to the MUTE - MEMBER
                         member
                             .send({
-                                embeds: new MessageEmbed()
+                                embeds: new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -410,7 +413,7 @@ module.exports = {
                             )
                             .forEach(async ch => {
                                 try {
-                                    if (ch.permissionsFor(ch.guild.me).has(Permissions.FLAGS.MANAGE_CHANNELS)) {
+                                    if (ch.permissionsFor(ch.guild.members.me).has(PermissionFlagsBits.ManageChannels)) {
                                         await ch.permissionOverwrites
                                             .edit(mutedRole, {
                                                 SEND_MESSAGES: false,
@@ -428,7 +431,7 @@ module.exports = {
                     } catch (e) {
                         return message.reply({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.wrongcolor)
                                     .setFooter(client.getFooter(es))
                                     .setTitle(client.la[ls].common.erroroccur)
@@ -445,7 +448,7 @@ module.exports = {
                     if (!channel) return client.settings.set(message.guild.id, "no", `adminlog`);
                     channel.send({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -456,21 +459,12 @@ module.exports = {
                                         : null
                                 )
                                 .setFooter(client.getFooter(es))
-                                .setAuthor(
-                                    `${require("path").parse(__filename).name} | ${message.author.tag}`,
-                                    message.author.displayAvatarURL({
+                                .setAuthor({ name: `${require("path").parse(__filename).name} | ${message.author.tag}`, iconURL: message.author.displayAvatarURL({
                                         dynamic: true,
-                                    })
-                                )
+                                    }) })
                                 .setDescription(eval(client.la[ls]["cmds"]["administration"]["mute"]["variable24"]))
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"])
-                                )
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"])
-                                )
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"]) })
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"]) })
                                 .setTimestamp()
                                 .setFooter(
                                     client.getFooter(
@@ -488,7 +482,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["administration"]["mute"]["variable27"]))

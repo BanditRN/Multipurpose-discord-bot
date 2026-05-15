@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { duration } = require(`${process.cwd()}/handlers/functions`);
-const { MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { getNumberEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-autodelete",
@@ -58,19 +62,15 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Auto Delete Setup",
-                        "https://cdn.discordapp.com/emojis/834052497492410388.gif?size=96",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Auto Delete Setup", iconURL: "https://cdn.discordapp.com/emojis/834052497492410388.gif?size=96", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 let used1 = false;
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -113,7 +113,7 @@ module.exports = {
                         {
                             let tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(`**Which Channel do you wanna add?**`)
                                         .setColor(es.color)
                                         .setDescription(
@@ -147,7 +147,7 @@ module.exports = {
                                             if (a.map(d => d.id).includes(channel.id))
                                                 return message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setTitle(
                                                                 `<:no:833101993668771842> This Channel is already Setupped!`
                                                             )
@@ -163,7 +163,7 @@ module.exports = {
                                             if (!time || isNaN(time))
                                                 return message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setTitle(`<:no:833101993668771842> Invalid Input | Time wrong`)
                                                             .setDescription(
                                                                 `You probably forgot / didn't add a Time!\nTry this: \`${channel.id} 30\``
@@ -175,7 +175,7 @@ module.exports = {
                                             if (time > 60 * 60 || time < 3)
                                                 return message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setTitle(`<:no:833101993668771842> Time out of Range!`)
                                                             .setDescription(
                                                                 `The longest Amount is 1 hour aka 3600 Seconds and the Time must be at least 3 Seconds long!`
@@ -191,7 +191,7 @@ module.exports = {
                                             );
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             `${allEmojis.msg.SUCCESS} I will now delete Messages after \`${time} Seconds\` in **${channel.name}**`
                                                         )
@@ -202,7 +202,7 @@ module.exports = {
                                         } catch (e) {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-autoembed"][
@@ -230,7 +230,7 @@ module.exports = {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-autoembed"]["variable12"])
                                                 )
@@ -246,7 +246,7 @@ module.exports = {
                         {
                             let tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-autoembed"]["variable13"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -280,7 +280,7 @@ module.exports = {
                                             if (!a.map(d => d.id).includes(channel.id))
                                                 return message.reply({
                                                     embeds: [
-                                                        new Discord.MessageEmbed()
+                                                        new EmbedBuilder()
                                                             .setTitle(
                                                                 `<:no:833101993668771842> This Channel has not been Setup yet!`
                                                             )
@@ -291,7 +291,7 @@ module.exports = {
                                             client.setups.remove(message.guild.id, d => d.id == channel.id, "autodelete");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             `${allEmojis.msg.SUCCESS} Successfully removed **${channel.name}** out of the Setup!`
                                                         )
@@ -302,7 +302,7 @@ module.exports = {
                                         } catch (e) {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(
                                                                 client.la[ls]["cmds"]["setup"]["setup-autoembed"][
@@ -330,7 +330,7 @@ module.exports = {
                                     console.log(e.stack ? String(e.stack).grey : String(e).grey);
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     eval(client.la[ls]["cmds"]["setup"]["setup-autoembed"]["variable12"])
                                                 )
@@ -355,7 +355,7 @@ module.exports = {
 
                             message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(`📑 Settings of the Auto Deletion System`)
                                         .setColor(es.color)
                                         .setDescription(
@@ -372,7 +372,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

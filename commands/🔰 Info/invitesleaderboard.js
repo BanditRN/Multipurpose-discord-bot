@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -51,7 +53,7 @@ module.exports = {
             var userrank = false;
             for (let i = 25; i <= maxnum; i += 25) {
                 const top = sorted.slice(i - 25, i);
-                const embed = new Discord.MessageEmbed().setTitle("Invites Leaderboard").setTimestamp().setColor(es.color);
+                const embed = new EmbedBuilder().setTitle("Invites Leaderboard").setTimestamp().setColor(es.color);
                 var string = "";
                 for (const data of top) {
                     j++;
@@ -77,7 +79,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

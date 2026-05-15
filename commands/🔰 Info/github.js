@@ -1,4 +1,9 @@
-const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -16,27 +21,27 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
 
         try {
-            let button_public_invite = new MessageButton()
-                .setStyle("LINK")
+            let button_public_invite = new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
                 .setLabel(client.la[ls].cmds.info.github?.buttons.invite)
                 .setURL(
                     "https://discord.com/api/oauth2/authorize?client_id=734513783338434591&permissions=8&scope=bot%20applications.commands"
                 );
-            let button_support_dc = new MessageButton()
-                .setStyle("LINK")
+            let button_support_dc = new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
                 .setLabel(client.la[ls].cmds.info.github?.buttons.dc)
                 .setURL("https://discord.gg/milrato");
-            let button_invite = new MessageButton()
-                .setStyle("LINK")
+            let button_invite = new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
                 .setLabel(client.la[ls].cmds.info.github?.buttons.botlist)
                 .setURL(`https://botlist.milrato.eu`);
             const allbuttons = [
-                new MessageActionRow().addComponents([button_public_invite, button_support_dc, button_invite]),
+                new ActionRowBuilder().addComponents([button_public_invite, button_support_dc, button_invite]),
             ];
             message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setFooter(client.getFooter(es))
                             .setTimestamp()
@@ -45,10 +50,7 @@ module.exports = {
                             )
                             .setTitle(client.la[ls].cmds.info.github?.title)
                             .setURL("https://milrato.eu")
-                            .addField(
-                                "🆕 NEW GITHUB",
-                                `> There is now an **open Source** Version of this Bot on [\`Tomato#6966\`'s Github](https://github.com/Tomato6966)\n> [Link](https://github.com/Tomato6966/Multipurpose-discord-bot) but please make sure to **give __Credits__** if you use it!\n> Make sure to read the [README](https://github.com/Tomato6966/Multipurpose-discord-bot#readme) and the [WIKI / FAQ](https://github.com/Tomato6966/Multipurpose-discord-bot/wiki) carefully before opening an [ISSUE](https://github.com/Tomato6966/Multipurpose-discord-bot/issues/new/choose)`
-                            )
+                            .addFields({ name: "🆕 NEW GITHUB", value: `> There is now an **open Source** Version of this Bot on [\`Tomato#6966\`'s Github](https://github.com/Tomato6966)\n> [Link](https://github.com/Tomato6966/Multipurpose-discord-bot) but please make sure to **give __Credits__** if you use it!\n> Make sure to read the [README](https://github.com/Tomato6966/Multipurpose-discord-bot#readme) and the [WIKI / FAQ](https://github.com/Tomato6966/Multipurpose-discord-bot/wiki) carefully before opening an [ISSUE](https://github.com/Tomato6966/Multipurpose-discord-bot/issues/new/choose)` })
                             .setDescription(client.la[ls].cmds.info.github?.description),
                     ],
                     components: allbuttons,
@@ -58,7 +60,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

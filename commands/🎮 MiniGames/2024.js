@@ -1,4 +1,9 @@
-const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
 const apiBase = "https://api.aniketdev.cf";
 
 const chars = "0123456789abcdefghijklmnopqrstuvwxyz";
@@ -18,7 +23,7 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
         if (!client.settings.get(message.guild.id, "MINIGAMES")) {
             return message.reply(
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.wrongcolor)
                     .setFooter(client.getFooter(es))
                     .setTitle(client.la[ls].common.disabled.title)
@@ -90,11 +95,11 @@ class TwoZeroFourEight {
         this.placeNewRandomTile();
         const emojis = this.options.emojis;
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(this.options.embed.color)
             .setTitle(this.options.embed.title)
             .setImage("attachment://board.png")
-            .addField(this.options.embed.curScore || "Score", this.score.toString())
+            .addFields({ name: this.options.embed.curScore || "Score", value: this.score.toString() })
             .setFooter(
                 this.message.client.getFooter(
                     this.message.author.tag + " | Aniket's Api",
@@ -104,12 +109,12 @@ class TwoZeroFourEight {
                 )
             );
 
-        const up = new MessageButton().setEmoji(emojis.up).setStyle("PRIMARY").setCustomId("2048_up");
-        const left = new MessageButton().setEmoji(emojis.left).setStyle("PRIMARY").setCustomId("2048_left");
-        const down = new MessageButton().setEmoji(emojis.down).setStyle("PRIMARY").setCustomId("2048_down");
-        const right = new MessageButton().setEmoji(emojis.right).setStyle("PRIMARY").setCustomId("2048_right");
+        const up = new ButtonBuilder().setEmoji(emojis.up).setStyle(ButtonStyle.Primary).setCustomId("2048_up");
+        const left = new ButtonBuilder().setEmoji(emojis.left).setStyle(ButtonStyle.Primary).setCustomId("2048_left");
+        const down = new ButtonBuilder().setEmoji(emojis.down).setStyle(ButtonStyle.Primary).setCustomId("2048_down");
+        const right = new ButtonBuilder().setEmoji(emojis.right).setStyle(ButtonStyle.Primary).setCustomId("2048_right");
 
-        const row = new MessageActionRow().addComponents(up, left, down, right);
+        const row = new ActionRowBuilder().addComponents(up, left, down, right);
 
         const msg = await this.sendMessage({
             embeds: [embed],
@@ -153,11 +158,11 @@ class TwoZeroFourEight {
                 collector.stop();
                 return this.gameOver(msg);
             }
-            const editEmbed = new MessageEmbed()
+            const editEmbed = new EmbedBuilder()
                 .setColor(this.options.embed.color)
                 .setTitle(this.options.embed.title)
                 .setImage("attachment://board.png")
-                .addField(this.options.embed.curScore || "Score", this.score.toString())
+                .addFields({ name: this.options.embed.curScore || "Score", value: this.score.toString() })
                 .setFooter(
                     this.message.client.getFooter(
                         this.message.author.tag + " | Aniket's Api",
@@ -183,11 +188,11 @@ class TwoZeroFourEight {
     async gameOver(msg) {
         const overTitle = this.board.includes("b") ? this.options.embed.winTitle || "Win!" : this.options.embed.overTitle;
 
-        const editEmbed = new MessageEmbed()
+        const editEmbed = new EmbedBuilder()
             .setColor(this.options.embed.color)
             .setTitle(this.options.embed.title)
             .setImage("attachment://board.png")
-            .addField(overTitle, (this.options.embed.totalScore || "**Score:** ") + this.score)
+            .addFields({ name: overTitle, value: (this.options.embed.totalScore || "**Score:** ") + this.score })
             .setFooter(
                 this.message.client.getFooter(
                     this.message.author.tag + " | Aniket's Api",

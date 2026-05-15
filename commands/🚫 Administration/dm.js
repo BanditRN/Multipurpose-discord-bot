@@ -1,5 +1,8 @@
 const { fail } = require("assert");
-const { MessageEmbed, Permissions } = require("discord.js");
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require("../../botconfig/emojis.json");
@@ -18,10 +21,10 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
         try {
             return message.reply({ content: eval(client.la[ls]["cmds"]["administration"]["dm"]["variable1"]) });
-            if (!message.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR]))
+            if (!message.member.permissions.has([PermissionFlagsBits.Administrator]))
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["dm"]["variable2"]))
@@ -34,7 +37,7 @@ module.exports = {
                 if (!args[1])
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["dm"]["variable4"]))
@@ -45,7 +48,7 @@ module.exports = {
                 try {
                     member.send({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -56,17 +59,13 @@ module.exports = {
                                         : null
                                 )
                                 .setFooter(client.getFooter(es))
-                                .setAuthor(
-                                    `Message from: ${message.author.username}`,
-                                    message.author.displayAvatarURL({ dynamic: true }),
-                                    "https://discord.gg/milrato"
-                                )
+                                .setAuthor({ name: `Message from: ${message.author.username}`, iconURL: message.author.displayAvatarURL({ dynamic: true }), url: "https://discord.gg/milrato" })
                                 .setDescription(args.slice(1).join(" ").substring(0, 2048)),
                         ],
                     });
                     message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -83,7 +82,7 @@ module.exports = {
                 } catch {
                     message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["dm"]["variable7"])),
@@ -95,7 +94,7 @@ module.exports = {
                 if (!args[1])
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["dm"]["variable8"]))
@@ -111,7 +110,7 @@ module.exports = {
                 if (!members || members == null || members.length == null || members.length == 0)
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["dm"]["variable10"]))
@@ -121,7 +120,7 @@ module.exports = {
                 let seconds = Number(members.length) * 1500;
                 await message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setThumbnail(
                                 es.thumb
@@ -132,11 +131,7 @@ module.exports = {
                                     : null
                             )
                             .setFooter(client.getFooter(es))
-                            .setAuthor(
-                                `Dming ${members.length} Members...`,
-                                "https://images-ext-1.discordapp.net/external/ANU162U1fDdmQhim_BcbQ3lf4dLaIQl7p0HcqzD5wJA/https/cdn.discordapp.com/emojis/756773010123522058.gif",
-                                "https://discord.gg/2dKrZQyaC4"
-                            )
+                            .setAuthor({ name: `Dming ${members.length} Members...`, iconURL: "https://images-ext-1.discordapp.net/external/ANU162U1fDdmQhim_BcbQ3lf4dLaIQl7p0HcqzD5wJA/https/cdn.discordapp.com/emojis/756773010123522058.gif", url: "https://discord.gg/2dKrZQyaC4" })
                             .setDescription(eval(client.la[ls]["cmds"]["administration"]["dm"]["variable12"])),
                     ],
                 });
@@ -146,7 +141,7 @@ module.exports = {
                         await member
                             .send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.color)
                                         .setThumbnail(
                                             es.thumb
@@ -157,11 +152,7 @@ module.exports = {
                                                 : null
                                         )
                                         .setFooter(client.getFooter(es))
-                                        .setAuthor(
-                                            `Message from: ${message.author.username}`,
-                                            message.author.displayAvatarURL({ dynamic: true }),
-                                            "https://discord.gg/milrato"
-                                        )
+                                        .setAuthor({ name: `Message from: ${message.author.username}`, iconURL: message.author.displayAvatarURL({ dynamic: true }), url: "https://discord.gg/milrato" })
                                         .setDescription(args.slice(1).join(" ").substring(0, 2048)),
                                 ],
                             })
@@ -181,7 +172,7 @@ module.exports = {
                 await message.reply({
                     content: `<@${message.author.id}>`,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setThumbnail(
                                 es.thumb
@@ -198,16 +189,13 @@ module.exports = {
                                     ? `**FAILED MEMBERS:**\n> ${failed.map(r => `\`${r}\``).join("\n")}`.substring(0, 2048)
                                     : "**FAILED MEMBERS:**\n> No one Failed"
                             )
-                            .addField(
-                                eval(client.la[ls]["cmds"]["administration"]["dm"]["variablex_14"]),
-                                eval(client.la[ls]["cmds"]["administration"]["dm"]["variable14"])
-                            ),
+                            .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["dm"]["variablex_14"]), value: eval(client.la[ls]["cmds"]["administration"]["dm"]["variable14"]) }),
                     ],
                 });
             } else {
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["dm"]["variable15"]))
@@ -221,7 +209,7 @@ module.exports = {
                     if (!channel) return client.settings.set(message.guild.id, "no", `adminlog`);
                     channel.send({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -232,19 +220,10 @@ module.exports = {
                                         : null
                                 )
                                 .setFooter(client.getFooter(es))
-                                .setAuthor(
-                                    `${require("path").parse(__filename).name} | ${message.author.tag}`,
-                                    message.author.displayAvatarURL({ dynamic: true })
-                                )
+                                .setAuthor({ name: `${require("path").parse(__filename).name} | ${message.author.tag}`, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                                 .setDescription(eval(client.la[ls]["cmds"]["administration"]["dm"]["variable17"]))
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"])
-                                )
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]),
-                                    eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"])
-                                )
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"]) })
+                                .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"]) })
                                 .setTimestamp()
                                 .setFooter(
                                     client.getFooter(
@@ -262,7 +241,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

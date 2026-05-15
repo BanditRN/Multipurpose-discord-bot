@@ -1,4 +1,10 @@
 const Discord = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
 const Platforms = {
     pc: "PC",
     psn: "Playstation",
@@ -41,14 +47,14 @@ module.exports = async client => {
                 content: `:question: **You already connected your EpicGames Account to __${guild.name}__**\n> Do you want to change it?\n**Name:** \`${data.epic}\`\n**Platform:** \`${Platforms[data.Platform]}\`\n**Input Method:** \`${data.InputMethod}\``,
                 ephemeral: true,
                 components: [
-                    new Discord.MessageActionRow().addComponents([
-                        new Discord.MessageButton()
-                            .setStyle("PRIMARY")
+                    new ActionRowBuilder().addComponents([
+                        new ButtonBuilder()
+                            .setStyle(ButtonStyle.Primary)
                             .setEmoji("✋")
                             .setLabel("Yes Change it!")
                             .setCustomId("epicgamesverify_f"),
-                        new Discord.MessageButton()
-                            .setStyle("SECONDARY")
+                        new ButtonBuilder()
+                            .setStyle(ButtonStyle.Secondary)
                             .setEmoji("✋")
                             .setLabel("No I want to keep it!")
                             .setCustomId("no"),
@@ -60,7 +66,7 @@ module.exports = async client => {
             user.send({
                 content: `:question: **Select your Platform**\n> Where do you play on?`,
                 components: [
-                    new Discord.MessageActionRow().addComponents([
+                    new ActionRowBuilder().addComponents([
                         new Discord.MessageSelectMenu()
                             .setMaxValues(1)
                             .setMinValues(1)
@@ -145,7 +151,7 @@ module.exports = async client => {
                     user.send({
                         content: `:question: **Select your Platform**\n> Where do you play on?`,
                         components: [
-                            new Discord.MessageActionRow().addComponents([
+                            new ActionRowBuilder().addComponents([
                                 new Discord.MessageSelectMenu()
                                     .setMaxValues(1)
                                     .setMinValues(1)
@@ -207,13 +213,13 @@ module.exports = async client => {
                             logChannel
                                 .send({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("GREEN")
-                                            .setAuthor(user.tag, user.displayAvatarURL({ dynamic: true }))
+                                            .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                                             .setTitle(`Linked/Updated their EPICGAMES Account!`)
-                                            .addField("**Epic Games Name:**", `\`\`\`${Username}\`\`\``)
-                                            .addField("**Platform:**", `\`\`\`${Platform}\`\`\``)
-                                            .addField("**Input Method:**", `\`\`\`${InputMethod}\`\`\``)
+                                            .addFields({ name: "**Epic Games Name:**", value: `\`\`\`${Username}\`\`\`` })
+                                            .addFields({ name: "**Platform:**", value: `\`\`\`${Platform}\`\`\`` })
+                                            .addFields({ name: "**Input Method:**", value: `\`\`\`${InputMethod}\`\`\`` })
                                             .setFooter(
                                                 client.getFooter("ID: " + user.id, user.displayAvatarURL({ dynamic: true }))
                                             ),

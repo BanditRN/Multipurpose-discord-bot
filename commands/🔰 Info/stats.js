@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -20,7 +22,7 @@ module.exports = {
 
             message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -30,34 +32,15 @@ module.exports = {
                                 : null
                         )
                         .setFooter(client.getFooter(es))
-                        .addField(
-                            client.la[ls].cmds.info.stats.field1.title,
-                            handlemsg(client.la[ls].cmds.info.stats.field1.value, {
+                        .addFields({ name: client.la[ls].cmds.info.stats.field1.title, value: handlemsg(client.la[ls].cmds.info.stats.field1.value, {
                                 allcommands: Math.ceil((global.commands * [...client.guilds.cache.values()].length) / 10),
-                            }),
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.stats.field2.title,
-                            handlemsg(client.la[ls].cmds.info.stats.field2.value, {
+                            }), inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.stats.field2.title, value: handlemsg(client.la[ls].cmds.info.stats.field2.value, {
                                 allsongs: Math.ceil((global.songs * [...client.guilds.cache.values()].length) / 10),
-                            }),
-                            true
-                        )
-                        .addField(
-                            eval(client.la[ls]["cmds"]["info"]["stats"]["variablex_1"]),
-                            eval(client.la[ls]["cmds"]["info"]["stats"]["variable1"])
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.stats.field3.title,
-                            handlemsg(client.la[ls].cmds.info.stats.field3.value, { guildcommands: guild.commands }),
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.stats.field4.title,
-                            handlemsg(client.la[ls].cmds.info.stats.field4.value, { guildsongs: guild.songs }),
-                            true
-                        )
+                            }), inline: true })
+                        .addFields({ name: eval(client.la[ls]["cmds"]["info"]["stats"]["variablex_1"]), value: eval(client.la[ls]["cmds"]["info"]["stats"]["variable1"]) })
+                        .addFields({ name: client.la[ls].cmds.info.stats.field3.title, value: handlemsg(client.la[ls].cmds.info.stats.field3.value, { guildcommands: guild.commands }), inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.stats.field4.title, value: handlemsg(client.la[ls].cmds.info.stats.field4.value, { guildsongs: guild.songs }), inline: true })
                         .setTitle(handlemsg(client.la[ls].cmds.info.stats.title, { botname: client.user.username })),
                 ],
             });
@@ -65,7 +48,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

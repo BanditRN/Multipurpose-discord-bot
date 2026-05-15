@@ -1,10 +1,17 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-embed",
@@ -13,23 +20,23 @@ module.exports = {
     cooldown: 5,
     usage: "setup-embed  -->  Follow Steps",
     description: "Change the Look of your Embeds (Color, Image, Thumbnail, ...)",
-    memberpermissions: ["ADMINISTRATOR"],
+    memberpermissions: [PermissionFlagsBits.Administrator],
     type: "info",
     run: async (client, message, args, cmduser, text, prefix) => {
         let es = client.settings.get(message.guild.id, "embed");
         let ls = client.settings.get(message.guild.id, "language");
         try {
             var timeouterror = false;
-            let row = new MessageActionRow().addComponents(
-                new MessageButton().setStyle("SECONDARY").setCustomId("1").setEmoji("1️⃣"),
-                new MessageButton().setStyle("SECONDARY").setCustomId("2").setEmoji("2️⃣"),
-                new MessageButton().setStyle("SECONDARY").setCustomId("3").setEmoji("3️⃣"),
-                new MessageButton().setStyle("SECONDARY").setCustomId("4").setEmoji("4️⃣")
+            let row = new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("1").setEmoji("1️⃣"),
+                new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("2").setEmoji("2️⃣"),
+                new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("3").setEmoji("3️⃣"),
+                new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("4").setEmoji("4️⃣")
             );
             var tempmsg = await message.reply({
                 components: [row],
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable1"]))
                         .setColor(es.color)
                         .setThumbnail(
@@ -90,7 +97,7 @@ module.exports = {
 
                         tempmsg = await tempmsg.edit({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable5"]))
                                     .setColor(es.color)
                                     .setThumbnail(
@@ -101,15 +108,9 @@ module.exports = {
                                                 : client.user.displayAvatarURL()
                                             : null
                                     )
-                                    .addField(
-                                        `**Supported Colors:**`,
-                                        `>>> **HTML/Hex-Colors** (\`#ffff00\`)\n\nColor-Names/Discord-Colors (\`FUCHSIA\`)\n\nHex-Notation Colors (\`0xffffff\`)`
-                                    )
-                                    .addField(
-                                        `**Discord Supported Colors:**`,
-                                        `>>> ${discordsupportedcolors.map(c => `\`${c}\``).join("︲")}`
-                                    )
-                                    .addField(`**Current Color:**`, `>>> \`${es.color}\``)
+                                    .addFields({ name: `**Supported Colors:**`, value: `>>> **HTML/Hex-Colors** (\`#ffff00\`)\n\nColor-Names/Discord-Colors (\`FUCHSIA\`)\n\nHex-Notation Colors (\`0xffffff\`)` })
+                                    .addFields({ name: `**Discord Supported Colors:**`, value: `>>> ${discordsupportedcolors.map(c => `\`${c}\``).join("︲")}` })
+                                    .addFields({ name: `**Current Color:**`, value: `>>> \`${es.color}\`` })
                                     .setFooter(client.getFooter(es)),
                             ],
                         });
@@ -125,7 +126,7 @@ module.exports = {
                                 if (!color)
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable7"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(
@@ -149,7 +150,7 @@ module.exports = {
                                     } catch (e) {
                                         return message.reply({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setColor("RED")
                                                     .setTitle(`${allEmojis.msg.ERROR} INVALID COLOR ADDED`)
                                                     .setDescription(
@@ -162,7 +163,7 @@ module.exports = {
                                     es = client.settings.get(message.guild.id, "embed");
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable11"]))
                                                 .setColor(es.color)
                                                 .setThumbnail(
@@ -180,7 +181,7 @@ module.exports = {
                                 } catch (e) {
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable12"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(
@@ -197,7 +198,7 @@ module.exports = {
                         if (timeouterror)
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable14"]))
                                         .setColor(es.wrongcolor)
                                         .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -207,7 +208,7 @@ module.exports = {
                     } else if (button?.customId == "2") {
                         tempmsg = await tempmsg.edit({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable15"]))
                                     .setColor(es.color)
                                     .setThumbnail(
@@ -248,7 +249,7 @@ module.exports = {
                                             es = client.settings.get(message.guild.id, "embed");
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable17"])
                                                         )
@@ -268,7 +269,7 @@ module.exports = {
                                         } catch (e) {
                                             return message.reply({
                                                 embeds: [
-                                                    new Discord.MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable18"])
                                                         )
@@ -283,7 +284,7 @@ module.exports = {
                                     } else {
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable20"])
                                                     )
@@ -302,7 +303,7 @@ module.exports = {
                                 ) {
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable21"]))
                                                 .setColor(es.wrongcolor)
                                                 .setFooter(client.getFooter(es)),
@@ -314,7 +315,7 @@ module.exports = {
                                         es = client.settings.get(message.guild.id, "embed");
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable22"])
                                                     )
@@ -334,7 +335,7 @@ module.exports = {
                                     } catch (e) {
                                         return message.reply({
                                             embeds: [
-                                                new Discord.MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable23"])
                                                     )
@@ -354,7 +355,7 @@ module.exports = {
                         if (timeouterror)
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable25"]))
                                         .setColor(es.wrongcolor)
                                         .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -364,7 +365,7 @@ module.exports = {
                     } else if (button?.customId == "3") {
                         tempmsg = await tempmsg.edit({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable26"]))
                                     .setColor(es.color)
                                     .setThumbnail(
@@ -393,7 +394,7 @@ module.exports = {
                                     es = client.settings.get(message.guild.id, "embed");
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(
                                                     `${allEmojis.msg.SUCCESS} The new Embed Footer Text is:`.substring(
                                                         0,
@@ -417,7 +418,7 @@ module.exports = {
                                 } catch (e) {
                                     return message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable28"]))
                                                 .setColor(es.wrongcolor)
                                                 .setDescription(
@@ -434,7 +435,7 @@ module.exports = {
                         if (timeouterror)
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable30"]))
                                         .setColor(es.wrongcolor)
                                         .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -451,7 +452,7 @@ module.exports = {
                             es = client.settings.get(message.guild.id, "embed");
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable31"]))
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable32"]))
                                         .setColor(es.color)
@@ -469,7 +470,7 @@ module.exports = {
                         } catch (e) {
                             return message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable33"]))
                                         .setColor(es.wrongcolor)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-embed"]["variable34"]))
@@ -496,7 +497,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

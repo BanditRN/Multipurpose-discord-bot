@@ -1,4 +1,6 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -20,7 +22,7 @@ module.exports = {
         if (!config.ownerIDS.some(r => r.includes(message.author.id)))
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["resetsettings"]["variable1"]))
@@ -71,7 +73,7 @@ module.exports = {
                                 es = client.settings.get(message.guild.id, "embed");
                                 return message.channel.send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(es.color)
                                             .setFooter(client.getFooter(es))
                                             .setTitle(eval(client.la[ls]["cmds"]["owner"]["resetsettings"]["variable4"])),
@@ -80,7 +82,7 @@ module.exports = {
                             }
                             return message.channel.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["resetsettings"]["variable5"])),
@@ -92,7 +94,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

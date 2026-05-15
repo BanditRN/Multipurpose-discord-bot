@@ -1,6 +1,10 @@
-var {
-  MessageEmbed
-} = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -8,11 +12,7 @@ var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var {
   databasing
 } = require(`${process.cwd()}/handlers/functions`);
-const {
-  MessageButton,
-  MessageActionRow,
-  MessageSelectMenu
-} = require('discord.js');
+
 const { isValidSnowflakeId } = require('../../handlers/functions');
 const { getNumberEmojis, allEmojis } = require('../../botconfig/emojiFunctions');
 module.exports = {
@@ -47,7 +47,7 @@ module.exports = {
           })
         }
 
-        let row1 = new MessageActionRow().addComponents(new MessageSelectMenu()
+        let row1 = new ActionRowBuilder().addComponents(new MessageSelectMenu()
           .setCustomId('MenuSelection')
           .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
           .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -64,7 +64,7 @@ module.exports = {
             })
           )
         )
-        let row2 = new MessageActionRow().addComponents(new MessageSelectMenu()
+        let row2 = new ActionRowBuilder().addComponents(new MessageSelectMenu()
           .setCustomId('MenuSelection2')
           .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
           .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -81,7 +81,7 @@ module.exports = {
             })
           )
         )
-        let row3 = new MessageActionRow().addComponents(new MessageSelectMenu()
+        let row3 = new ActionRowBuilder().addComponents(new MessageSelectMenu()
           .setCustomId('MenuSelection3')
           .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
           .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -98,7 +98,7 @@ module.exports = {
             })
           )
         )
-        let row4 = new MessageActionRow().addComponents(new MessageSelectMenu()
+        let row4 = new ActionRowBuilder().addComponents(new MessageSelectMenu()
           .setCustomId('MenuSelection4')
           .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
           .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -117,15 +117,15 @@ module.exports = {
         )
 
         //define the embed
-        let MenuEmbed = new Discord.MessageEmbed()
+        let MenuEmbed = new EmbedBuilder()
           .setColor(es.color)
-          .setAuthor(client.getAuthor('Menu Ticket Setup', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/envelope_2709-fe0f.png', 'https://discord.gg/milrato'))
+          .setAuthor({ name: client.getAuthor('Menu Ticket Setup', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/envelope_2709-fe0f.png', 'https://discord.gg/milrato') })
           .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]))
 
         //send the menu msg
         let menumsg = await message.reply({
           embeds: [MenuEmbed],
-          components: [row1, row2, row3, row4, new MessageActionRow().addComponents(new MessageButton().setStyle("LINK").setURL("https://youtu.be/QGESDc31d4U").setLabel("Tutorial Video")
+          components: [row1, row2, row3, row4, new ActionRowBuilder().addComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setURL("https://youtu.be/QGESDc31d4U").setLabel("Tutorial Video")
             .setEmoji(allEmojis.msg.youtube))]
         })
         //Create the collector
@@ -233,16 +233,16 @@ module.exports = {
               return Obj;
             }))
         //define the embed
-        let MenuEmbed = new Discord.MessageEmbed()
+        let MenuEmbed = new EmbedBuilder()
           .setColor(es.color)
-          //.setAuthor('Menu Ticket Setup', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/envelope_2709-fe0f.png', 'https://discord.gg/milrato')
+          //.setAuthor({ name: 'Menu Ticket Setup', iconURL: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/envelope_2709-fe0f.png', url: 'https://discord.gg/milrato' })
           .setAuthor({ name: "Menu Ticket Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/envelope_2709-fe0f.png", url: "https://discord.gg/milrato" })
           .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]))
 
         //send the menu msg
         let menumsg = await message.reply({
           embeds: [MenuEmbed],
-          components: [new MessageActionRow().addComponents(Selection), new MessageActionRow().addComponents(new MessageButton().setStyle("LINK").setURL("https://youtu.be/QGESDc31d4U").setLabel("Tutorial Video")
+          components: [new ActionRowBuilder().addComponents(Selection), new ActionRowBuilder().addComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setURL("https://youtu.be/QGESDc31d4U").setLabel("Tutorial Video")
             .setEmoji(allEmojis.msg.youtube))]
         })
         //Create the collector
@@ -324,14 +324,14 @@ module.exports = {
                   }))
 
               //define the embed
-              let MenuEmbed = new Discord.MessageEmbed()
+              let MenuEmbed = new EmbedBuilder()
                 .setColor(es.color)
-                .setAuthor(SetupNumber + " Ticket Setup", "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/incoming-envelope_1f4e8.png", "https://discord.gg/milrato")
+                .setAuthor({ name: SetupNumber + " Ticket Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/incoming-envelope_1f4e8.png", url: "https://discord.gg/milrato" })
                 .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable4"]))
               //send the menu msg
               let menumsg = await message.reply({
                 embeds: [MenuEmbed],
-                components: [new MessageActionRow().addComponents(Selection)]
+                components: [new ActionRowBuilder().addComponents(Selection)]
               })
               //function to handle the menuselection
               function menuselection(menu) {
@@ -374,7 +374,7 @@ module.exports = {
                   claimData = theDB.get(message.guild.id, `${pre}.claim`);
                   return message.reply({
                     embeds: [
-                      new MessageEmbed().setColor(es.color).setThumbnail(es.thumb ? es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://")) ? es.footericon : client.user.displayAvatarURL() : null)
+                      new EmbedBuilder().setColor(es.color).setThumbnail(es.thumb ? es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://")) ? es.footericon : client.user.displayAvatarURL() : null)
                         .setFooter(client.getFooter(es))
                         .setTitle(`${claimData.enabled ? "Enabled the Claim System" : "Disabled the Claim System"}`)
                         .setDescription(`${claimData.enabled ? "When a User opens a Ticket, a Staff Member needs to claim it, before he can send something in there!\n> This is useful for Professionality and Information!\n> **NOTE:** Admins can always chat..." : "You now don't need to claim a Ticket anymore"}`)
@@ -382,7 +382,7 @@ module.exports = {
                   });
                 } break;
                 case "Edit Open Message": {
-                  var rembed = new MessageEmbed()
+                  var rembed = new EmbedBuilder()
                     .setColor(es.color)
                     .setFooter(client.getFooter(es))
                     .setTitle("What should be the new Message when a User opens a Ticket?")
@@ -400,7 +400,7 @@ module.exports = {
                       message.reply(`Successfully set the New Message!`)
                     }).catch(error => {
                       return message.reply({
-                        embeds: [new Discord.MessageEmbed()
+                        embeds: [new EmbedBuilder()
                           .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable21"]))
                           .setColor(es.wrongcolor)
                           .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -411,7 +411,7 @@ module.exports = {
                   })
                 } break;
                 case "Edit Claim Message": {
-                  var rembed = new MessageEmbed()
+                  var rembed = new EmbedBuilder()
                     .setColor(es.color)
                     .setFooter(client.getFooter(es))
                     .setTitle("What should be the new Message when a Staff claims a Ticket?")
@@ -429,7 +429,7 @@ module.exports = {
                       message.reply(`Successfully set the New Message!`)
                     }).catch(error => {
                       return message.reply({
-                        embeds: [new Discord.MessageEmbed()
+                        embeds: [new EmbedBuilder()
                           .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable21"]))
                           .setColor(es.wrongcolor)
                           .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -451,7 +451,7 @@ module.exports = {
             }
             let tempmsg = await message.reply({
               embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                   .setColor(es.color)
                   .setTitle("What should be the Text to display in the Embed?")
                   .setDescription(`For Example:\n> \`\`\`To Open a Ticket, select the Topic you need in the Selection down below!\`\`\``)
@@ -466,7 +466,7 @@ module.exports = {
             if (collected && collected.first().content) {
               let tempmsg = await message.reply({
                 embeds: [
-                  new MessageEmbed()
+                  new EmbedBuilder()
                     .setColor(es.color)
                     .setTitle("In where should I send the Open a New Ticket Message?")
                     .setDescription(`Please Ping the Channel now!\n> Just type: \`#channel\`${settings.channelId && message.guild.channels.cache.get(settings.channelId) ? `| Before it was: <#${settings.channelId}>` : settings.channelId ? `| Before it was: ${settings.channelId} (Channel got deleted)` : ""}\n\nYou can edit the Title etc. afterwards by using the \`${prefix}editembed\` Command`)
@@ -482,7 +482,7 @@ module.exports = {
                 let data = theDB.get(message.guild.id, pre + ".data");
                 let channel = collected2.first().mentions.channels.first() || message.guild.channels.cache.get(collected2.first().content?.trim());
                 let msgContent = collected.first().content;
-                let embed = new MessageEmbed()
+                let embed = new EmbedBuilder()
                   .setColor(es.color)
                   .setThumbnail(es.thumb ? es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://")) ? es.footericon : client.user.displayAvatarURL() : null)
                   .setFooter(client.getFooter(es))
@@ -507,7 +507,7 @@ module.exports = {
                     }))
                 channel.send({
                   embeds: [embed],
-                  components: [new MessageActionRow().addComponents([Selection])]
+                  components: [new ActionRowBuilder().addComponents([Selection])]
                 }).catch((err) => {
                   console.log(err)
                   let Selection = new MessageSelectMenu()
@@ -528,7 +528,7 @@ module.exports = {
                       }))
                   channel.send({
                     embeds: [embed],
-                    components: [new MessageActionRow().addComponents([Selection])]
+                    components: [new ActionRowBuilder().addComponents([Selection])]
                   }).catch((e) => {
                     console.warn(e)
                   }).then(msg => {
@@ -557,7 +557,7 @@ module.exports = {
             //ask for value and description
             let tempmsg = await message.reply({
               embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                   .setColor(es.color)
                   .setTitle("What should be the VALUE and DESCRIPTION of the Menu-Option?")
                   .setDescription(`**Usage:** \`VALUE++DESCRIPTION\`\n> **Note:** The maximum length of the VALUE is: \`25 Letters\`\n> **Note:** The maximum length of the DESCRIPTION is: \`50 Letters\`\n\nFor Example:\n> \`\`\`General Support++Get Help for anything you want!\`\`\``)
@@ -579,7 +579,7 @@ module.exports = {
               //ask for category
               let tempmsg = await message.reply({
                 embeds: [
-                  new MessageEmbed()
+                  new EmbedBuilder()
                     .setColor(es.color)
                     .setTitle("In Which Category should the new Tickets of this Option open?")
                     .setDescription(`**This is suggested to fill it in, because there are settings for SYNCING to that Category!**\nJust send the ID of it, send \`no\` for no category!\nFor Example:\n> \`840332704494518292\``)
@@ -598,7 +598,7 @@ module.exports = {
                 //ask for reply message
                 let tempmsg = await message.reply({
                   embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                       .setColor(es.color)
                       .setTitle("What should be the Reply Message when someone Opens a Ticket?")
                       .setDescription(`For Example:\n> \`\`\`{user} Welcome to the Support! Tell us what you need help with!\`\`\``)
@@ -614,7 +614,7 @@ module.exports = {
                   let defaultname = "🎫・{count}・{member}";
                   let tempmsg = await message.reply({
                     embeds: [
-                      new MessageEmbed()
+                      new EmbedBuilder()
                         .setColor(es.color)
                         .setTitle("What should be the new Default Ticket Name?")
                         .setDescription(`Currently/Suggested it's: \`${defaultname}\` aka it will turn into: \`${defaultname.replace("{member}", message.author.username).replace("{count}", 0)}\`\n> \`{member}\` ... will get replaced with the ticket opening username\n> \`{count}\` ... Will get replaced with the TICKET ID (COUNT)\n**Send the Message now!**`)
@@ -635,7 +635,7 @@ module.exports = {
                     }
 
 
-                    var rermbed = new MessageEmbed()
+                    var rermbed = new EmbedBuilder()
                       .setColor(es.color)
                       .setTitle("What should be the EMOJI to be displayed?")
                       .setDescription(`React to __THIS MESSAGE__ with the Emoji you want!\n> Either click on the default Emoji or add a CUSTOM ONE/Standard`)
@@ -694,16 +694,16 @@ module.exports = {
                       }, pre + ".data");
                       message.reply({
                         embeds: [
-                          new MessageEmbed()
+                          new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle("Successfully added the New Data to the List!")
                             .setDescription(`Make sure to re-send the Message, so that it's also updating it!\n> \`${prefix}setup-menuticket\` --> Send Config Message`)
-                            .addField("Value:", `> ${value}`.substring(0, 1024), true)
-                            .addField("Description:", `> ${description}`.substring(0, 1024), true)
-                            .addField("Category:", `> <#${category}> (${category})`.substring(0, 1024), true)
-                            .addField("Defaultname:", `> \`${defaultname}\` --> \`${defaultname.replace("{member}", message.author.username).replace("{count}", 0)}\``.substring(0, 1024), true)
-                            .addField("ReplyMsg:", `> ${replyMsg}`.substring(0, 1024), true)
-                            .addField("Emoji:", `> ${emojiMsg}`.substring(0, 1024), true)
+                            .addFields({ name: "Value:", value: `> ${value}`.substring(0, 1024), inline: true })
+                            .addFields({ name: "Description:", value: `> ${description}`.substring(0, 1024), inline: true })
+                            .addFields({ name: "Category:", value: `> <#${category}> (${category})`.substring(0, 1024), inline: true })
+                            .addFields({ name: "Defaultname:", value: `> \`${defaultname}\` --> \`${defaultname.replace("{member}", message.author.username).replace("{count}", 0)}\``.substring(0, 1024), inline: true })
+                            .addFields({ name: "ReplyMsg:", value: `> ${replyMsg}`.substring(0, 1024), inline: true })
+                            .addFields({ name: "Emoji:", value: `> ${emojiMsg}`.substring(0, 1024), inline: true })
                         ]
                       });
                     }
@@ -731,7 +731,7 @@ module.exports = {
             if (!data || data.length < 1) {
               return message.reply("<:no:833101993668771842> **There are no Open-Ticket-Options to remove**")
             }
-            let embed = new MessageEmbed()
+            let embed = new EmbedBuilder()
               .setColor(es.color)
               .setThumbnail(es.thumb ? es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://")) ? es.footericon : client.user.displayAvatarURL() : null)
               .setFooter(client.getFooter(es))
@@ -759,7 +759,7 @@ module.exports = {
             //send the menu msg
             menumsg = await message.reply({
               embeds: [embed],
-              components: [new MessageActionRow().addComponents([Selection])]
+              components: [new ActionRowBuilder().addComponents([Selection])]
             }).catch(async (err) => {
               console.log(err)
               let Selection = new MessageSelectMenu()
@@ -780,7 +780,7 @@ module.exports = {
                   }))
               menumsg = await message.reply({
                 embeds: [embed],
-                components: [new MessageActionRow().addComponents([Selection])]
+                components: [new ActionRowBuilder().addComponents([Selection])]
               }).catch((e) => {
                 console.warn(e)
               })
@@ -842,15 +842,15 @@ module.exports = {
                       return Obj;
                     }))
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                   .setColor(es.color)
-                  .setAuthor(client.getAuthor('Menu Ticket Setup', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/envelope_2709-fe0f.png', 'https://discord.gg/milrato'))
+                  .setAuthor({ name: client.getAuthor('Menu Ticket Setup', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/envelope_2709-fe0f.png', 'https://discord.gg/milrato') })
                   .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]))
 
                 //send the menu msg
                 let menumsg = await message.reply({
                   embeds: [MenuEmbed],
-                  components: [new MessageActionRow().addComponents(Selection), new MessageActionRow().addComponents(new MessageButton().setStyle("LINK").setURL("https://youtu.be/QGESDc31d4U").setLabel("Tutorial Video")
+                  components: [new ActionRowBuilder().addComponents(Selection), new ActionRowBuilder().addComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setURL("https://youtu.be/QGESDc31d4U").setLabel("Tutorial Video")
                     .setEmoji(allEmojis.msg.youtube))]
                 })
                 //Create the collector
@@ -886,7 +886,7 @@ module.exports = {
                     case `Change Value&Description`.substring(0, 25): {
                       let tempmsg = await message.reply({
                         embeds: [
-                          new MessageEmbed()
+                          new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle("What should be the VALUE and DESCRIPTION of the Menu-Option?")
                             .setDescription(`**Usage:** \`VALUE++DESCRIPTION\`\n> **Note:** The maximum length of the VALUE is: \`25 Letters\`\n> **Note:** The maximum length of the DESCRIPTION is: \`50 Letters\`\n\nFor Example:\n> \`\`\`General Support++Get Help for anything you want!\`\`\``)
@@ -915,7 +915,7 @@ module.exports = {
                     case `Change Open Category`: {
                       let tempmsg = await message.reply({
                         embeds: [
-                          new MessageEmbed()
+                          new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle("In Which Category should the new Tickets of this Option open?")
                             .setDescription(`**This is suggested to fill it in, because there are settings for SYNCING to that Category!**\n\nJust send the ID of it, send \`no\` for no category!\nFor Example:\n> \`840332704494518292\``)
@@ -938,7 +938,7 @@ module.exports = {
                       let defaultname = "🎫・{count}・{member}";
                       let tempmsg = await message.reply({
                         embeds: [
-                          new MessageEmbed()
+                          new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle("What should be the new Default Ticket Name?")
                             .setDescription(`Currently/Suggested it's: \`${defaultname}\` aka it will turn into: \`${defaultname.replace("{member}", message.author.username).replace("{count}", 0)}\`\n> \`{member}\` ... will get replaced with the ticket opening username\n> \`{count}\` ... Will get replaced with the TICKET ID (COUNT)\n**Send the Message now!**`)
@@ -959,7 +959,7 @@ module.exports = {
                       }
                     } break;
                     case `Change Emoji`: {
-                      var rermbed = new MessageEmbed()
+                      var rermbed = new EmbedBuilder()
                         .setColor(es.color)
                         .setTitle("What should be the EMOJI to be displayed?")
                         .setDescription(`React to __THIS MESSAGE__ with the Emoji you want!\n> Either click on the default Emoji or add a CUSTOM ONE/Standard`)
@@ -1014,7 +1014,7 @@ module.exports = {
                     case `Change Reply Message`: {
                       let tempmsg = await message.reply({
                         embeds: [
-                          new MessageEmbed()
+                          new EmbedBuilder()
                             .setColor(es.color)
                             .setTitle("What should be the Reply Message when someone Opens a Ticket?")
                             .setDescription(`For Example:\n> \`\`\`{user} Welcome to the Support! Tell us what you need help with!\`\`\``)
@@ -1047,16 +1047,16 @@ module.exports = {
                   emojiMsg = emojiMsg ? emojiMsg : client.emojis.cache.has(emoji) ? client.emojis.cache.get(emoji).toString() : emoji;
                   message.reply({
                     embeds: [
-                      new MessageEmbed()
+                      new EmbedBuilder()
                         .setColor(es.color)
                         .setTitle("**Successfully edited:**")
                         .setDescription(`>>> ${menu?.values.map(i => `\`${i}\``).join(", ")}\n\nDon't forget to resend the Ticket Config-Message!`)
-                        .addField("Value:", `> ${value}`.substring(0, 1024), true)
-                        .addField("Description:", `> ${description}`.substring(0, 1024), true)
-                        .addField("Category:", `> <#${category}> (${category})`.substring(0, 1024), true)
-                        .addField("Defaultname:", `> \`${defaultname}\` --> \`${defaultname.replace("{member}", message.author.username).replace("{count}", 0)}\``.substring(0, 1024), true)
-                        .addField("ReplyMsg:", `> ${replyMsg}`.substring(0, 1024), true)
-                        .addField("Emoji:", `> ${emojiMsg}`.substring(0, 1024), true)
+                        .addFields({ name: "Value:", value: `> ${value}`.substring(0, 1024), inline: true })
+                        .addFields({ name: "Description:", value: `> ${description}`.substring(0, 1024), inline: true })
+                        .addFields({ name: "Category:", value: `> <#${category}> (${category})`.substring(0, 1024), inline: true })
+                        .addFields({ name: "Defaultname:", value: `> \`${defaultname}\` --> \`${defaultname.replace("{member}", message.author.username).replace("{count}", 0)}\``.substring(0, 1024), inline: true })
+                        .addFields({ name: "ReplyMsg:", value: `> ${replyMsg}`.substring(0, 1024), inline: true })
+                        .addFields({ name: "Emoji:", value: `> ${emojiMsg}`.substring(0, 1024), inline: true })
 
                     ]
                   });
@@ -1084,7 +1084,7 @@ module.exports = {
             if (!data || data.length < 1) {
               return message.reply("<:no:833101993668771842> **There are no Open-Ticket-Options to remove**")
             }
-            let embed = new MessageEmbed()
+            let embed = new EmbedBuilder()
               .setColor(es.color)
               .setThumbnail(es.thumb ? es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://")) ? es.footericon : client.user.displayAvatarURL() : null)
               .setFooter(client.getFooter(es))
@@ -1111,7 +1111,7 @@ module.exports = {
             let menumsg;
             menumsg = await message.reply({
               embeds: [embed],
-              components: [new MessageActionRow().addComponents([Selection])]
+              components: [new ActionRowBuilder().addComponents([Selection])]
             }).catch(async (err) => {
               console.log(err)
               let Selection = new MessageSelectMenu()
@@ -1132,7 +1132,7 @@ module.exports = {
                   }))
               menumsg = await message.reply({
                 embeds: [embed],
-                components: [new MessageActionRow().addComponents([Selection])]
+                components: [new ActionRowBuilder().addComponents([Selection])]
               }).catch((e) => {
                 console.warn(e)
               })
@@ -1170,7 +1170,7 @@ module.exports = {
           case "Closed Ticket Category": {
             let parentId = theDB.get(message.guild.id, `${pre}.closedParent`);
             let parent = parentId ? message.guild.channels.cache.get(parentId) : null;
-            var rembed = new MessageEmbed()
+            var rembed = new EmbedBuilder()
               .setColor(es.color)
               .setFooter(client.getFooter(es))
               .setTitle("What should be the new Closed Ticket Category?")
@@ -1199,7 +1199,7 @@ module.exports = {
                 message.reply(`I will now move closed Tickets to ${parent.name} (${parent.id})`);
               }).catch(error => {
                 return message.reply({
-                  embeds: [new Discord.MessageEmbed()
+                  embeds: [new EmbedBuilder()
                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable21"]))
                     .setColor(es.wrongcolor)
                     .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -1213,7 +1213,7 @@ module.exports = {
           case "Manage General Access": {
             let tempmsg = await message.reply({
               embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                   .setColor(es.color)
                   .setTitle("What User(s) or Role(s) do you want to add/remove?")
                   .setDescription(`Just ping them! If they are already added, they will get removed!`)
@@ -1260,7 +1260,7 @@ module.exports = {
     } catch (e) {
       console.log(String(e.stack).grey.bgRed)
       return message.reply({
-        embeds: [new MessageEmbed()
+        embeds: [new EmbedBuilder()
           .setColor(es.wrongcolor).setFooter(client.getFooter(es))
           .setTitle(client.la[ls].common.erroroccur)
           .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable39"]))

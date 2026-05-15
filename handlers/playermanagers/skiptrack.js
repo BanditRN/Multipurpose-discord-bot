@@ -1,4 +1,6 @@
-var { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var { format, delay, arrayMove, isValidURL } = require("../functions");
@@ -28,13 +30,12 @@ async function skiptrack(client, message, args, type, slashCommand) {
             player.set("message", message);
             player.set("messageid", message.id);
             player.set("playerauthor", message.author.id);
-            player.connect();
+            await player.connect();
             try {
                 message.react("863876115584385074").catch(() => {});
             } catch (e) {
                 console.log(String(e).grey);
             }
-            player.stop();
         }
         try {
             // Search for tracks using a query or url, using a query searches youtube automatically and the track requester object
@@ -66,7 +67,7 @@ async function skiptrack(client, message, args, type, slashCommand) {
                 return slashCommand.reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["skiptrack"]["variable1"]))
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["skiptrack"]["variable2"])),
@@ -74,7 +75,7 @@ async function skiptrack(client, message, args, type, slashCommand) {
                 });
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setTitle(eval(client.la[ls]["handlers"]["playermanagers"]["skiptrack"]["variable1"]))
                         .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["skiptrack"]["variable2"])),
@@ -86,7 +87,7 @@ async function skiptrack(client, message, args, type, slashCommand) {
                 return slashCommand.reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["skiptrack"]["variable3"])),
@@ -95,7 +96,7 @@ async function skiptrack(client, message, args, type, slashCommand) {
             return message
                 .reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(ee.wrongcolor)
                             .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**")
                             .setDescription(eval(client.la[ls]["handlers"]["playermanagers"]["skiptrack"]["variable3"])),
@@ -112,7 +113,7 @@ async function skiptrack(client, message, args, type, slashCommand) {
             //set the variables
             player.set("message", message);
             player.set("playerauthor", message.author.id);
-            player.connect();
+            await player.connect();
             try {
                 message.react("863876115584385074").catch(() => {});
             } catch (e) {
@@ -121,13 +122,13 @@ async function skiptrack(client, message, args, type, slashCommand) {
             //add track
             player.queue.add(res.tracks[0]);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else if (!player.queue || !player.queue.current) {
             //add track
             player.queue.add(res.tracks[0]);
             //play track
-            player.play();
+            await player.play();
             player.pause(false);
         } else {
             player.queue.add(res.tracks[0]);
@@ -166,7 +167,7 @@ async function skiptrack(client, message, args, type, slashCommand) {
             return slashCommand.reply({
                 ephemeral: true,
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**"),
                 ],
@@ -174,7 +175,7 @@ async function skiptrack(client, message, args, type, slashCommand) {
         return message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(ee.wrongcolor)
                         .setTitle(String("❌ Error | Found nothing for: **`" + search).substring(0, 256 - 3) + "`**"),
                 ],

@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-validcode",
@@ -68,19 +72,15 @@ module.exports = {
                         })
                     );
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Valid-Code System Setup",
-                        "https://cdn.discordapp.com/emojis/858405056238714930.gif?v=1",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Valid-Code System Setup", iconURL: "https://cdn.discordapp.com/emojis/858405056238714930.gif?v=1", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-validcode"]["variable1"]));
                 let used1 = false;
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //function to handle the menuselection
                 function menuselection(menu) {
@@ -122,7 +122,7 @@ module.exports = {
                         );
                         return message.reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-validcode"]["variable3"]))
                                     .setColor(es.color)
                                     .setFooter(client.getFooter(es)),
@@ -133,7 +133,7 @@ module.exports = {
                         let thesettings = client.settings.get(message.guild.id, `validcode`);
                         return message.reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-validcode"]["variable4"]))
                                     .setColor(es.color)
                                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-validcode"]["variable5"]))
@@ -151,7 +151,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

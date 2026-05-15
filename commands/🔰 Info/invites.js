@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -60,12 +62,8 @@ module.exports = {
             messagesCount = nFormatter(messagesCount, 3);
             message.reply({
                 embeds: [
-                    new Discord.MessageEmbed()
-                        .setAuthor(
-                            handlemsg(client.la[ls].cmds.info.invites.author, { usertag: user.tag }),
-                            user.displayAvatarURL({ dynamic: true }),
-                            "https://discord.gg/milrato"
-                        )
+                    new EmbedBuilder()
+                        .setAuthor({ name: handlemsg(client.la[ls].cmds.info.invites.author, { usertag: user.tag }), iconURL: user.displayAvatarURL({ dynamic: true }), url: "https://discord.gg/milrato" })
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -74,26 +72,14 @@ module.exports = {
                                     : client.user.displayAvatarURL()
                                 : null
                         )
-                        .addField(
-                            "\u200b",
-                            handlemsg(client.la[ls].cmds.info.invites.field1.value, { realinvites: realinvites, user: user })
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.invites.field2.title,
-                            handlemsg(client.la[ls].cmds.info.invites.field2.value, {
+                        .addFields({ name: "\u200b", value: handlemsg(client.la[ls].cmds.info.invites.field1.value, { realinvites: realinvites, user: user }) })
+                        .addFields({ name: client.la[ls].cmds.info.invites.field2.title, value: handlemsg(client.la[ls].cmds.info.invites.field2.value, {
                                 invites: invites,
                                 fake: fake,
                                 leaves: leaves,
-                            })
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.invites.field3.title,
-                            `>>> \`\`\`yml\nJoins - Fakes - Leaves = RealInvites\n${invites}${" ".repeat("Joins ".length - String(invites).length)}- ${fake}${" ".repeat("Fakes ".length - String(fake).length)}- ${leaves}${" ".repeat("Leaves ".length - String(leaves).length)}= ${realinvites}\n\`\`\``
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.invites.field4.title,
-                            handlemsg(client.la[ls].cmds.info.invites.field4.value, { messagesCount: messagesCount })
-                        )
+                            }) })
+                        .addFields({ name: client.la[ls].cmds.info.invites.field3.title, value: `>>> \`\`\`yml\nJoins - Fakes - Leaves = RealInvites\n${invites}${" ".repeat("Joins ".length - String(invites).length)}- ${fake}${" ".repeat("Fakes ".length - String(fake).length)}- ${leaves}${" ".repeat("Leaves ".length - String(leaves).length)}= ${realinvites}\n\`\`\`` })
+                        .addFields({ name: client.la[ls].cmds.info.invites.field4.title, value: handlemsg(client.la[ls].cmds.info.invites.field4.value, { messagesCount: messagesCount }) })
                         .setFooter(client.getFooter(es)),
                 ],
             });
@@ -101,7 +87,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

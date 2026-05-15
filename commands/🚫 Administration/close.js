@@ -1,11 +1,19 @@
-const { MessageEmbed, Collection, MessageAttachment, Permissions } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    Collection,
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
+
 const Discord = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const moment = require("moment");
 const fs = require("fs");
 const { databasing, delay, create_transcript, GetUser, GetRole } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow } = require("discord.js");
+
 module.exports = {
     name: "ticket",
     category: "🚫 Administration",
@@ -137,44 +145,44 @@ module.exports = {
                 !cmdroles.includes(message.author.id) && [...message.member.roles.cache.values()] &&
                 !message.member.roles.cache.some(r => adminroles.includes(r ? r.id : r)) &&
                 ![message.guild.ownerId, config.ownerid].includes(message.author.id) &&
-                !message.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR]) &&
+                !message.member.permissions.has([PermissionFlagsBits.Administrator]) &&
                 !message.member.roles.cache.some(r => ticket.adminroles.includes(r ? r.id : r))
             )
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["close"]["variable3"]))
                             .setDescription(eval(client.la[ls]["cmds"]["administration"]["close"]["variable4"])),
                     ],
                 });
-            let button_close = new MessageButton()
-                .setStyle("PRIMARY")
+            let button_close = new ButtonBuilder()
+                .setStyle(ButtonStyle.Primary)
                 .setCustomId("ticket_close")
                 .setLabel("Close")
                 .setEmoji("🔒");
-            let button_delete = new MessageButton()
-                .setStyle("SECONDARY")
+            let button_delete = new ButtonBuilder()
+                .setStyle(ButtonStyle.Secondary)
                 .setCustomId("ticket_delete")
                 .setLabel("Delete")
                 .setEmoji("🗑️");
-            let button_transcript = new MessageButton()
-                .setStyle("PRIMARY")
+            let button_transcript = new ButtonBuilder()
+                .setStyle(ButtonStyle.Primary)
                 .setCustomId("ticket_transcript")
                 .setLabel("Transcript")
                 .setEmoji("📑");
-            let button_user = new MessageButton()
-                .setStyle("SUCCESS")
+            let button_user = new ButtonBuilder()
+                .setStyle(ButtonStyle.Success)
                 .setCustomId("ticket_user")
                 .setLabel("Manage Users")
                 .setEmoji("👤");
-            let button_role = new MessageButton()
-                .setStyle("SUCCESS")
+            let button_role = new ButtonBuilder()
+                .setStyle(ButtonStyle.Success)
                 .setCustomId("ticket_role")
                 .setLabel("Manage Roles")
                 .setEmoji("📌");
-            let buttonRow1 = new MessageActionRow().addComponents([
+            let buttonRow1 = new ActionRowBuilder().addComponents([
                 button_close,
                 button_delete,
                 button_transcript,
@@ -184,7 +192,7 @@ module.exports = {
             const allbuttons = [buttonRow1];
             message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(eval(client.la[ls]["cmds"]["administration"]["close"]["variable5"]))
                         .setColor(es.color)
                         .setThumbnail(
@@ -214,7 +222,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["administration"]["close"]["variable6"]))

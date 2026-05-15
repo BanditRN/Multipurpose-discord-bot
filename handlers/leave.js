@@ -1,5 +1,8 @@
 //Import npm modules
 const Discord = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
 const canvacord = require("canvacord");
 //Load fonts
@@ -114,7 +117,7 @@ module.exports = client => {
             if (!channel) return;
 
             //define the leave embed
-            const leaveembed = new Discord.MessageEmbed()
+            const leaveembed = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setThumbnail(
                     es.thumb
@@ -134,7 +137,7 @@ module.exports = client => {
                 )
                 .setTitle(eval(client.la[ls]["handlers"]["leavejs"]["leave"]["variable1"]))
                 .setDescription(client.settings.get(member.guild.id, "leave.msg").replace("{user}", `${member.user}`));
-            if (client.settings.get(member.guild.id, "leave.invite")) leaveembed.addField("\u200b", invitemessage);
+            if (client.settings.get(member.guild.id, "leave.invite")) leaveembed.addFields({ name: "\u200b", value: invitemessage });
             //send the leave embed to there
             channel
                 .send({
@@ -144,7 +147,7 @@ module.exports = client => {
         }
         async function dm_msg_withoutimg(member) {
             //define the leave embed
-            const leaveembed = new Discord.MessageEmbed()
+            const leaveembed = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setThumbnail(
                     es.thumb
@@ -164,7 +167,7 @@ module.exports = client => {
                 )
                 .setTitle(eval(client.la[ls]["handlers"]["leavejs"]["leave"]["variable2"]))
                 .setDescription(client.settings.get(member.guild.id, "leave.dm_msg").replace("{user}", `${member.user}`));
-            if (client.settings.get(member.guild.id, "leave.invitedm")) leaveembed.addField("\u200b", invitemessage);
+            if (client.settings.get(member.guild.id, "leave.invitedm")) leaveembed.addFields({ name: "\u200b", value: invitemessage });
             //send the leave embed to there
             member.user
                 .send({
@@ -175,7 +178,7 @@ module.exports = client => {
 
         async function dm_msg_withimg(member) {
             //define the leave embed
-            const leaveembed = new Discord.MessageEmbed()
+            const leaveembed = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setThumbnail(
                     es.thumb
@@ -196,7 +199,7 @@ module.exports = client => {
                 .setTitle(eval(client.la[ls]["handlers"]["leavejs"]["leave"]["variable3"]))
                 .setDescription(client.settings.get(member.guild.id, "leave.dm_msg").replace("{user}", `${member.user}`))
                 .setImage(client.settings.get(member.guild.id, "leave.customdm"));
-            if (client.settings.get(member.guild.id, "leave.invitedm")) leaveembed.addField("\u200b", invitemessage);
+            if (client.settings.get(member.guild.id, "leave.invitedm")) leaveembed.addFields({ name: "\u200b", value: invitemessage });
             //send the leave embed to there
             member.user
                 .send({
@@ -211,7 +214,7 @@ module.exports = client => {
             if (!channel) return;
 
             //define the leave embed
-            const leaveembed = new Discord.MessageEmbed()
+            const leaveembed = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setThumbnail(
                     es.thumb
@@ -232,7 +235,7 @@ module.exports = client => {
                 .setTitle(eval(client.la[ls]["handlers"]["leavejs"]["leave"]["variable4"]))
                 .setDescription(client.settings.get(member.guild.id, "leave.msg").replace("{user}", `${member.user}`))
                 .setImage(client.settings.get(member.guild.id, "leave.custom"));
-            if (client.settings.get(member.guild.id, "leave.invite")) leaveembed.addField("\u200b", invitemessage);
+            if (client.settings.get(member.guild.id, "leave.invite")) leaveembed.addFields({ name: "\u200b", value: invitemessage });
             //send the leave embed to there
             channel
                 .send({
@@ -244,7 +247,7 @@ module.exports = client => {
         async function dm_msg_autoimg(member) {
             try {
                 //define the leave embed
-                const leaveembed = new Discord.MessageEmbed()
+                const leaveembed = new EmbedBuilder()
                     .setColor(es.wrongcolor)
                     .setThumbnail(
                         es.thumb
@@ -266,7 +269,7 @@ module.exports = client => {
                     .setDescription(
                         client.settings.get(member.guild.id, "leave.dm_msg").replace("{user}", `${member.user}`)
                     );
-                if (client.settings.get(member.guild.id, "leave.invitedm")) leaveembed.addField("\u200b", invitemessage);
+                if (client.settings.get(member.guild.id, "leave.invitedm")) leaveembed.addFields({ name: "\u200b", value: invitemessage });
 
                 //member roles add on leave every single role
                 const canvas = Canvas.createCanvas(1772, 633);
@@ -388,7 +391,7 @@ module.exports = client => {
                 let channel = await client.channels.fetch(leavechannel).catch(() => {});
                 if (!channel) return;
                 //define the leave embed
-                const leaveembed = new Discord.MessageEmbed()
+                const leaveembed = new EmbedBuilder()
                     .setColor(es.wrongcolor)
                     .setThumbnail(
                         es.thumb
@@ -408,7 +411,7 @@ module.exports = client => {
                     )
                     .setTitle(eval(client.la[ls]["handlers"]["leavejs"]["leave"]["variable6"]))
                     .setDescription(client.settings.get(member.guild.id, "leave.msg").replace("{user}", `${member.user}`));
-                if (client.settings.get(member.guild.id, "leave.invite")) leaveembed.addField("\u200b", invitemessage);
+                if (client.settings.get(member.guild.id, "leave.invite")) leaveembed.addFields({ name: "\u200b", value: invitemessage });
 
                 //member roles add on leave every single role
                 const canvas = Canvas.createCanvas(1772, 633);

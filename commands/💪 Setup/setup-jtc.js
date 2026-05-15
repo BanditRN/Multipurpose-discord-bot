@@ -1,9 +1,13 @@
-var { MessageEmbed } = require("discord.js");
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require("discord.js");
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { getNumberEmojis, allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-jtc",
@@ -32,7 +36,7 @@ module.exports = {
                     });
                 }
 
-                let row1 = new MessageActionRow().addComponents(
+                let row1 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -50,7 +54,7 @@ module.exports = {
                             })
                         )
                 );
-                let row2 = new MessageActionRow().addComponents(
+                let row2 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection2")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -68,7 +72,7 @@ module.exports = {
                             })
                         )
                 );
-                let row3 = new MessageActionRow().addComponents(
+                let row3 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection3")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -86,7 +90,7 @@ module.exports = {
                             })
                         )
                 );
-                let row4 = new MessageActionRow().addComponents(
+                let row4 = new ActionRowBuilder().addComponents(
                     new MessageSelectMenu()
                         .setCustomId("MenuSelection4")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
@@ -106,13 +110,9 @@ module.exports = {
                 );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Join-to-Create Setup",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/joypixels/291/studio-microphone_1f399-fe0f.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Join-to-Create Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/joypixels/291/studio-microphone_1f399-fe0f.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({ embeds: [MenuEmbed], components: [row1, row2, row3, row4] });
@@ -208,20 +208,18 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        client.getAuthor(
+                    .setAuthor({ name: client.getAuthor(
                             SetupNumber + " Join-to-Create Setup",
                             "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/joypixels/291/studio-microphone_1f399-fe0f.png",
                             "https://discord.gg/milrato"
-                        )
-                    )
+                        ) })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable4"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //function to handle the menuselection
                 function menuselection(menu) {
@@ -285,7 +283,7 @@ module.exports = {
                                     if (message.channel.parent) vc.setParent(message.channel.parent.id);
                                     message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-jtc"]["variable6"]))
                                                 .setColor(es.color)
                                                 .setDescription(
@@ -304,7 +302,7 @@ module.exports = {
                             if (!channel)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-jtc"]["variable8"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-jtc"]["variable9"]))
@@ -313,7 +311,7 @@ module.exports = {
                                 });
                             message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-jtc"]["variable10"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-jtc"]["variable11"]))
@@ -327,7 +325,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new Discord.MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-jtc"]["variable12"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-jtc"]["variable13"]))
@@ -349,7 +347,7 @@ module.exports = {
                                     );
                                     message.reply({
                                         embeds: [
-                                            new Discord.MessageEmbed()
+                                            new EmbedBuilder()
                                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-jtc"]["variable14"]))
                                                 .setColor(es.color)
                                                 .setDescription(
@@ -365,7 +363,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new Discord.MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-jtc"]["variable16"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -380,7 +378,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

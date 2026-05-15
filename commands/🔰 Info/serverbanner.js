@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -17,7 +19,7 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
         try {
             if (message.guild.banner) {
-                let embed = new Discord.MessageEmbed()
+                let embed = new EmbedBuilder()
                     .setTitle(`**<:arrow:832598861813776394> SERVER BANNER:**`)
                     .setColor(es.color)
                     .setFooter(client.getFooter(es))
@@ -27,7 +29,7 @@ module.exports = {
                     .setImage(message.guild.bannerURL({ size: 4096 }));
                 message.reply({ embeds: [embed] });
             } else {
-                let embed = new Discord.MessageEmbed()
+                let embed = new EmbedBuilder()
                     .setTitle(`<:no:833101993668771842> **This Server has no Banner!**`)
                     .setColor(es.color)
                     .setFooter(client.getFooter(es))
@@ -44,7 +46,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

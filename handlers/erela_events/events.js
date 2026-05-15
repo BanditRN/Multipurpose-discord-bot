@@ -1,4 +1,10 @@
-const { MessageEmbed, MessageButton, MessageActionRow, Permissions } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 
 let config = require(`${process.cwd()}/botconfig/config.json`);
 let emoji = require("../../botconfig/emojis.json");
@@ -12,7 +18,7 @@ let collector = false;
 module.exports = client => {
     client.manager
         .on("playerCreate", async player => {
-            playercreated.set(player.guild);
+            playercreated.set(player.guild, true);
         })
         .on("playerMove", async (player, oldChannel, newChannel) => {
             if (!newChannel) {
@@ -31,16 +37,16 @@ module.exports = client => {
                 let Queuechannel = client.channels.cache.get(player.textChannel);
                 if (
                     Queuechannel &&
-                    Queuechannel.permissionsFor(Queuechannel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES)
+                    Queuechannel.permissionsFor(Queuechannel.guild.members.me).has(PermissionFlagsBits.SendMessages)
                 ) {
                     Queuechannel.messages
                         .fetch(player.get("currentmsg"))
                         .then(currentSongPlayMsg => {
-                            if (currentSongPlayMsg && currentSongPlayMsg.embeds && currentSongPlayMsg.embeds[0]) {
-                                var embed = currentSongPlayMsg.embeds[0];
-                                embed.author.iconURL =
-                                    "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png";
-                                embed.footer.text += "\n\n⛔️ SONG & QUEUE ENDED! | Player got DESTROYED (stopped)";
+                            if (currentSongPlayMsg?.embeds?.[0]) {
+                                const orig = currentSongPlayMsg.embeds[0];
+                                const embed = EmbedBuilder.from(orig);
+                                if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || null });
+                                embed.setFooter({ text: (orig.footer?.text || "") + "\n\n⛔️ SONG & QUEUE ENDED! | Player got DESTROYED (stopped)" });
                                 currentSongPlayMsg.edit({ embeds: [embed], components: [] }).catch(() => {});
                             }
                         })
@@ -116,15 +122,15 @@ module.exports = client => {
                         }
                     }
                     let channel = client.channels.cache.get(player.textChannel);
-                    if (channel && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES)) {
+                    if (channel && channel.permissionsFor(channel.guild.members.me).has(PermissionFlagsBits.SendMessages)) {
                         channel.messages
                             .fetch(player.get("currentmsg"))
                             .then(currentSongPlayMsg => {
-                                if (currentSongPlayMsg && currentSongPlayMsg.embeds && currentSongPlayMsg.embeds[0]) {
-                                    var embed = currentSongPlayMsg.embeds[0];
-                                    embed.author.iconURL =
-                                        "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png";
-                                    embed.footer.text += "\n⛔️ SONG ENDED!";
+                                if (currentSongPlayMsg?.embeds?.[0]) {
+                                    const orig = currentSongPlayMsg.embeds[0];
+                                    const embed = EmbedBuilder.from(orig);
+                                    if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || null });
+                                    embed.setFooter({ text: (orig.footer?.text || "") + "\n⛔️ SONG ENDED!" });
                                     currentSongPlayMsg.edit({ embeds: [embed], components: [] }).catch(() => {});
                                 }
                             })
@@ -146,7 +152,7 @@ module.exports = client => {
                 let playdata = generateQueueEmbed(client, player, track);
                 //Send message with buttons
                 let channel = client.channels.cache.get(player.textChannel);
-                if (channel && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES)) {
+                if (channel && channel.permissionsFor(channel.guild.members.me).has(PermissionFlagsBits.SendMessages)) {
                     let swapmsg = await channel.send(playdata).then(msg => {
                         player.set("currentmsg", msg.id);
                         return msg;
@@ -178,7 +184,7 @@ module.exports = client => {
                         if (i?.customId != `10` && check_if_dj(client, i?.member, player.queue.current)) {
                             return i?.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(ee.wrongcolor)
                                         .setFooter({ text: `${ee.footertext}`, iconURL: `${ee.footericon}` })
                                         .setTitle(
@@ -200,7 +206,7 @@ module.exports = client => {
                                 if (player.get("autoplay")) return autoplay(client, player, "skip");
                                 i?.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(ee.color)
                                             .setTimestamp()
                                             .setTitle(`⏹ **Stopped playing and left the Channel**`)
@@ -220,7 +226,7 @@ module.exports = client => {
                             player.stop();
                             return i?.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(ee.color)
                                         .setTimestamp()
                                         .setTitle(`⏭ **Skipped to the next Song!**`)
@@ -239,7 +245,7 @@ module.exports = client => {
                             //Stop the player
                             i?.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(ee.color)
                                         .setTimestamp()
                                         .setTitle(`⏹ **Stopped playing and left the Channel**`)
@@ -261,7 +267,7 @@ module.exports = client => {
                                 player.pause(false);
                                 i?.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(ee.color)
                                             .setTimestamp()
                                             .setTitle(`▶️ **Resumed!**`)
@@ -279,7 +285,7 @@ module.exports = client => {
 
                                 i?.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor(ee.color)
                                             .setTimestamp()
                                             .setTitle(`⏸ **Paused!**`)
@@ -308,7 +314,7 @@ module.exports = client => {
                             });
                             i?.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(ee.color)
                                         .setTimestamp()
                                         .setTitle(
@@ -336,7 +342,7 @@ module.exports = client => {
                             //Send Success Message
                             i?.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(ee.color)
                                         .setTimestamp()
                                         .setTitle(`🔀 **Shuffled ${player.queue.length} Songs!**`)
@@ -360,7 +366,7 @@ module.exports = client => {
                             player.setTrackRepeat(!player.trackRepeat);
                             i?.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(ee.color)
                                         .setTimestamp()
                                         .setTitle(
@@ -390,7 +396,7 @@ module.exports = client => {
                             player.setQueueRepeat(!player.queueRepeat);
                             i?.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(ee.color)
                                         .setTimestamp()
                                         .setTitle(
@@ -424,7 +430,7 @@ module.exports = client => {
                             collector.resetTimer({ time: (player.queue.current.duration - player.position) * 1000 });
                             i?.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(ee.color)
                                         .setTimestamp()
                                         .setTitle(`⏩ **Forwarded the song for \`10 Seconds\`!**`)
@@ -449,7 +455,7 @@ module.exports = client => {
                             collector.resetTimer({ time: (player.queue.current.duration - player.position) * 1000 });
                             i?.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(ee.color)
                                         .setTimestamp()
                                         .setTitle(`⏪ **Rewinded the song for \`10 Seconds\`!**`)
@@ -472,15 +478,15 @@ module.exports = client => {
             await player.stop();
             if (player.textChannel) {
                 let channel = client.channels.cache.get(player.textChannel);
-                if (channel && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES)) {
+                if (channel && channel.permissionsFor(channel.guild.members.me).has(PermissionFlagsBits.SendMessages)) {
                     channel.messages
                         .fetch(player.get("currentmsg"))
                         .then(currentSongPlayMsg => {
-                            if (currentSongPlayMsg && currentSongPlayMsg.embeds && currentSongPlayMsg.embeds[0]) {
-                                var embed = currentSongPlayMsg.embeds[0];
-                                embed.author.iconURL =
-                                    "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png";
-                                embed.footer.text += "\n⚠️⚠️⚠️ SONG STUCKED ⚠️⚠️!";
+                            if (currentSongPlayMsg?.embeds?.[0]) {
+                                const orig = currentSongPlayMsg.embeds[0];
+                                const embed = EmbedBuilder.from(orig);
+                                if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || null });
+                                embed.setFooter({ text: (orig.footer?.text || "") + "\n⚠️⚠️⚠️ SONG STUCKED ⚠️⚠️!" });
                                 currentSongPlayMsg.edit({ embeds: [embed], components: [] }).catch(() => {});
                             }
                         })
@@ -511,15 +517,15 @@ module.exports = client => {
             await player.stop();
             if (player.textChannel) {
                 let channel = client.channels.cache.get(player.textChannel);
-                if (channel && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES)) {
+                if (channel && channel.permissionsFor(channel.guild.members.me).has(PermissionFlagsBits.SendMessages)) {
                     channel.messages
                         .fetch(player.get("currentmsg"))
                         .then(currentSongPlayMsg => {
-                            if (currentSongPlayMsg && currentSongPlayMsg.embeds && currentSongPlayMsg.embeds[0]) {
-                                var embed = currentSongPlayMsg.embeds[0];
-                                embed.author.iconURL =
-                                    "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png";
-                                embed.footer.text += "\n⚠️⚠️⚠️ SONG CRASHED ⚠️⚠️!";
+                            if (currentSongPlayMsg?.embeds?.[0]) {
+                                const orig = currentSongPlayMsg.embeds[0];
+                                const embed = EmbedBuilder.from(orig);
+                                if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || null });
+                                embed.setFooter({ text: (orig.footer?.text || "") + "\n⚠️⚠️⚠️ SONG CRASHED ⚠️⚠️!" });
                                 currentSongPlayMsg.edit({ embeds: [embed], components: [] }).catch(() => {});
                             }
                         })
@@ -591,46 +597,50 @@ module.exports = client => {
  */
 
 function generateQueueEmbed(client, player, track) {
-    var embed = new MessageEmbed().setColor(ee.color);
-    embed.setAuthor(
-        `${track.title}`,
-        "https://images-ext-1.discordapp.net/external/DkPCBVBHBDJC8xHHCF2G7-rJXnTwj_qs78udThL8Cy0/%3Fv%3D1/https/cdn.discordapp.com/emojis/859459305152708630.gif",
-        track.uri
-    );
-    embed.setThumbnail(`https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`);
-    embed.setFooter(
-        client.getFooter(`Requested by: ${track.requester.tag}`, track.requester.displayAvatarURL({ dynamic: true }))
-    );
-    let skip = new MessageButton().setStyle("PRIMARY").setCustomId("1").setEmoji(`⏭`).setLabel(`Skip`);
-    let stop = new MessageButton().setStyle("DANGER").setCustomId("2").setEmoji(`🏠`).setLabel(`Stop`);
-    let pause = new MessageButton().setStyle("SECONDARY").setCustomId("3").setEmoji("⏸").setLabel(`Pause`);
-    let autoplay = new MessageButton().setStyle("SUCCESS").setCustomId("4").setEmoji("🔁").setLabel(`Autoplay`);
-    let shuffle = new MessageButton().setStyle("PRIMARY").setCustomId("5").setEmoji("🔀").setLabel(`Shuffle`);
+    const requesterTag = track.requester?.tag || track.requester?.username || "Unknown";
+    const requesterAvatar = track.requester?.displayAvatarURL
+        ? track.requester.displayAvatarURL({ dynamic: true })
+        : null;
+    var embed = new EmbedBuilder()
+        .setColor(ee.color)
+        .setAuthor({
+            name: `${track.title}`,
+            iconURL:
+                "https://images-ext-1.discordapp.net/external/DkPCBVBHBDJC8xHHCF2G7-rJXnTwj_qs78udThL8Cy0/%3Fv%3D1/https/cdn.discordapp.com/emojis/859459305152708630.gif",
+            url: track.uri || null,
+        })
+        .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`)
+        .setFooter(client.getFooter(`Requested by: ${requesterTag}`, requesterAvatar));
+    let skip = new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("1").setEmoji(`⏭`).setLabel(`Skip`);
+    let stop = new ButtonBuilder().setStyle(ButtonStyle.Danger).setCustomId("2").setEmoji(`🏠`).setLabel(`Stop`);
+    let pause = new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("3").setEmoji("⏸").setLabel(`Pause`);
+    let autoplay = new ButtonBuilder().setStyle(ButtonStyle.Success).setCustomId("4").setEmoji("🔁").setLabel(`Autoplay`);
+    let shuffle = new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("5").setEmoji("🔀").setLabel(`Shuffle`);
     if (!player.playing) {
-        pause = pause.setStyle("SUCCESS").setEmoji("▶️").setLabel(`Resume`);
+        pause = pause.setStyle(ButtonStyle.Success).setEmoji("▶️").setLabel(`Resume`);
     }
     if (player.get("autoplay")) {
-        autoplay = autoplay.setStyle("SECONDARY");
+        autoplay = autoplay.setStyle(ButtonStyle.Secondary);
     }
-    let songloop = new MessageButton().setStyle("SUCCESS").setCustomId("6").setEmoji(`🔁`).setLabel(`Song`);
-    let queueloop = new MessageButton().setStyle("SUCCESS").setCustomId("7").setEmoji(`🔂`).setLabel(`Queue`);
-    let forward = new MessageButton().setStyle("PRIMARY").setCustomId("8").setEmoji("⏩").setLabel(`+10 Sec`);
-    let rewind = new MessageButton().setStyle("PRIMARY").setCustomId("9").setEmoji("⏪").setLabel(`-10 Sec`);
-    let lyrics = new MessageButton().setStyle("PRIMARY").setCustomId("10").setEmoji("📝").setLabel(`Lyrics`).setDisabled();
+    let songloop = new ButtonBuilder().setStyle(ButtonStyle.Success).setCustomId("6").setEmoji(`🔁`).setLabel(`Song`);
+    let queueloop = new ButtonBuilder().setStyle(ButtonStyle.Success).setCustomId("7").setEmoji(`🔂`).setLabel(`Queue`);
+    let forward = new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("8").setEmoji("⏩").setLabel(`+10 Sec`);
+    let rewind = new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("9").setEmoji("⏪").setLabel(`-10 Sec`);
+    let lyrics = new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("10").setEmoji("📝").setLabel(`Lyrics`).setDisabled(true);
     if (!player.queueRepeat && !player.trackRepeat) {
-        songloop = songloop.setStyle("SUCCESS");
-        queueloop = queueloop.setStyle("SUCCESS");
+        songloop = songloop.setStyle(ButtonStyle.Success);
+        queueloop = queueloop.setStyle(ButtonStyle.Success);
     }
     if (player.trackRepeat) {
-        songloop = songloop.setStyle("SECONDARY");
-        queueloop = queueloop.setStyle("SUCCESS");
+        songloop = songloop.setStyle(ButtonStyle.Secondary);
+        queueloop = queueloop.setStyle(ButtonStyle.Success);
     }
     if (player.queueRepeat) {
-        songloop = songloop.setStyle("SUCCESS");
-        queueloop = queueloop.setStyle("SECONDARY");
+        songloop = songloop.setStyle(ButtonStyle.Success);
+        queueloop = queueloop.setStyle(ButtonStyle.Secondary);
     }
-    const row = new MessageActionRow().addComponents([skip, stop, pause, autoplay, shuffle]);
-    const row2 = new MessageActionRow().addComponents([songloop, queueloop, forward, rewind, lyrics]);
+    const row = new ActionRowBuilder().addComponents([skip, stop, pause, autoplay, shuffle]);
+    const row2 = new ActionRowBuilder().addComponents([songloop, queueloop, forward, rewind, lyrics]);
     return {
         embeds: [embed],
         components: [row, row2],

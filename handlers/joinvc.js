@@ -1,5 +1,7 @@
 module.exports = client => {
-    var { MessageEmbed } = require(`discord.js`);
+    const {
+    EmbedBuilder,
+} = require("discord.js");
     let thumbs = {
         join: "https://cdn.discordapp.com/emojis/866356465299488809.png?size=128",
         leave: "https://cdn.discordapp.com/emojis/866356598356049930.png?size=128",
@@ -71,7 +73,7 @@ module.exports = client => {
                             channel
                                 .send({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("RED")
                                             .setFooter(
                                                 client.getFooter(
@@ -94,7 +96,7 @@ module.exports = client => {
                             theMsg
                                 .edit({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setColor("RED")
                                             .setFooter(
                                                 client.getFooter(
@@ -160,7 +162,7 @@ module.exports = client => {
                     channel
                         .send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor("GREEN")
                                     .setFooter(
                                         client.getFooter(`ID: ${vcMember.id}`, vcMember.displayAvatarURL({ dynamic: true }))

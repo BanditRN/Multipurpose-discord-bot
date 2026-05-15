@@ -1,4 +1,6 @@
-const { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -22,7 +24,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -35,7 +37,7 @@ module.exports = {
             if (Number(args[0]) <= 0 || Number(args[0]) > 150)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["volume"]["variable1"]))
                             .setDescription(eval(client.la[ls]["cmds"]["music"]["volume"]["variable2"])),
@@ -45,7 +47,7 @@ module.exports = {
             if (isNaN(args[0]))
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["volume"]["variable3"]))
                             .setDescription(eval(client.la[ls]["cmds"]["music"]["volume"]["variable4"])),
@@ -56,7 +58,7 @@ module.exports = {
             //send success message
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(eval(client.la[ls]["cmds"]["music"]["volume"]["variable5"]))
                         .setDescription(eval(client.la[ls]["cmds"]["music"]["volume"]["variable6"]))
                         .setColor(es.color),
@@ -66,7 +68,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setTitle(client.la[ls].common.erroroccur)
                         .setDescription(eval(client.la[ls]["cmds"]["music"]["volume"]["variable7"])),

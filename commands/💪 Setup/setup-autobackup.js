@@ -1,10 +1,15 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-autobackup",
@@ -23,7 +28,7 @@ module.exports = {
             ///////////////////////////////////////
             ///////////////////////////////////////
 
-            if (!message.guild.me.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR)) {
+            if (!message.guild.members.me?.permissions.has(PermissionFlagsBits.Administrator)) {
                 return message.reply("<:no:833101993668771842> **I am missing the ADMINISTRATOR Permission!**");
             }
             let owner = await message.guild.fetchOwner().catch(e => {
@@ -74,18 +79,14 @@ module.exports = {
                         })
                     );
                 //define the embed
-                let MenuEmbed = new Discord.MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Auto-Backup System Setup",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/floppy-disk_1f4be.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Auto-Backup System Setup", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/floppy-disk_1f4be.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-anticaps"]["variable1"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -105,7 +106,7 @@ module.exports = {
                         );
                         return message.reply({
                             embeds: [
-                                new Discord.MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(
                                         client.settings.get(message.guild.id, "autobackup")
                                             ? "Enabled Auto-Backups"
@@ -144,7 +145,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

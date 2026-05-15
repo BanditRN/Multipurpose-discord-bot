@@ -1,4 +1,6 @@
-var { MessageEmbed, MessageSelectMenu, MessageActionRow } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -31,7 +33,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-membercount"]["variable15"]))

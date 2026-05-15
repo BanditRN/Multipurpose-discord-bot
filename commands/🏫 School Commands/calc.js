@@ -1,7 +1,9 @@
 const math = require("math-expression-evaluator");
 const ms = require("ms");
 const moment = require("moment");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -18,7 +20,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "SCHOOL")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -36,7 +38,7 @@ module.exports = {
         if (args.length < 1)
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variable1"]))
@@ -54,7 +56,7 @@ module.exports = {
 
         message.reply({
             embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.color)
                     .setThumbnail(
                         es.thumb
@@ -65,14 +67,8 @@ module.exports = {
                     )
                     .setDescription(eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variable4"]))
                     .setFooter(client.getFooter(es))
-                    .addField(
-                        eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variablex_5"]),
-                        eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variable5"])
-                    )
-                    .addField(
-                        eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variablex_6"]),
-                        eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variable6"])
-                    ),
+                    .addFields({ name: eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variablex_5"]), value: eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variable5"]) })
+                    .addFields({ name: eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variablex_6"]), value: eval(client.la[ls]["cmds"]["schoolcommands"]["calc"]["variable6"]) }),
             ],
         });
     },

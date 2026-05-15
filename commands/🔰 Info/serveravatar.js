@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -18,12 +20,8 @@ module.exports = {
         try {
             message.reply({
                 embeds: [
-                    new Discord.MessageEmbed()
-                        .setAuthor(
-                            handlemsg(client.la[ls].cmds.info.serveravatar.author, { servername: message.guild.name }),
-                            message.guild.iconURL({ dynamic: true }),
-                            "https://discord.gg/milrato"
-                        )
+                    new EmbedBuilder()
+                        .setAuthor({ name: handlemsg(client.la[ls].cmds.info.serveravatar.author, { servername: message.guild.name }), iconURL: message.guild.iconURL({ dynamic: true }), url: "https://discord.gg/milrato" })
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -32,21 +30,9 @@ module.exports = {
                                     : client.user.displayAvatarURL()
                                 : null
                         )
-                        .addField(
-                            "<:arrow:832598861813776394> PNG",
-                            `[\`LINK\`](${message.guild.iconURL({ format: "png" })})`,
-                            true
-                        )
-                        .addField(
-                            "<:arrow:832598861813776394> JPEG",
-                            `[\`LINK\`](${message.guild.iconURL({ format: "jpg" })})`,
-                            true
-                        )
-                        .addField(
-                            "<:arrow:832598861813776394> WEBP",
-                            `[\`LINK\`](${message.guild.iconURL({ format: "webp" })})`,
-                            true
-                        )
+                        .addFields({ name: "<:arrow:832598861813776394> PNG", value: `[\`LINK\`](${message.guild.iconURL({ format: "png" })})`, inline: true })
+                        .addFields({ name: "<:arrow:832598861813776394> JPEG", value: `[\`LINK\`](${message.guild.iconURL({ format: "jpg" })})`, inline: true })
+                        .addFields({ name: "<:arrow:832598861813776394> WEBP", value: `[\`LINK\`](${message.guild.iconURL({ format: "webp" })})`, inline: true })
                         .setURL(
                             message.guild.iconURL({
                                 dynamic: true,
@@ -65,7 +51,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

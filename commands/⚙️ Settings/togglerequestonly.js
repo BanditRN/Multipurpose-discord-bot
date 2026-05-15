@@ -1,4 +1,6 @@
-/*const { MessageEmbed } = require("discord.js");
+/*const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require("../../botconfig/emojis.json");
@@ -17,7 +19,7 @@ module.exports = {
       //set the new prefix
       client.settings.set(message.guild.id, !client.settings.get(message.guild.id, `requestonly`), `requestonly`);
       //return success embed
-      return message.reply({embeds: [new MessageEmbed()
+      return message.reply({embeds: [new EmbedBuilder()
         .setColor(es.color).setThumbnail(es.thumb ? es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://")) ? es.footericon : client.user.displayAvatarURL() : null)
         .setFooter(client.getFooter(es))
         .setTitle(eval(client.la[ls]["cmds"]["settings"]["togglerequestonly"]["variable1"]))
@@ -25,7 +27,7 @@ module.exports = {
       ]});
     } catch (e) {
         console.log(String(e.stack).grey.bgRed)
-        return message.reply({embeds: [new MessageEmbed()
+        return message.reply({embeds: [new EmbedBuilder()
             .setColor(es.wrongcolor)
 						.setFooter(client.getFooter(es))
             .setTitle(client.la[ls].common.erroroccur)

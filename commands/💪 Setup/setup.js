@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup",
@@ -282,42 +286,30 @@ module.exports = {
                             .filter(Boolean)
                     );
                 //define the embed
-                let MenuEmbed1 = new Discord.MessageEmbed()
+                let MenuEmbed1 = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Setup-Systems | (1/3) [A-C]",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/lg/57/gear_2699.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Setup-Systems | (1/3) [A-C]", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/lg/57/gear_2699.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup"]["variable1"]));
-                let MenuEmbed2 = new Discord.MessageEmbed()
+                let MenuEmbed2 = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Setup-Systems | (2/3) [C-R]",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/lg/57/gear_2699.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Setup-Systems | (2/3) [C-R]", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/lg/57/gear_2699.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup"]["variable2"]));
-                let MenuEmbed3 = new Discord.MessageEmbed()
+                let MenuEmbed3 = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Setup-Systems | (3/3) [R-Z]",
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/lg/57/gear_2699.png",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Setup-Systems | (3/3) [R-Z]", iconURL: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/lg/57/gear_2699.png", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup"]["variable3"]));
                 //send the menu msg
                 let menumsg1 = await message.reply({
                     embeds: [MenuEmbed1],
-                    components: [new MessageActionRow().addComponents(Selection1)],
+                    components: [new ActionRowBuilder().addComponents(Selection1)],
                 });
                 let menumsg2 = await message.reply({
                     embeds: [MenuEmbed2],
-                    components: [new MessageActionRow().addComponents(Selection2)],
+                    components: [new ActionRowBuilder().addComponents(Selection2)],
                 });
                 let menumsg3 = await message.reply({
                     embeds: [MenuEmbed3],
-                    components: [new MessageActionRow().addComponents(Selection3)],
+                    components: [new ActionRowBuilder().addComponents(Selection3)],
                 });
                 //function to handle the menuselection
                 function menuselection(menu) {
@@ -368,7 +360,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

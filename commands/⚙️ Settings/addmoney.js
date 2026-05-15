@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -17,7 +19,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "ECONOMY")) {
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -37,9 +39,9 @@ module.exports = {
             if (!topay)
                 return message.channel.send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["owner"]["addmoney"]["variable3"]))
                             .setDescription(eval(client.la[ls]["cmds"]["owner"]["addmoney"]["variable4"])),
                     ],
@@ -49,9 +51,9 @@ module.exports = {
             if (!payamount)
                 return message.channel.send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["owner"]["addmoney"]["variable5"]))
                             .setDescription(eval(client.la[ls]["cmds"]["owner"]["addmoney"]["variable6"])),
                     ],
@@ -124,9 +126,9 @@ module.exports = {
             if (payamount <= 0)
                 return message.channel.send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
-                            .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                            .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                             .setTitle(eval(client.la[ls]["cmds"]["owner"]["addmoney"]["variable8"])),
                     ],
                 });
@@ -136,9 +138,9 @@ module.exports = {
             //return some message!
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
-                        .setFooter(user.tag, user.displayAvatarURL({ dynamic: true }))
+                        .setFooter({ text: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["addmoney"]["variable9"]))
                         .setDescription(eval(client.la[ls]["cmds"]["owner"]["addmoney"]["variable10"])),
                 ],
@@ -147,7 +149,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

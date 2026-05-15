@@ -1,3 +1,6 @@
+# FORK 2026
+This fork was made to revive the project using ai tools to update apis and add support to DAVE protocol and lavalink v4
+ 
 # INFO 2025
 
 Check the [new_2025](https://github.com/Tomato6966/Multipurpose-discord-bot/tree/new_2025) branch for a 2025 working version!

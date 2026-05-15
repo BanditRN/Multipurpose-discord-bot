@@ -1,4 +1,7 @@
-const { MessageEmbed, Permissions } = require(`discord.js`);
+const {
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -35,11 +38,11 @@ module.exports = {
                 !cmdroles.includes(message.author.id) && [...message.member.roles.cache.values()] &&
                 !message.member.roles.cache.some(r => adminroles.includes(r ? r.id : r)) &&
                 ![message.guild.ownerId, config.ownerid].includes(message.author.id) &&
-                !message.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR])
+                !message.member.permissions.has([PermissionFlagsBits.Administrator])
             )
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable1"]))
@@ -52,7 +55,7 @@ module.exports = {
             if (!warnmember)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable3"]))
@@ -63,7 +66,7 @@ module.exports = {
             if (!args[1])
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable5"]))
@@ -77,7 +80,7 @@ module.exports = {
             if (moderationPosition <= memberPosition)
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable7"])),
@@ -99,7 +102,7 @@ module.exports = {
                 if (!warnIDs || !dwarnData || !dwarnData.length || !warnData || !warnData.length)
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable8"])),
@@ -108,7 +111,7 @@ module.exports = {
                 if (Number(args[1]) >= warnData.length || Number(args[1]) < 0)
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable9"]))
@@ -128,7 +131,7 @@ module.exports = {
                 warnmember
                     .send({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.color)
                                 .setThumbnail(
                                     es.thumb
@@ -140,21 +143,17 @@ module.exports = {
                                 )
                                 .setFooter(client.getFooter(es))
                                 .setTitle(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable11"]))
-                                .addField(`Warned by:`, `\`${warned_by}\``, true)
-                                .addField(`Warned at:`, `\`${warned_at}\``, true)
-                                .addField(`Warned in:`, `\`${warned_in}\``, true)
-                                .addField(
-                                    `Warn Reason:`,
-                                    `\`${warning.reason.length > 900 ? warning.reason.substring(0, 900) + ` ...` : warning.reason}\``,
-                                    true
-                                ),
+                                .addFields({ name: `Warned by:`, value: `\`${warned_by}\``, inline: true })
+                                .addFields({ name: `Warned at:`, value: `\`${warned_at}\``, inline: true })
+                                .addFields({ name: `Warned in:`, value: `\`${warned_in}\``, inline: true })
+                                .addFields({ name: `Warn Reason:`, value: `\`${warning.reason.length > 900 ? warning.reason.substring(0, 900) + ` ...` : warning.reason}\``, inline: true }),
                         ],
                     })
                     .catch(e => console.log(e.message));
 
                 message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.color)
                             .setThumbnail(
                                 es.thumb
@@ -166,14 +165,10 @@ module.exports = {
                             )
                             .setFooter(client.getFooter(es))
                             .setTitle(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable12"]))
-                            .addField(`Warned by:`, `\`${warned_by}\``, true)
-                            .addField(`Warned at:`, `\`${warned_at}\``, true)
-                            .addField(`Warned in:`, `\`${warned_in}\``, true)
-                            .addField(
-                                `Warn Reason:`,
-                                `\`${warning.reason.length > 900 ? warning.reason.substring(0, 900) + ` ...` : warning.reason}\``,
-                                true
-                            ),
+                            .addFields({ name: `Warned by:`, value: `\`${warned_by}\``, inline: true })
+                            .addFields({ name: `Warned at:`, value: `\`${warned_at}\``, inline: true })
+                            .addFields({ name: `Warned in:`, value: `\`${warned_in}\``, inline: true })
+                            .addFields({ name: `Warn Reason:`, value: `\`${warning.reason.length > 900 ? warning.reason.substring(0, 900) + ` ...` : warning.reason}\``, inline: true }),
                     ],
                 });
                 client.userProfiles.remove(warnmember.user.id, warnIDs[parseInt(args[1])], "warnings");
@@ -184,7 +179,7 @@ module.exports = {
                         if (!channel) return client.settings.set(message.guild.id, "no", `adminlog`);
                         channel.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.color)
                                     .setThumbnail(
                                         es.thumb
@@ -195,19 +190,10 @@ module.exports = {
                                             : null
                                     )
                                     .setFooter(client.getFooter(es))
-                                    .setAuthor(
-                                        `${require("path").parse(__filename).name} | ${message.author.tag}`,
-                                        message.author.displayAvatarURL({ dynamic: true })
-                                    )
+                                    .setAuthor({ name: `${require("path").parse(__filename).name} | ${message.author.tag}`, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                                     .setDescription(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable13"]))
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]),
-                                        eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"])
-                                    )
-                                    .addField(
-                                        eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]),
-                                        eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"])
-                                    )
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_15"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable15"]) })
+                                    .addFields({ name: eval(client.la[ls]["cmds"]["administration"]["ban"]["variablex_16"]), value: eval(client.la[ls]["cmds"]["administration"]["ban"]["variable16"]) })
                                     .setTimestamp()
                                     .setFooter(
                                         client.getFooter(
@@ -225,7 +211,7 @@ module.exports = {
                 console.log(e.stack ? String(e.stack).grey : String(e).grey);
                 return message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setFooter(client.getFooter(es))
                             .setTitle(client.la[ls].common.erroroccur)
@@ -237,7 +223,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["administration"]["unwarn"]["variable17"]))

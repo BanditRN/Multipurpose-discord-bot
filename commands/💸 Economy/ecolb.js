@@ -1,4 +1,7 @@
-const { MessageEmbed, splitMessage } = require("discord.js");
+const {
+    EmbedBuilder,
+    splitMessage,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -18,7 +21,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "ECONOMY")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -270,7 +273,7 @@ module.exports = {
                 for (let i = 0; i < description.length; i += 10) {
                     const current = description.slice(i, k);
                     k += 10;
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setDescription(current)
                         .setTitle(TITLE)
                         .setColor(es.color)
@@ -378,7 +381,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

@@ -1,4 +1,9 @@
-const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} = require("discord.js");
 function disableButtons(components) {
     for (let x = 0; x < components.length; x++) {
         for (let y = 0; y < components[x].components.length; y++) {
@@ -148,23 +153,23 @@ class SnakeGame {
         this.snake = [{ x: 5, y: 5 }];
         this.newFoodLoc();
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(this.options.embed.color)
             .setTitle(this.options.embed.title)
             .setDescription("**Score:** " + this.score + "\n\n" + this.getGameBoard())
-            .setFooter(this.message.author.tag, this.message.author.displayAvatarURL({ dynamic: true }));
+            .setFooter({ text: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
-        const up = new MessageButton().setEmoji(emojis.up).setStyle("PRIMARY").setCustomId("snake_up");
-        const left = new MessageButton().setEmoji(emojis.left).setStyle("PRIMARY").setCustomId("snake_left");
-        const down = new MessageButton().setEmoji(emojis.down).setStyle("PRIMARY").setCustomId("snake_down");
-        const right = new MessageButton().setEmoji(emojis.right).setStyle("PRIMARY").setCustomId("snake_right");
-        const stop = new MessageButton().setLabel(this.options.stopButton).setStyle("DANGER").setCustomId("snake_stop");
+        const up = new ButtonBuilder().setEmoji(emojis.up).setStyle(ButtonStyle.Primary).setCustomId("snake_up");
+        const left = new ButtonBuilder().setEmoji(emojis.left).setStyle(ButtonStyle.Primary).setCustomId("snake_left");
+        const down = new ButtonBuilder().setEmoji(emojis.down).setStyle(ButtonStyle.Primary).setCustomId("snake_down");
+        const right = new ButtonBuilder().setEmoji(emojis.right).setStyle(ButtonStyle.Primary).setCustomId("snake_right");
+        const stop = new ButtonBuilder().setLabel(this.options.stopButton).setStyle(ButtonStyle.Danger).setCustomId("snake_stop");
 
-        const dis1 = new MessageButton().setLabel("\u200b").setStyle("SECONDARY").setCustomId("dis1").setDisabled(true);
-        const dis2 = new MessageButton().setLabel("\u200b").setStyle("SECONDARY").setCustomId("dis2").setDisabled(true);
+        const dis1 = new ButtonBuilder().setLabel("\u200b").setStyle(ButtonStyle.Secondary).setCustomId("dis1").setDisabled(true);
+        const dis2 = new ButtonBuilder().setLabel("\u200b").setStyle(ButtonStyle.Secondary).setCustomId("dis2").setDisabled(true);
 
-        const row1 = new MessageActionRow().addComponents(dis1, up, dis2, stop);
-        const row2 = new MessageActionRow().addComponents(left, down, right);
+        const row1 = new ActionRowBuilder().addComponents(dis1, up, dis2, stop);
+        const row2 = new ActionRowBuilder().addComponents(left, down, right);
 
         const msg = await this.sendMessage({ embeds: [embed], components: [row1, row2] });
 
@@ -178,11 +183,11 @@ class SnakeGame {
             this.newFoodLoc();
         }
 
-        const moveEmbed = new MessageEmbed()
+        const moveEmbed = new EmbedBuilder()
             .setColor(this.options.embed.color)
             .setTitle(this.options.embed.title)
             .setDescription("**Score:** " + this.score + "\n\n" + this.getGameBoard())
-            .setFooter(this.message.author.tag, this.message.author.displayAvatarURL({ dynamic: true }));
+            .setFooter({ text: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
         msg.edit({ embeds: [moveEmbed], components: msg.components });
     }
@@ -191,11 +196,11 @@ class SnakeGame {
         this.isInGame = false;
         const text = "**" + this.options.embed.overTitle + "\nScore: **" + this.score.toString();
 
-        const editEmbed = new MessageEmbed()
+        const editEmbed = new EmbedBuilder()
             .setColor(this.options.embed.color)
             .setTitle(this.options.embed.title)
             .setDescription(text + "\n\n" + this.getGameBoard())
-            .setFooter(this.message.author.tag, this.message.author.displayAvatarURL({ dynamic: true }));
+            .setFooter({ text: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
         return await msg.edit({ embeds: [editEmbed], components: disableButtons(msg.components) });
     }
@@ -281,7 +286,7 @@ module.exports = {
         let ls = client.settings.get(message.guild.id, "language");
         if (!client.settings.get(message.guild.id, "MINIGAMES")) {
             return message.reply(
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(es.wrongcolor)
                     .setFooter(client.getFooter(es))
                     .setTitle(client.la[ls].common.disabled.title)

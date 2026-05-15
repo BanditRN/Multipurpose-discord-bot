@@ -1,6 +1,8 @@
 const weather = require("weather-js");
 const Discord = require("discord.js");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const canvacord = require("canvacord");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -19,7 +21,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "FUN")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -48,24 +50,24 @@ module.exports = {
             function (e, result) {
                 if (e) return console.log(e.stack ? String(e.stack).grey : String(e).grey);
                 try {
-                    let embed = new MessageEmbed()
+                    let embed = new EmbedBuilder()
                         .setColor(es.color)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["fun"]["weather"]["variable4"]))
                         .setThumbnail(result[0].current.imageUrl)
                         .setDescription(eval(client.la[ls]["cmds"]["fun"]["weather"]["variable5"]))
-                        .addField("**Temp:**", `${result[0].current.temperature}°${result[0].location.degreetype}`, true)
-                        .addField("**Weather:**", `${result[0].current.skytext}`, true)
-                        .addField("**Day:**", `${result[0].current.shortday}`, true)
-                        .addField("**Feels like:**", `${result[0].current.feelslike}°${result[0].location.degreetype}`, true)
-                        .addField("**Humidity:**", `${result[0].current.humidity}%`, true)
-                        .addField("**Wind:**", `${result[0].current.winddisplay}`, true);
+                        .addFields({ name: "**Temp:**", value: `${result[0].current.temperature}°${result[0].location.degreetype}`, inline: true })
+                        .addFields({ name: "**Weather:**", value: `${result[0].current.skytext}`, inline: true })
+                        .addFields({ name: "**Day:**", value: `${result[0].current.shortday}`, inline: true })
+                        .addFields({ name: "**Feels like:**", value: `${result[0].current.feelslike}°${result[0].location.degreetype}`, inline: true })
+                        .addFields({ name: "**Humidity:**", value: `${result[0].current.humidity}%`, inline: true })
+                        .addFields({ name: "**Wind:**", value: `${result[0].current.winddisplay}`, inline: true });
                     message.reply({ embeds: [embed] });
                 } catch (e) {
                     console.log(String(e.stack).grey.bgRed);
                     return message.reply({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es))
                                 .setTitle(client.la[ls].common.erroroccur)

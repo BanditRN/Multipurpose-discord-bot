@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const canvacord = require("canvacord");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -18,7 +20,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "ANIME")) {
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -35,13 +37,10 @@ module.exports = {
         message
             .reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setImage(await anime.scream())
-                        .setAuthor(
-                            `${message.author.username} screams${message.mentions.users.first() ? " at " + message.mentions.users.first().username : "..."}`,
-                            message.author.displayAvatarURL({ dynamic: true })
-                        ),
+                        .setAuthor({ name: `${message.author.username} screams${message.mentions.users.first() ? " at " + message.mentions.users.first().username : "..."}`, iconURL: message.author.displayAvatarURL({ dynamic: true }) }),
                 ],
             })
             .catch(() => {});

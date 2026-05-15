@@ -1,5 +1,8 @@
 //Importing Packages
 const Discord = require("discord.js");
+const {
+    PermissionFlagsBits,
+} = require("discord.js");
 var CronJob = require("cron").CronJob;
 const backup = require("discord-backup");
 //starting the module
@@ -28,7 +31,7 @@ module.exports = client => {
             var guild = client.guilds.cache.get(guildid);
             //if no guild, return
             if (!guild) return;
-            if (!guild.me.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR)) {
+            if (!guild.members.me?.permissions.has(PermissionFlagsBits.Administrator)) {
                 return;
             }
             client.backupDB.ensure(guild.id, {

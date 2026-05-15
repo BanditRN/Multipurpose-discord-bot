@@ -1,4 +1,6 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    EmbedBuilder,
+} = require("discord.js");
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -21,7 +23,7 @@ module.exports = {
         if (!config.ownerIDS.some(r => r.includes(message.author.id)))
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["changeavatar"]["variable1"]))
@@ -40,7 +42,7 @@ module.exports = {
                         .then(user => {
                             return message.channel.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["owner"]["changeavatar"]["variable3"]))
                                         .setColor(es.color)
                                         .setFooter(client.getFooter(es)),
@@ -50,7 +52,7 @@ module.exports = {
                         .catch(e => {
                             return message.channel.send({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setColor(es.wrongcolor)
                                         .setFooter(client.getFooter(es))
                                         .setTitle(client.la[ls].common.erroroccur)
@@ -61,7 +63,7 @@ module.exports = {
                 } else {
                     return message.channel.send({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["owner"]["changeavatar"]["variable5"]))
                                 .setColor(es.wrongcolor)
                                 .setFooter(client.getFooter(es)),
@@ -81,7 +83,7 @@ module.exports = {
                         } catch {}
                         return message.channel.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setTitle(eval(client.la[ls]["cmds"]["owner"]["changeavatar"]["variable6"]))
                                     .setColor(es.color)
                                     .setFooter(client.getFooter(es)),
@@ -91,7 +93,7 @@ module.exports = {
                     .catch(e => {
                         return message.channel.send({
                             embeds: [
-                                new MessageEmbed()
+                                new EmbedBuilder()
                                     .setColor(es.wrongcolor)
                                     .setFooter(client.getFooter(es))
                                     .setTitle(client.la[ls].common.erroroccur)
@@ -102,7 +104,7 @@ module.exports = {
             } else {
                 return message.channel.send({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(eval(client.la[ls]["cmds"]["owner"]["changeavatar"]["variable8"]))
                             .setDescription(eval(client.la[ls]["cmds"]["owner"]["changeavatar"]["variable9"]))
                             .setColor(es.wrongcolor)
@@ -128,7 +130,7 @@ module.exports = {
             console.log(String(e.stack).dim.bgRed);
             return message.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

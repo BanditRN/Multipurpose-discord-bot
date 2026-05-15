@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    EmbedBuilder,
+} = require("discord.js");
 module.exports = function (client, options) {
     client.on("guildMemberUpdate", async (oM, nM) => {
         client.settings.ensure(nM.guild.id, {
@@ -36,22 +38,22 @@ module.exports = function (client, options) {
             if (!boostLogChannel) boostLogChannel = (await nM.guild.channels.fetch(settings.log).catch(() => {})) || false;
             if (!boostLogChannel) return;
 
-            let stopBoost = new MessageEmbed()
+            let stopBoost = new EmbedBuilder()
                 .setFooter(client.getFooter("ID: " + nM.user.id))
                 .setTimestamp()
-                .setAuthor(client.getAuthor(nM.user.tag, nM.user.displayAvatarURL({ dynamic: true })))
+                .setAuthor({ name: client.getAuthor(nM.user.tag, nM.user.displayAvatarURL({ dynamic: true })) })
                 .setColor("RED")
                 .setDescription(`${String(settings.stopBoost).replace(/\{member\}/giu, `${nM.user}`)}`);
-            let startBoost = new MessageEmbed()
+            let startBoost = new EmbedBuilder()
                 .setFooter(client.getFooter("ID: " + nM.user.id))
                 .setTimestamp()
-                .setAuthor(client.getAuthor(nM.user.tag, nM.user.displayAvatarURL({ dynamic: true })))
+                .setAuthor({ name: client.getAuthor(nM.user.tag, nM.user.displayAvatarURL({ dynamic: true })) })
                 .setColor("#ff8afb")
                 .setDescription(`${String(settings.startBoost).replace(/\{member\}/giu, `${nM.user}`)}`);
-            let againBoost = new MessageEmbed()
+            let againBoost = new EmbedBuilder()
                 .setFooter(client.getFooter("ID: " + nM.user.id))
                 .setTimestamp()
-                .setAuthor(client.getAuthor(nM.user.tag, nM.user.displayAvatarURL({ dynamic: true })))
+                .setAuthor({ name: client.getAuthor(nM.user.tag, nM.user.displayAvatarURL({ dynamic: true })) })
                 .setColor("#ff8afb")
                 .setDescription(`${String(settings.againBoost).replace(/\{member\}/giu, `${nM.user}`)}`);
 

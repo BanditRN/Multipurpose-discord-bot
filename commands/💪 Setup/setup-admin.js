@@ -1,10 +1,14 @@
-var { MessageEmbed } = require(`discord.js`);
+const {
+    ActionRowBuilder,
+    EmbedBuilder,
+} = require("discord.js");
+
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 var { databasing } = require(`${process.cwd()}/handlers/functions`);
-const { MessageButton, MessageActionRow, MessageSelectMenu } = require("discord.js");
+
 const { allEmojis } = require("../../botconfig/emojiFunctions");
 module.exports = {
     name: "setup-admin",
@@ -68,18 +72,14 @@ module.exports = {
                     );
 
                 //define the embed
-                let MenuEmbed = new MessageEmbed()
+                let MenuEmbed = new EmbedBuilder()
                     .setColor(es.color)
-                    .setAuthor(
-                        "Admin Setup",
-                        "https://cdn.discordapp.com/emojis/892521772002447400.png?size=96",
-                        "https://discord.gg/milrato"
-                    )
+                    .setAuthor({ name: "Admin Setup", iconURL: "https://cdn.discordapp.com/emojis/892521772002447400.png?size=96", url: "https://discord.gg/milrato" })
                     .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"]));
                 //send the menu msg
                 let menumsg = await message.reply({
                     embeds: [MenuEmbed],
-                    components: [new MessageActionRow().addComponents(Selection)],
+                    components: [new ActionRowBuilder().addComponents(Selection)],
                 });
                 //Create the collector
                 const collector = menumsg.createMessageComponentCollector({
@@ -118,7 +118,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable35"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable36"]))
@@ -142,7 +142,7 @@ module.exports = {
                                         if (adminroles.includes(role.id))
                                             return message.reply({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable37"])
                                                         )
@@ -154,7 +154,7 @@ module.exports = {
                                             client.settings.push(message.guild.id, role.id, "adminroles");
                                             return message.reply({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable38"])
                                                         )
@@ -171,7 +171,7 @@ module.exports = {
                                         } catch (e) {
                                             return message.reply({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable39"])
                                                         )
@@ -193,7 +193,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable41"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -206,7 +206,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable42"]))
                                         .setColor(es.color)
                                         .setDescription(eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable43"]))
@@ -230,7 +230,7 @@ module.exports = {
                                         if (!adminroles.includes(role.id))
                                             return message.reply({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable44"])
                                                         )
@@ -242,7 +242,7 @@ module.exports = {
                                             client.settings.remove(message.guild.id, role.id, "adminroles");
                                             return message.reply({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable45"])
                                                         )
@@ -259,7 +259,7 @@ module.exports = {
                                         } catch (e) {
                                             return message.reply({
                                                 embeds: [
-                                                    new MessageEmbed()
+                                                    new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable46"])
                                                         )
@@ -281,7 +281,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable48"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -310,7 +310,7 @@ module.exports = {
                                     cmdrole.push({ info: percmd, name: key });
                                 }
                             }
-                            var embed = new MessageEmbed()
+                            var embed = new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable50"]))
                                 .setColor(es.color)
                                 .setDescription(
@@ -321,7 +321,7 @@ module.exports = {
                                 )
                                 .setFooter(client.getFooter(es));
                             for (const cmd of cmdrole) {
-                                embed.addField(cmd.name, cmd.info.join(", "));
+                                embed.addFields({ name: cmd.name, value: cmd.info.join(", ") });
                             }
                             return message.reply({ embeds: [embed] });
                         }
@@ -330,7 +330,7 @@ module.exports = {
                         {
                             var tempmsg = await message.reply({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable4"]))
                                         .setColor(es.color)
                                         .setDescription(
@@ -362,7 +362,7 @@ module.exports = {
                                     if (!cmd)
                                         return message.reply({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable5"])
                                                     )
@@ -373,7 +373,7 @@ module.exports = {
                                     if (!cmd.category.toLowerCase().includes("admin"))
                                         return message.reply({
                                             embeds: [
-                                                new MessageEmbed()
+                                                new EmbedBuilder()
                                                     .setTitle(
                                                         eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable6"])
                                                     )
@@ -443,20 +443,16 @@ module.exports = {
                                             );
 
                                         //define the embed
-                                        let MenuEmbed = new MessageEmbed()
+                                        let MenuEmbed = new EmbedBuilder()
                                             .setColor(es.color)
-                                            .setAuthor(
-                                                "Admin Setup",
-                                                "https://cdn.discordapp.com/emojis/892521772002447400.png?size=96",
-                                                "https://discord.gg/milrato"
-                                            )
+                                            .setAuthor({ name: "Admin Setup", iconURL: "https://cdn.discordapp.com/emojis/892521772002447400.png?size=96", url: "https://discord.gg/milrato" })
                                             .setDescription(
                                                 eval(client.la[ls]["cmds"]["setup"]["setup-ticket"]["variable2"])
                                             );
                                         //send the menu msg
                                         let menumsg = await message.reply({
                                             embeds: [MenuEmbed],
-                                            components: [new MessageActionRow().addComponents(Selection)],
+                                            components: [new ActionRowBuilder().addComponents(Selection)],
                                         });
                                         //Create the collector
                                         const collector = menumsg.createMessageComponentCollector({
@@ -499,7 +495,7 @@ module.exports = {
                                                 {
                                                     var tempmsg = await message.reply({
                                                         embeds: [
-                                                            new MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle("Which Role/User do you wanna add to " + thecmd)
                                                                 .setColor(es.color)
                                                                 .setDescription(
@@ -533,7 +529,7 @@ module.exports = {
                                                                 if (adminroles.includes(role.id))
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -574,7 +570,7 @@ module.exports = {
                                                                     }
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -595,7 +591,7 @@ module.exports = {
                                                                 } catch (e) {
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -623,7 +619,7 @@ module.exports = {
                                                                 if (adminroles.includes(user.id))
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -664,7 +660,7 @@ module.exports = {
                                                                     }
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -685,7 +681,7 @@ module.exports = {
                                                                 } catch (e) {
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -715,7 +711,7 @@ module.exports = {
                                                     if (timeouterror)
                                                         return message.reply({
                                                             embeds: [
-                                                                new MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-admin"][
@@ -736,7 +732,7 @@ module.exports = {
                                                 {
                                                     var tempmsg = await message.reply({
                                                         embeds: [
-                                                            new MessageEmbed()
+                                                            new EmbedBuilder()
                                                                 .setTitle(
                                                                     "Which Role/User do you wanna remove from " + thecmd
                                                                 )
@@ -772,7 +768,7 @@ module.exports = {
                                                                 if (!adminroles.includes(role.id))
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -813,7 +809,7 @@ module.exports = {
                                                                     }
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -834,7 +830,7 @@ module.exports = {
                                                                 } catch (e) {
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -862,7 +858,7 @@ module.exports = {
                                                                 if (!adminroles.includes(user.id))
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -903,7 +899,7 @@ module.exports = {
                                                                     }
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -924,7 +920,7 @@ module.exports = {
                                                                 } catch (e) {
                                                                     return message.reply({
                                                                         embeds: [
-                                                                            new MessageEmbed()
+                                                                            new EmbedBuilder()
                                                                                 .setTitle(
                                                                                     eval(
                                                                                         client.la[ls]["cmds"]["setup"][
@@ -954,7 +950,7 @@ module.exports = {
                                                     if (timeouterror)
                                                         return message.reply({
                                                             embeds: [
-                                                                new MessageEmbed()
+                                                                new EmbedBuilder()
                                                                     .setTitle(
                                                                         eval(
                                                                             client.la[ls]["cmds"]["setup"]["setup-admin"][
@@ -995,7 +991,7 @@ module.exports = {
                                                             cmdrole.push({ info: percmd, name: key });
                                                         }
                                                     }
-                                                    var embed = new MessageEmbed()
+                                                    var embed = new EmbedBuilder()
                                                         .setTitle(
                                                             eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable33"])
                                                         )
@@ -1009,7 +1005,7 @@ module.exports = {
                                                         .setFooter(client.getFooter(es));
 
                                                     for (const cmd of cmdrole) {
-                                                        embed.addField(cmd.name, cmd.info.join(", "));
+                                                        embed.addFields({ name: cmd.name, value: cmd.info.join(", ") });
                                                     }
                                                     return message.reply({ embeds: [embed] });
                                                 }
@@ -1023,7 +1019,7 @@ module.exports = {
                             if (timeouterror)
                                 return message.reply({
                                     embeds: [
-                                        new MessageEmbed()
+                                        new EmbedBuilder()
                                             .setTitle(eval(client.la[ls]["cmds"]["setup"]["setup-admin"]["variable10"]))
                                             .setColor(es.wrongcolor)
                                             .setDescription(`Cancelled the Operation!`.substring(0, 2000))
@@ -1038,7 +1034,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

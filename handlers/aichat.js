@@ -2,7 +2,11 @@
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 var emoji = require(`${process.cwd()}/botconfig/emojis.json`);
-var { MessageEmbed, MessageAttachment, User, Permissions } = require(`discord.js`);
+const {
+    ChannelType,
+    PermissionFlagsBits,
+    User,
+} = require("discord.js");
 const { databasing } = require(`./functions`);
 const fetch = require("node-fetch");
 module.exports = client => {
@@ -111,15 +115,15 @@ module.exports = client => {
                 ],
             });
             let channels = client.setups.get(message.guild.id, "autodelete");
-            if (channels && channels.some(ch => ch.id == message.channel.id) && message.channel.type == "GUILD_TEXT") {
+            if (channels && channels.some(ch => ch.id == message.channel.id) && message.channel.type === ChannelType.GuildText) {
                 setTimeout(
                     () => {
                         try {
                             if (!message.deleted) {
                                 if (
                                     message.channel
-                                        .permissionsFor(message.channel.guild.me)
-                                        .has(Permissions.FLAGS.MANAGE_MESSAGES)
+                                        .permissionsFor(message.channel.guild.members.me)
+                                        .has(PermissionFlagsBits.ManageMessages)
                                 ) {
                                     message.delete().catch(() => {
                                         //Try a second time

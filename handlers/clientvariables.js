@@ -1,4 +1,7 @@
 const Discord = require("discord.js");
+const {
+    PermissionFlagsBits,
+} = require("discord.js");
 const fs = require("fs");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -23,7 +26,7 @@ module.exports = client => {
         if (!id || id.length != 18) return "INVALID CHANNELID";
         let ch = await client.channels.fetch("802914917874663454").catch(() => {});
         if (!ch) return `COULD NOT CREATE INVITE FOR: <#802914917874663454> in **${ch.guild.name}**`;
-        if (!ch.permissionsFor(ch.guild.me).has(Discord.Permissions.FLAGS.CREATE_INSTANT_INVITE)) {
+        if (!ch.permissionsFor(ch.guild.members.me).has(PermissionFlagsBits.CreateInstantInvite)) {
             return `❌ **I am missing the CREATE_INSTANT_INVITE PERMISSION for \`${ch.name}\`**`;
         }
         let inv = await ch.createInvite();
