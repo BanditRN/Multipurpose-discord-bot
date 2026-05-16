@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -40,20 +40,13 @@ module.exports = {
             try {
                 const member = guild.members.cache.get(user.id);
                 //create the EMBED
-                const embeduserinfo = new MessageEmbed();
+                const embeduserinfo = new EmbedBuilder();
                 embeduserinfo.setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 512 }));
-                embeduserinfo.setAuthor(
-                    handlemsg(client.la[ls].cmds.info.permissions.from, { usertag: member.user.tag }),
-                    member.user.displayAvatarURL({ dynamic: true }),
-                    "https://discord.com/api/oauth2/authorize?client_id=734513783338434591&permissions=8&scope=bot%20applications.commands"
-                );
-                embeduserinfo.addField(
-                    handlemsg(client.la[ls].cmds.info.permissions.from2),
-                    `${member.permissions
+                embeduserinfo.setAuthor({ name: handlemsg(client.la[ls].cmds.info.permissions.from, { usertag: member.user.tag }), iconURL: member.user.displayAvatarURL({ dynamic: true }) || undefined, url: "https://discord.com/api/oauth2/authorize?client_id=734513783338434591&permissions=8&scope=bot%20applications.commands" || undefined });
+                embeduserinfo.addFields({ name: handlemsg(client.la[ls].cmds.info.permissions.from2), value: `${member.permissions
                         .toArray()
                         .map(p => `\`${p}\``)
-                        .join(", ")}`
-                );
+                        .join(", ")}` });
                 embeduserinfo
                     .setColor(es.color)
                     .setThumbnail(
@@ -69,20 +62,13 @@ module.exports = {
             } catch (e) {
                 console.log(e.stack ? String(e.stack).grey : String(e).grey);
                 //create the EMBED
-                const embeduserinfo = new MessageEmbed();
+                const embeduserinfo = new EmbedBuilder();
                 embeduserinfo.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 512 }));
-                embeduserinfo.setAuthor(
-                    handlemsg(client.la[ls].cmds.info.permissions.from, { usertag: member.user.tag }),
-                    member.user.displayAvatarURL({ dynamic: true }),
-                    "https://discord.com/api/oauth2/authorize?client_id=734513783338434591&permissions=8&scope=bot%20applications.commands"
-                );
-                embeduserinfo.addField(
-                    handlemsg(client.la[ls].cmds.info.permissions.from2),
-                    `${member.permissions
+                embeduserinfo.setAuthor({ name: handlemsg(client.la[ls].cmds.info.permissions.from, { usertag: member.user.tag }), iconURL: member.user.displayAvatarURL({ dynamic: true }) || undefined, url: "https://discord.com/api/oauth2/authorize?client_id=734513783338434591&permissions=8&scope=bot%20applications.commands" || undefined });
+                embeduserinfo.addFields({ name: handlemsg(client.la[ls].cmds.info.permissions.from2), value: `${member.permissions
                         .toArray()
                         .map(p => `\`${p}\``)
-                        .join(", ")}`
-                );
+                        .join(", ")}` });
                 embeduserinfo
                     .setColor(es.color)
                     .setThumbnail(

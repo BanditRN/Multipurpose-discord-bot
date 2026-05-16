@@ -47,7 +47,7 @@ module.exports = {
                     },
                 ];
                 //define the selection
-                let Selection = new MessageSelectMenu()
+                let Selection = new StringSelectMenuBuilder()
                     .setCustomId("MenuSelection")
                     .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                     .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -350,7 +350,7 @@ module.exports = {
                                 });
                             });
                             //define the selection
-                            let Selection = new MessageSelectMenu()
+                            let Selection = new StringSelectMenuBuilder()
                                 .setCustomId("MenuSelection")
                                 .setMaxValues(cuc.length) //OPTIONAL, this is how many values you can have at each selection
                                 .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection

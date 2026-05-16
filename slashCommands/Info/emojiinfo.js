@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const moment = require("moment");
@@ -52,7 +52,7 @@ module.exports = {
 
                 const authorFetch = await emoji?.fetchAuthor();
                 const checkOrCross = bool => (bool ? "✅" : "❌");
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setTitle(eval(client.la[ls]["cmds"]["info"]["emojiinfo"]["variable1"]))
                     .setColor(es.color)
                     .setThumbnail(
@@ -63,24 +63,18 @@ module.exports = {
                             : null
                     )
                     .setThumbnail(emoji?.url)
-                    .addField(
-                        handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.title),
-                        [
+                    .addFields({ name: handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.title), value: [
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[0])} \`${emoji?.id}\``,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[1])} [\`LINK\`](${emoji?.url})`,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[2])} ${authorFetch} (\`${authorFetch.id}\`)`,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[3])} \`${moment(emoji?.createdTimestamp).format("DD/MM/YYYY") + " | " + moment(emoji?.createdTimestamp).format("hh:mm:ss")}\``,
-                        ].join("\n")
-                    )
-                    .addField(
-                        handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field2.title),
-                        [
+                        ].join("\n") })
+                    .addFields({ name: handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field2.title), value: [
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field2.value[0])} \`${checkOrCross(emoji?.requireColons)}\``,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[1])} \`${checkOrCross(emoji?.animated)}\``,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[2])} \`${checkOrCross(emoji?.deleteable)}\``,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[3])} \`${checkOrCross(emoji?.managed)}\``,
-                        ].join("\n")
-                    )
+                        ].join("\n") })
                     .setFooter(client.getFooter(es));
                 interaction?.reply({ ephemeral: true, embeds: [embed] });
             } else if ((emoji1 = animatedEmoteRegex.exec(emojiStr))) {
@@ -95,7 +89,7 @@ module.exports = {
 
                 const authorFetch = await emoji?.fetchAuthor();
                 const checkOrCross = bool => (bool ? "✅" : "❌");
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setTitle(eval(client.la[ls]["cmds"]["info"]["emojiinfo"]["variable2"]))
                     .setColor(es.color)
                     .setThumbnail(
@@ -106,24 +100,18 @@ module.exports = {
                             : null
                     )
                     .setThumbnail(emoji?.url)
-                    .addField(
-                        handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.title),
-                        [
+                    .addFields({ name: handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.title), value: [
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[0])} \`${emoji?.id}\``,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[1])} [\`LINK\`](${emoji?.url})`,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[2])} ${authorFetch} (\`${authorFetch.id}\`)`,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[3])} \`${moment(emoji?.createdTimestamp).format("DD/MM/YYYY") + " | " + moment(emoji?.createdTimestamp).format("hh:mm:ss")}\``,
-                        ].join("\n")
-                    )
-                    .addField(
-                        handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field2.title),
-                        [
+                        ].join("\n") })
+                    .addFields({ name: handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field2.title), value: [
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field2.value[0])} \`${checkOrCross(emoji?.requireColons)}\``,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[1])} \`${checkOrCross(emoji?.animated)}\``,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[2])} \`${checkOrCross(emoji?.deleteable)}\``,
                             `${handlemsg(client.la[ls].cmds.info.emojiinfo.embed.field1.value[3])} \`${checkOrCross(emoji?.managed)}\``,
-                        ].join("\n")
-                    )
+                        ].join("\n") })
                     .setFooter(client.getFooter(es));
                 interaction?.reply({ ephemeral: true, embeds: [embed] });
             } else {

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require(`discord.js`);
+const { EmbedBuilder } = require(`discord.js`);
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -21,7 +21,7 @@ module.exports = {
             return interaction?.reply({
                 ephemeral: true,
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -38,18 +38,12 @@ module.exports = {
                     ?.reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
-                                .setAuthor(
-                                    `Queue for ${message.guild.name}  -  [ ${tracks.length} Tracks ]`,
-                                    message.guild.iconURL({
+                            new EmbedBuilder()
+                                .setAuthor({ name: `Queue for ${message.guild.name}  -  [ ${tracks.length} Tracks ]`, iconURL: message.guild.iconURL({
                                         dynamic: true,
-                                    })
-                                )
+                                    }) || undefined })
                                 .setColor(es.color)
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["music"]["queue"]["variablex_1"]),
-                                    eval(client.la[ls]["cmds"]["music"]["queue"]["variable1"])
-                                )
+                                .addFields({ name: eval(client.la[ls]["cmds"]["music"]["queue"]["variablex_1"]), value: eval(client.la[ls]["cmds"]["music"]["queue"]["variable1"]) })
                                 .setDescription(eval(client.la[ls]["cmds"]["music"]["queue"]["variable2"])),
                         ],
                     })
@@ -66,17 +60,11 @@ module.exports = {
                     ?.reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
-                                .setAuthor(
-                                    `Queue for ${message.guild.name}  -  [ ${player.queue.length} Tracks ]`,
-                                    message.guild.iconURL({
+                            new EmbedBuilder()
+                                .setAuthor({ name: `Queue for ${message.guild.name}  -  [ ${player.queue.length} Tracks ]`, iconURL: message.guild.iconURL({
                                         dynamic: true,
-                                    })
-                                )
-                                .addField(
-                                    eval(client.la[ls]["cmds"]["music"]["queue"]["variablex_3"]),
-                                    eval(client.la[ls]["cmds"]["music"]["queue"]["variable3"])
-                                )
+                                    }) || undefined })
+                                .addFields({ name: eval(client.la[ls]["cmds"]["music"]["queue"]["variablex_3"]), value: eval(client.la[ls]["cmds"]["music"]["queue"]["variable3"]) })
                                 .setColor(es.color)
                                 .setDescription(
                                     tracks
@@ -113,18 +101,12 @@ module.exports = {
             for (let i = 0; i < limit; i++) {
                 let desc = String(quelist[i]).substring(0, 2048);
                 await embeds.push(
-                    new MessageEmbed()
-                        .setAuthor(
-                            `Queue for ${guild.name}  -  [ ${player.queue.length} Tracks ]`,
-                            guild.iconURL({
+                    new EmbedBuilder()
+                        .setAuthor({ name: `Queue for ${guild.name}  -  [ ${player.queue.length} Tracks ]`, iconURL: guild.iconURL({
                                 dynamic: true,
-                            })
-                        )
+                            }) || undefined })
                         .setColor(es.color)
-                        .addField(
-                            eval(client.la[ls]["cmds"]["music"]["queue"]["variablex_4"]),
-                            eval(client.la[ls]["cmds"]["music"]["queue"]["variable4"])
-                        )
+                        .addFields({ name: eval(client.la[ls]["cmds"]["music"]["queue"]["variablex_4"]), value: eval(client.la[ls]["cmds"]["music"]["queue"]["variable4"]) })
                         .setDescription(desc)
                 );
             }

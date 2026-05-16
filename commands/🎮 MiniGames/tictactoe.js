@@ -24,9 +24,9 @@ class TicTacToe {
         if (options.oEmoji) this.oEmoji = options.oEmoji;
         else this.oEmoji = "⭕";
         if (options.xColor) this.xColor = options.xColor;
-        else this.xColor = "BLURPLE";
+        else this.xColor = ButtonStyle.Primary;
         if (options.oColor) this.oColor = options.oColor;
-        else this.oColor = "BLURPLE";
+        else this.oColor = ButtonStyle.Primary;
         if (!options.opponent) throw new TypeError("Missing argument: opponent | Type: DiscordUser");
         if (!options.message) throw new TypeError("Missing argument: message | Type Message");
         this.message = options.message;
@@ -158,7 +158,7 @@ class TicTacToe {
                             }
                             A1 = new ButtonBuilder()
                                 .setCustomId(a11)
-                                .setStyle(`${gameData[player].color}`)
+                                .setStyle(gameData[player].color)
                                 .setEmoji(gameData[player].em)
                                 .setDisabled();
                         }
@@ -223,7 +223,7 @@ class TicTacToe {
                             }
                             A2 = new ButtonBuilder()
                                 .setCustomId(a22)
-                                .setStyle(`${gameData[player].color}`)
+                                .setStyle(gameData[player].color)
                                 .setEmoji(gameData[player].em)
                                 .setDisabled();
                         }
@@ -288,7 +288,7 @@ class TicTacToe {
                             }
                             A3 = new ButtonBuilder()
                                 .setCustomId(a33)
-                                .setStyle(`${gameData[player].color}`)
+                                .setStyle(gameData[player].color)
                                 .setEmoji(gameData[player].em)
                                 .setDisabled();
                         }
@@ -353,7 +353,7 @@ class TicTacToe {
                             }
                             B1 = new ButtonBuilder()
                                 .setCustomId(b11)
-                                .setStyle(`${gameData[player].color}`)
+                                .setStyle(gameData[player].color)
                                 .setEmoji(gameData[player].em)
                                 .setDisabled();
                         }
@@ -418,7 +418,7 @@ class TicTacToe {
                             }
                             B2 = new ButtonBuilder()
                                 .setCustomId(b22)
-                                .setStyle(`${gameData[player].color}`)
+                                .setStyle(gameData[player].color)
                                 .setEmoji(gameData[player].em)
                                 .setDisabled();
                         }
@@ -483,7 +483,7 @@ class TicTacToe {
                             }
                             B3 = new ButtonBuilder()
                                 .setCustomId(b33)
-                                .setStyle(`${gameData[player].color}`)
+                                .setStyle(gameData[player].color)
                                 .setEmoji(gameData[player].em)
                                 .setDisabled();
                         }
@@ -548,7 +548,7 @@ class TicTacToe {
                             }
                             C1 = new ButtonBuilder()
                                 .setCustomId(c11)
-                                .setStyle(`${gameData[player].color}`)
+                                .setStyle(gameData[player].color)
                                 .setEmoji(gameData[player].em)
                                 .setDisabled();
                         }
@@ -613,7 +613,7 @@ class TicTacToe {
                             }
                             C2 = new ButtonBuilder()
                                 .setCustomId(c22)
-                                .setStyle(`${gameData[player].color}`)
+                                .setStyle(gameData[player].color)
                                 .setEmoji(gameData[player].em)
                                 .setDisabled();
                         }
@@ -678,7 +678,7 @@ class TicTacToe {
                             }
                             C3 = new ButtonBuilder()
                                 .setCustomId(c33)
-                                .setStyle(`${gameData[player].color}`)
+                                .setStyle(gameData[player].color)
                                 .setEmoji(gameData[player].em)
                                 .setDisabled();
                         }
@@ -769,8 +769,8 @@ module.exports = {
         new TicTacToe({
             message: message, //required
             opponent: opponent, //required
-            xColor: "DANGER", //Optional Discord BUTTONS Colour
-            oColor: "SUCCESS", //Optional Discord BUTTONS Colour
+            xColor: ButtonStyle.Danger, //Optional Discord BUTTONS Colour
+            oColor: ButtonStyle.Success, //Optional Discord BUTTONS Colour
             xEmoji: "❌", //Optional EMOJI / CustomEMOJI-ID
             oEmoji: "⭕", //Optional EMOJI / CustomEMOJI-ID
         }).start();

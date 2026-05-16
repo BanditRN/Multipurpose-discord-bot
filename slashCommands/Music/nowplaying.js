@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageAttachment } = require(`discord.js`);
+const { EmbedBuilder, MessageAttachment } = require(`discord.js`);
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -18,7 +18,7 @@ module.exports = {
             return interaction?.reply({
                 ephemeral: true,
                 embed: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -32,30 +32,23 @@ module.exports = {
                 return interaction?.reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["nowplaying"]["variable1"])),
                     ],
                 });
-            const embed = new MessageEmbed()
-                .setAuthor(
-                    `Current song playing:`,
-                    message.guild.iconURL({
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: `Current song playing:`, iconURL: message.guild.iconURL({
                         dynamic: true,
-                    })
-                )
+                    }) || undefined })
                 .setThumbnail(`https://img.youtube.com/vi/${player.queue.current.identifier}/mqdefault.jpg`)
                 .setURL(player.queue.current.uri)
                 .setColor(es.color)
                 .setTitle(eval(client.la[ls]["cmds"]["music"]["nowplaying"]["variable2"]))
-                .addField(`${emoji?.msg.time} Progress: `, createBar(player))
-                .addField(
-                    `${emoji?.msg.time} Duration: `,
-                    `\`${format(player.queue.current.duration).split(" | ")[0]}\` | \`${format(player.queue.current.duration).split(" | ")[1]}\``,
-                    true
-                )
-                .addField(`${emoji?.msg.song_by} Song By: `, `\`${player.queue.current.author}\``, true)
-                .addField(`${emoji?.msg.repeat_mode} Queue length: `, `\`${player.queue.length} Songs\``, true)
+                .addFields({ name: `${emoji?.msg.time} Progress: `, value: createBar(player) })
+                .addFields({ name: `${emoji?.msg.time} Duration: `, value: `\`${format(player.queue.current.duration).split(" | ")[0]}\` | \`${format(player.queue.current.duration).split(" | ")[1]}\``, inline: true })
+                .addFields({ name: `${emoji?.msg.song_by} Song By: `, value: `\`${player.queue.current.author}\``, inline: true })
+                .addFields({ name: `${emoji?.msg.repeat_mode} Queue length: `, value: `\`${player.queue.length} Songs\``, inline: true })
                 .setFooter(
                     client.getFooter(
                         `Requested by: ${player.queue.current.requester.tag}`,

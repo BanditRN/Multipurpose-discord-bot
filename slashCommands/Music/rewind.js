@@ -1,4 +1,4 @@
-const { MessageEmbed } = require(`discord.js`);
+const { EmbedBuilder } = require(`discord.js`);
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -20,7 +20,7 @@ module.exports = {
             return interaction?.reply({
                 ephemeral: true,
                 embed: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -34,7 +34,7 @@ module.exports = {
             if (!args[0])
                 return interaction?.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["rewind"]["variable1"])),
                     ],
@@ -48,9 +48,9 @@ module.exports = {
             //send success message
             return interaction?.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(eval(client.la[ls]["cmds"]["music"]["rewind"]["variable2"]))
-                        .addField(`${emoji?.msg.time} Progress: `, createBar(player))
+                        .addFields({ name: `${emoji?.msg.time} Progress: `, value: createBar(player) })
                         .setColor(es.color),
                 ],
             });

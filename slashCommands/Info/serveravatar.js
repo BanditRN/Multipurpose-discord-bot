@@ -24,12 +24,8 @@ module.exports = {
             interaction?.reply({
                 ephemeral: true,
                 embeds: [
-                    new Discord.MessageEmbed()
-                        .setAuthor(
-                            handlemsg(client.la[ls].cmds.info.serveravatar.author, { servername: guild.name }),
-                            guild.iconURL({ dynamic: true }),
-                            "https://discord.gg/milrato"
-                        )
+                    new Discord.EmbedBuilder()
+                        .setAuthor({ name: handlemsg(client.la[ls].cmds.info.serveravatar.author, { servername: guild.name }), iconURL: guild.iconURL({ dynamic: true }) || undefined, url: "https://discord.gg/milrato" || undefined })
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -38,17 +34,9 @@ module.exports = {
                                     : client.user.displayAvatarURL()
                                 : null
                         )
-                        .addField("<:arrow:832598861813776394> PNG", `[\`LINK\`](${guild.iconURL({ format: "png" })})`, true)
-                        .addField(
-                            "<:arrow:832598861813776394> JPEG",
-                            `[\`LINK\`](${guild.iconURL({ format: "jpg" })})`,
-                            true
-                        )
-                        .addField(
-                            "<:arrow:832598861813776394> WEBP",
-                            `[\`LINK\`](${guild.iconURL({ format: "webp" })})`,
-                            true
-                        )
+                        .addFields({ name: "<:arrow:832598861813776394> PNG", value: `[\`LINK\`](${guild.iconURL({ format: "png" })})`, inline: true })
+                        .addFields({ name: "<:arrow:832598861813776394> JPEG", value: `[\`LINK\`](${guild.iconURL({ format: "jpg" })})`, inline: true })
+                        .addFields({ name: "<:arrow:832598861813776394> WEBP", value: `[\`LINK\`](${guild.iconURL({ format: "webp" })})`, inline: true })
                         .setURL(
                             guild.iconURL({
                                 dynamic: true,

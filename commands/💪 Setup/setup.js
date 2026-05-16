@@ -222,7 +222,7 @@ module.exports = {
                         emoji: allEmojis.msg.youtube,
                     },
                 ];
-                let Selection1 = new MessageSelectMenu()
+                let Selection1 = new StringSelectMenuBuilder()
                     .setPlaceholder("Click me to setup the (1/3) Systems [A-C]!")
                     .setCustomId("MenuSelection")
                     .setMaxValues(1)
@@ -242,7 +242,7 @@ module.exports = {
                             })
                             .filter(Boolean)
                     );
-                let Selection2 = new MessageSelectMenu()
+                let Selection2 = new StringSelectMenuBuilder()
                     .setPlaceholder("Click me to setup the (2/3) Systems [C-R]!")
                     .setCustomId("MenuSelection")
                     .setMaxValues(1)
@@ -265,7 +265,7 @@ module.exports = {
                             })
                             .filter(Boolean)
                     );
-                let Selection3 = new MessageSelectMenu()
+                let Selection3 = new StringSelectMenuBuilder()
                     .setPlaceholder("Click me to setup the (3/3) Systems [R-Z]!")
                     .setCustomId("MenuSelection")
                     .setMaxValues(1)

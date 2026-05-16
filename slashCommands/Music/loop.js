@@ -1,4 +1,4 @@
-const { MessageEmbed } = require(`discord.js`);
+const { EmbedBuilder } = require(`discord.js`);
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -31,7 +31,7 @@ module.exports = {
             return interaction?.reply({
                 ephemeral: true,
                 embed: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -45,7 +45,7 @@ module.exports = {
             if (!args[0])
                 return interaction?.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(client.la[ls].cmds.music.loop.errortitle)
                             .setDescription(client.la[ls].cmds.music.loop.errordescription),
@@ -54,7 +54,7 @@ module.exports = {
             //if arg is somehow song / track
             if (args[0].toLowerCase() === `song`) {
                 //Create the Embed
-                let embed = new MessageEmbed()
+                let embed = new EmbedBuilder()
                     .setTitle(
                         player.trackRepeat
                             ? client.la[ls].cmds.music.loop.track.disabled
@@ -73,7 +73,7 @@ module.exports = {
                 return interaction?.reply({ embeds: [embed] });
             }
             //Create the Embed
-            let embed = new MessageEmbed()
+            let embed = new EmbedBuilder()
                 .setTitle(
                     player.queueRepeat
                         ? client.la[ls].cmds.music.loop.queue.disabled

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require(`discord.js`);
+const { EmbedBuilder } = require(`discord.js`);
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -18,7 +18,7 @@ module.exports = {
             return interaction?.reply({
                 ephemeral: true,
                 embed: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -36,7 +36,7 @@ module.exports = {
             player.queue.shuffle();
             //send informational message
             interaction?.reply({
-                embeds: [new MessageEmbed().setColor(es.color).setTitle(`${emoji?.msg.shuffle} Shuffled the Queue!`)],
+                embeds: [new EmbedBuilder().setColor(es.color).setTitle(`${emoji?.msg.shuffle} Shuffled the Queue!`)],
             });
         } catch (e) {
             console.log(String(e.stack).dim.bgRed);

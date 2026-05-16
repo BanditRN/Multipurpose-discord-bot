@@ -107,8 +107,23 @@ client.ad = {
  * @param {8} LOAD_the_BOT_Functions
  *********************************************************/
 //those are must haves, they load the dbs, events and commands and important other stuff
-function requirehandlers() {
-    ["extraevents", "clientvariables", "command", "loaddb", "events", "erelahandler", "slashCommands"].forEach(handler => {
+async function requirehandlers() {
+    // Run sync handlers before the database is ready
+    for (const handler of ["extraevents", "clientvariables", "command"]) {
+        try {
+            require(`./handlers/${handler}`)(client);
+        } catch (e) {
+            console.log(e.stack ? String(e.stack).grey : String(e).grey);
+        }
+    }
+    // loaddb uses dynamic import (ESM enmap) and must be awaited so that
+    // client.stats, client.jtcsettings, etc. exist before 'ready' fires
+    try {
+        await require(`./handlers/loaddb`)(client);
+    } catch (e) {
+        console.log(e.stack ? String(e.stack).grey : String(e).grey);
+    }
+    ["events", "erelahandler", "slashCommands"].forEach(handler => {
         try {
             require(`./handlers/${handler}`)(client);
         } catch (e) {
@@ -175,8 +190,6 @@ function requirehandlers() {
         }
     });
 }
-requirehandlers();
-
 process.on("unhandledRejection", reason => {
     console.log("=== UNHANDLED REJECTION ===".red);
     if (reason instanceof Error) {
@@ -198,9 +211,11 @@ process.on("uncaughtException", err => {
 });
 
 /**********************************************************
- * @param {9} Login_to_the_Bot
+ * @param {9} Login_to_the_Bot — after databases are ready
  *********************************************************/
-client.login(process.env.token || config.token);
+requirehandlers().then(() => {
+    client.login(process.env.token || config.token);
+});
 
 /**********************************************************
  * @INFO

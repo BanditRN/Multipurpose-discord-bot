@@ -148,33 +148,33 @@ module.exports = function (client, options) {
                     .replace(/{channel}/i, guild.channels.cache.size)
                     .replace(/{channels}/i, guild.channels.cache.size)
 
-                    .replace(/{text}/i, guild.channels.cache.filter(ch => ch.type == "GUILD_TEXT").size)
-                    .replace(/{voice}/i, guild.channels.cache.filter(ch => ch.type == "GUILD_VOICE").size)
-                    .replace(/{stage}/i, guild.channels.cache.filter(ch => ch.type == "GUILD_STAGE_VOICE").size)
+                    .replace(/{text}/i, guild.channels.cache.filter(ch => ch.type == ChannelType.GuildText).size)
+                    .replace(/{voice}/i, guild.channels.cache.filter(ch => ch.type == ChannelType.GuildVoice).size)
+                    .replace(/{stage}/i, guild.channels.cache.filter(ch => ch.type == ChannelType.GuildStageVoice).size)
                     .replace(/{thread}/i, guild.channels.cache.filter(ch => ch.type == "THREAD").size)
-                    .replace(/{news}/i, guild.channels.cache.filter(ch => ch.type == "GUILD_NEWS").size)
-                    .replace(/{category}/i, guild.channels.cache.filter(ch => ch.type == "GUILD_CATEGORY").size)
+                    .replace(/{news}/i, guild.channels.cache.filter(ch => ch.type == ChannelType.GuildAnnouncement).size)
+                    .replace(/{category}/i, guild.channels.cache.filter(ch => ch.type == ChannelType.GuildCategory).size)
                     .replace(
                         /{openthread}/i,
-                        guild.channels.cache.filter(ch => ch.isThread() && !ch.deleted && !ch.archived).size
+                        guild.channels.cache.filter(ch => ch.isThread() && !ch.archived).size
                     )
                     .replace(
                         /{archivedthread}/i,
-                        guild.channels.cache.filter(ch => ch.isThread() && !ch.deleted && ch.archived).size
+                        guild.channels.cache.filter(ch => ch.isThread() && ch.archived).size
                     )
 
-                    .replace(/{texts}/i, guild.channels.cache.filter(ch => ch.type == "GUILD_TEXT").size)
-                    .replace(/{voices}/i, guild.channels.cache.filter(ch => ch.type == "GUILD_VOICE").size)
-                    .replace(/{stages}/i, guild.channels.cache.filter(ch => ch.type == "GUILD_STAGE_VOICE").size)
+                    .replace(/{texts}/i, guild.channels.cache.filter(ch => ch.type == ChannelType.GuildText).size)
+                    .replace(/{voices}/i, guild.channels.cache.filter(ch => ch.type == ChannelType.GuildVoice).size)
+                    .replace(/{stages}/i, guild.channels.cache.filter(ch => ch.type == ChannelType.GuildStageVoice).size)
                     .replace(/{threads}/i, guild.channels.cache.filter(ch => ch.type == "THREAD").size)
-                    .replace(/{parent}/i, guild.channels.cache.filter(ch => ch.type == "GUILD_CATEGORY").size)
+                    .replace(/{parent}/i, guild.channels.cache.filter(ch => ch.type == ChannelType.GuildCategory).size)
                     .replace(
                         /{openthreads}/i,
-                        guild.channels.cache.filter(ch => ch.isThread() && !ch.deleted && !ch.archived).size
+                        guild.channels.cache.filter(ch => ch.isThread() && !ch.archived).size
                     )
                     .replace(
                         /{archivedthreads}/i,
-                        guild.channels.cache.filter(ch => ch.isThread() && !ch.deleted && ch.archived).size
+                        guild.channels.cache.filter(ch => ch.isThread() && ch.archived).size
                     );
                 if (channel.name != newname) {
                     channel.setName(newname).catch(() => {});

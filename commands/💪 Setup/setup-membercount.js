@@ -1,5 +1,6 @@
 const {
     ActionRowBuilder,
+    ChannelType,
     EmbedBuilder,
 } = require("discord.js");
 var Discord = require(`discord.js`);
@@ -42,7 +43,7 @@ module.exports = {
                     });
                 }
                 //define the selection
-                let Selection = new MessageSelectMenu()
+                let Selection = new StringSelectMenuBuilder()
                     .setCustomId("MenuSelection")
                     .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                     .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -324,15 +325,15 @@ module.exports = {
 
                                                 .replace(
                                                     /{text}/i,
-                                                    guild.channels.cache.filter(ch => ch.type == "GUILD_TEXT").size
+                                                    guild.channels.cache.filter(ch => ch.type == ChannelType.GuildText).size
                                                 )
                                                 .replace(
                                                     /{voice}/i,
-                                                    guild.channels.cache.filter(ch => ch.type == "GUILD_VOICE").size
+                                                    guild.channels.cache.filter(ch => ch.type == ChannelType.GuildVoice).size
                                                 )
                                                 .replace(
                                                     /{stage}/i,
-                                                    guild.channels.cache.filter(ch => ch.type == "GUILD_STAGE_VOICE").size
+                                                    guild.channels.cache.filter(ch => ch.type == ChannelType.GuildStageVoice).size
                                                 )
                                                 .replace(
                                                     /{thread}/i,
@@ -340,36 +341,36 @@ module.exports = {
                                                 )
                                                 .replace(
                                                     /{news}/i,
-                                                    guild.channels.cache.filter(ch => ch.type == "GUILD_NEWS").size
+                                                    guild.channels.cache.filter(ch => ch.type == ChannelType.GuildAnnouncement).size
                                                 )
                                                 .replace(
                                                     /{category}/i,
-                                                    guild.channels.cache.filter(ch => ch.type == "GUILD_CATEGORY").size
+                                                    guild.channels.cache.filter(ch => ch.type == ChannelType.GuildCategory).size
                                                 )
                                                 .replace(
                                                     /{openthread}/i,
                                                     guild.channels.cache.filter(
-                                                        ch => ch.isThread() && !ch.deleted && !ch.archived
+                                                        ch => ch.isThread() && !ch.archived
                                                     ).size
                                                 )
                                                 .replace(
                                                     /{archivedthread}/i,
                                                     guild.channels.cache.filter(
-                                                        ch => ch.isThread() && !ch.deleted && ch.archived
+                                                        ch => ch.isThread() && ch.archived
                                                     ).size
                                                 )
 
                                                 .replace(
                                                     /{texts}/i,
-                                                    guild.channels.cache.filter(ch => ch.type == "GUILD_TEXT").size
+                                                    guild.channels.cache.filter(ch => ch.type == ChannelType.GuildText).size
                                                 )
                                                 .replace(
                                                     /{voices}/i,
-                                                    guild.channels.cache.filter(ch => ch.type == "GUILD_VOICE").size
+                                                    guild.channels.cache.filter(ch => ch.type == ChannelType.GuildVoice).size
                                                 )
                                                 .replace(
                                                     /{stages}/i,
-                                                    guild.channels.cache.filter(ch => ch.type == "GUILD_STAGE_VOICE").size
+                                                    guild.channels.cache.filter(ch => ch.type == ChannelType.GuildStageVoice).size
                                                 )
                                                 .replace(
                                                     /{threads}/i,
@@ -377,18 +378,18 @@ module.exports = {
                                                 )
                                                 .replace(
                                                     /{parent}/i,
-                                                    guild.channels.cache.filter(ch => ch.type == "GUILD_CATEGORY").size
+                                                    guild.channels.cache.filter(ch => ch.type == ChannelType.GuildCategory).size
                                                 )
                                                 .replace(
                                                     /{openthreads}/i,
                                                     guild.channels.cache.filter(
-                                                        ch => ch.isThread() && !ch.deleted && !ch.archived
+                                                        ch => ch.isThread() && !ch.archived
                                                     ).size
                                                 )
                                                 .replace(
                                                     /{archivedthreads}/i,
                                                     guild.channels.cache.filter(
-                                                        ch => ch.isThread() && !ch.deleted && ch.archived
+                                                        ch => ch.isThread() && ch.archived
                                                     ).size
                                                 )
                                         );
@@ -513,18 +514,18 @@ module.exports = {
 
                                                             .replace(
                                                                 /{text}/i,
-                                                                guild.channels.cache.filter(ch => ch.type == "GUILD_TEXT")
+                                                                guild.channels.cache.filter(ch => ch.type == ChannelType.GuildText)
                                                                     .size
                                                             )
                                                             .replace(
                                                                 /{voice}/i,
-                                                                guild.channels.cache.filter(ch => ch.type == "GUILD_VOICE")
+                                                                guild.channels.cache.filter(ch => ch.type == ChannelType.GuildVoice)
                                                                     .size
                                                             )
                                                             .replace(
                                                                 /{stage}/i,
                                                                 guild.channels.cache.filter(
-                                                                    ch => ch.type == "GUILD_STAGE_VOICE"
+                                                                    ch => ch.type == ChannelType.GuildStageVoice
                                                                 ).size
                                                             )
                                                             .replace(
@@ -533,42 +534,42 @@ module.exports = {
                                                             )
                                                             .replace(
                                                                 /{news}/i,
-                                                                guild.channels.cache.filter(ch => ch.type == "GUILD_NEWS")
+                                                                guild.channels.cache.filter(ch => ch.type == ChannelType.GuildAnnouncement)
                                                                     .size
                                                             )
                                                             .replace(
                                                                 /{category}/i,
                                                                 guild.channels.cache.filter(
-                                                                    ch => ch.type == "GUILD_CATEGORY"
+                                                                    ch => ch.type == ChannelType.GuildCategory
                                                                 ).size
                                                             )
                                                             .replace(
                                                                 /{openthread}/i,
                                                                 guild.channels.cache.filter(
-                                                                    ch => ch.isThread() && !ch.deleted && !ch.archived
+                                                                    ch => ch.isThread() && !ch.archived
                                                                 ).size
                                                             )
                                                             .replace(
                                                                 /{archivedthread}/i,
                                                                 guild.channels.cache.filter(
-                                                                    ch => ch.isThread() && !ch.deleted && ch.archived
+                                                                    ch => ch.isThread() && ch.archived
                                                                 ).size
                                                             )
 
                                                             .replace(
                                                                 /{texts}/i,
-                                                                guild.channels.cache.filter(ch => ch.type == "GUILD_TEXT")
+                                                                guild.channels.cache.filter(ch => ch.type == ChannelType.GuildText)
                                                                     .size
                                                             )
                                                             .replace(
                                                                 /{voices}/i,
-                                                                guild.channels.cache.filter(ch => ch.type == "GUILD_VOICE")
+                                                                guild.channels.cache.filter(ch => ch.type == ChannelType.GuildVoice)
                                                                     .size
                                                             )
                                                             .replace(
                                                                 /{stages}/i,
                                                                 guild.channels.cache.filter(
-                                                                    ch => ch.type == "GUILD_STAGE_VOICE"
+                                                                    ch => ch.type == ChannelType.GuildStageVoice
                                                                 ).size
                                                             )
                                                             .replace(
@@ -578,19 +579,19 @@ module.exports = {
                                                             .replace(
                                                                 /{parent}/i,
                                                                 guild.channels.cache.filter(
-                                                                    ch => ch.type == "GUILD_CATEGORY"
+                                                                    ch => ch.type == ChannelType.GuildCategory
                                                                 ).size
                                                             )
                                                             .replace(
                                                                 /{openthreads}/i,
                                                                 guild.channels.cache.filter(
-                                                                    ch => ch.isThread() && !ch.deleted && !ch.archived
+                                                                    ch => ch.isThread() && !ch.archived
                                                                 ).size
                                                             )
                                                             .replace(
                                                                 /{archivedthreads}/i,
                                                                 guild.channels.cache.filter(
-                                                                    ch => ch.isThread() && !ch.deleted && ch.archived
+                                                                    ch => ch.isThread() && ch.archived
                                                                 ).size
                                                             )}\`
 

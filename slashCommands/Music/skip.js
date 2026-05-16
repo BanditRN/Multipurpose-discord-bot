@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -16,7 +16,7 @@ module.exports = {
             return interaction?.reply({
                 ephemeral: true,
                 embed: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -31,23 +31,23 @@ module.exports = {
             if (!channel)
                 return interaction?.reply({
                     ephemeral: true,
-                    embeds: [new MessageEmbed().setColor(es.wrongcolor).setTitle(client.la[ls].common.join_vc)],
+                    embeds: [new EmbedBuilder().setColor(es.wrongcolor).setTitle(client.la[ls].common.join_vc)],
                 });
             //get the player instance
             const player = client.manager.players.get(message.guild.id);
             //if no player available return aka not playing anything
             if (!player) {
-                if (message.guild.me.voice.channel) {
+                if (message.guild.members.me.voice.channel) {
                     try {
-                        message.guild.me.voice.disconnect();
+                        message.guild.members.me.voice.disconnect();
                     } catch {}
                     interaction?.reply({
-                        embeds: [new MessageEmbed().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
+                        embeds: [new EmbedBuilder().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
                     });
                 } else {
                     return interaction?.reply({
                         ephemeral: true,
-                        embeds: [new MessageEmbed().setColor(es.wrongcolor).setTitle(client.la[ls].common.nothing_playing)],
+                        embeds: [new EmbedBuilder().setColor(es.wrongcolor).setTitle(client.la[ls].common.nothing_playing)],
                     });
                 }
                 return;
@@ -57,7 +57,7 @@ module.exports = {
                 return interaction?.reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(client.la[ls].common.wrong_vc)
                             .setDescription(eval(client.la[ls]["cmds"]["music"]["skip"]["variable1"])),
@@ -67,15 +67,15 @@ module.exports = {
             if (player.queue.size == 0) {
                 //if its on autoplay mode, then do autoplay before leaving...
                 if (player.get("autoplay")) return autoplay(client, player, "skip");
-                if (message.guild.me.voice.channel) {
+                if (message.guild.members.me.voice.channel) {
                     try {
-                        message.guild.me.voice.disconnect();
+                        message.guild.members.me.voice.disconnect();
                     } catch {}
                     try {
                         player.destroy();
                     } catch {}
                     return interaction?.reply({
-                        embeds: [new MessageEmbed().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
+                        embeds: [new EmbedBuilder().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
                     });
                 }
                 //stop playing
@@ -83,7 +83,7 @@ module.exports = {
                     player.destroy();
                 } catch {}
                 return interaction?.reply({
-                    embeds: [new MessageEmbed().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
+                    embeds: [new EmbedBuilder().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
                 });
 
                 return;
@@ -92,7 +92,7 @@ module.exports = {
             player.stop();
             //send success message
             interaction?.reply({
-                embeds: [new MessageEmbed().setTitle(client.la[ls].cmds.music.skip.title2).setColor(es.color)],
+                embeds: [new EmbedBuilder().setTitle(client.la[ls].cmds.music.skip.title2).setColor(es.color)],
             });
         } catch (e) {
             console.log(String(e.stack).dim.bgRed);

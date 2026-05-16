@@ -107,7 +107,7 @@ module.exports = {
             }
             function getMenuRowComponent() {
                 let menuOptions = getMenuOptions();
-                let menuSelection = new MessageSelectMenu()
+                let menuSelection = new StringSelectMenuBuilder()
                     .setCustomId("MenuSelection")
                     .setPlaceholder("Click: enable/disable Command-Categories")
                     .setMinValues(1)

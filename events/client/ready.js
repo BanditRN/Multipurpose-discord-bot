@@ -74,14 +74,14 @@ function change_status(client) {
                 .replace(
                     "{usedcommands}",
                     nFormatter(
-                        Math.ceil((client.stats.get("global", "commands") * [...client.guilds.cache.values()].length) / 10),
+                        Math.ceil((client.stats?.get("global", "commands") ?? 0 * [...client.guilds.cache.values()].length) / 10),
                         2
                     )
                 )
                 .replace(
                     "{songsplayed}",
                     nFormatter(
-                        Math.ceil((client.stats.get("global", "songs") * [...client.guilds.cache.values()].length) / 10),
+                        Math.ceil((client.stats?.get("global", "songs") ?? 0 * [...client.guilds.cache.values()].length) / 10),
                         2
                     )
                 ),
@@ -107,14 +107,14 @@ function change_status(client) {
                 .replace(
                     "{usedcommands}",
                     nFormatter(
-                        Math.ceil((client.stats.get("global", "commands") * [...client.guilds.cache.values()].length) / 10),
+                        Math.ceil((client.stats?.get("global", "commands") ?? 0 * [...client.guilds.cache.values()].length) / 10),
                         2
                     )
                 )
                 .replace(
                     "{songsplayed}",
                     nFormatter(
-                        Math.ceil((client.stats.get("global", "songs") * [...client.guilds.cache.values()].length) / 10),
+                        Math.ceil((client.stats?.get("global", "songs") ?? 0 * [...client.guilds.cache.values()].length) / 10),
                         2
                     )
                 ),

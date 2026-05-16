@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { EmbedBuilder, MessageAttachment } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const canvacord = require("canvacord");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
@@ -19,7 +19,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "FUN")) {
             return interaction?.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -43,9 +43,9 @@ module.exports = {
         });
         let image = await canvacord.Canvas.rip(avatar);
         let attachment = await new Discord.MessageAttachment(image, "rip.png");
-        let fastembed2 = new Discord.MessageEmbed()
+        let fastembed2 = new Discord.EmbedBuilder()
             .setFooter(client.getFooter(es))
-            .setAuthor(`Meme for: ${user.tag}`, avatar)
+            .setAuthor({ name: `Meme for: ${user.tag}`, iconURL: avatar || undefined })
             .setColor(es.color)
             .setImage("attachment://rip.png");
         await interaction?.editReply({ embeds: [fastembed2], files: [attachment], ephemeral: true });

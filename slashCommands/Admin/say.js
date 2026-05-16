@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const settings = require("../../botconfig/settings.json");

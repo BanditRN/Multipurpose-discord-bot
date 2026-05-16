@@ -119,8 +119,7 @@ module.exports = client => {
                 setTimeout(
                     () => {
                         try {
-                            if (!message.deleted) {
-                                if (
+                            if (
                                     message.channel
                                         .permissionsFor(message.channel.guild.members.me)
                                         .has(PermissionFlagsBits.ManageMessages)
@@ -138,7 +137,6 @@ module.exports = client => {
                                         }, 3500);
                                     });
                                 }
-                            }
                         } catch (e) {
                             console.log(e.stack ? String(e.stack).grey : String(e).grey);
                         }

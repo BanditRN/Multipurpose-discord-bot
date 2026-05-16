@@ -67,7 +67,7 @@ module.exports = async client => {
                 content: `:question: **Select your Platform**\n> Where do you play on?`,
                 components: [
                     new ActionRowBuilder().addComponents([
-                        new Discord.MessageSelectMenu()
+                        new Discord.StringSelectMenuBuilder()
                             .setMaxValues(1)
                             .setMinValues(1)
                             .setPlaceholder("Select the Platform")
@@ -152,7 +152,7 @@ module.exports = async client => {
                         content: `:question: **Select your Platform**\n> Where do you play on?`,
                         components: [
                             new ActionRowBuilder().addComponents([
-                                new Discord.MessageSelectMenu()
+                                new Discord.StringSelectMenuBuilder()
                                     .setMaxValues(1)
                                     .setMinValues(1)
                                     .setPlaceholder("Select the Platform")

@@ -91,7 +91,7 @@ module.exports = {
                     },
                 ];
                 //define the selection
-                let Selection = new MessageSelectMenu()
+                let Selection = new StringSelectMenuBuilder()
                     .setCustomId("MenuSelection")
                     .setMaxValues(1)
                     .setMinValues(1)
