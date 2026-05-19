@@ -1,5 +1,6 @@
 const {
     ActionRowBuilder,
+    ChannelType,
     EmbedBuilder,
     MessageMentions,
 } = require("discord.js");
@@ -64,7 +65,7 @@ module.exports = {
                     },
                 ];
                 //define the selection
-                let Selection = new MessageSelectMenu()
+                let Selection = new StringSelectMenuBuilder()
                     .setCustomId("MenuSelection")
                     .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                     .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -151,7 +152,7 @@ module.exports = {
                                     },
                                 ];
                                 //define the selection
-                                let Selection = new MessageSelectMenu()
+                                let Selection = new StringSelectMenuBuilder()
                                     .setCustomId("MenuSelection")
                                     .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                                     .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -399,7 +400,7 @@ module.exports = {
                                                             .filter(
                                                                 ch =>
                                                                     ch.guild.id == message.guild.id &&
-                                                                    ch.type == "GUILD_VOICE"
+                                                                    ch.type == ChannelType.GuildVoice
                                                             )
                                                             .first() ||
                                                         message.guild.channels.cache.get(
@@ -570,7 +571,7 @@ module.exports = {
                                     },
                                 ];
                                 //define the selection
-                                let Selection = new MessageSelectMenu()
+                                let Selection = new StringSelectMenuBuilder()
                                     .setCustomId("MenuSelection")
                                     .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                                     .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -659,7 +660,7 @@ module.exports = {
                                                             .filter(
                                                                 ch =>
                                                                     ch.guild.id == message.guild.id &&
-                                                                    ch.type == "GUILD_VOICE"
+                                                                    ch.type == ChannelType.GuildVoice
                                                             )
                                                             .first() ||
                                                         message.guild.channels.cache.get(
@@ -818,7 +819,7 @@ module.exports = {
                                                             .filter(
                                                                 ch =>
                                                                     ch.guild.id == message.guild.id &&
-                                                                    ch.type == "GUILD_VOICE"
+                                                                    ch.type == ChannelType.GuildVoice
                                                             )
                                                             .first() ||
                                                         message.guild.channels.cache.get(

@@ -73,7 +73,7 @@ class GuessThePokemon {
             .addFields({ name: "Abilities", value: data.abilities.join(", ") || "No data." })
             .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
-        if (thinkMsg && !thinkMsg.deleted) thinkMsg.delete().catch();
+        if (thinkMsg) thinkMsg.delete().catch(() => {});
         const msg = await this.sendMessage({ embeds: [embed], files: [attachment] });
 
         const filter = m => m.author.id === this.message.author.id;

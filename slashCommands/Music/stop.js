@@ -1,8 +1,8 @@
 const {
     ButtonStyle,
-    MessageActionRow,
-    MessageButton,
-    MessageEmbed,
+    ActionRowBuilder,
+    ButtonBuilder,
+    EmbedBuilder,
 } = require("discord.js");
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 const { handlemsg } = require(`${process.cwd()}/handlers/functions`);
@@ -36,7 +36,7 @@ module.exports = {
             return interaction?.reply({
                 ephemeral: true,
                 embed: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -47,12 +47,12 @@ module.exports = {
         try {
             //if there is no current track error
             if (!player) {
-                if (message.guild.me.voice.channel) {
-                    message.guild.me.voice.disconnect();
+                if (message.guild.members.me.voice.channel) {
+                    message.guild.members.me.voice.disconnect();
                     return interaction?.reply({
                         ephemeral: true,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(eval(client.la[ls]["cmds"]["music"]["stop"]["variable1"]))
                                 .setColor(es.color),
                         ],
@@ -61,7 +61,7 @@ module.exports = {
                 return interaction?.reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["stop"]["variable2"])),
                     ],
@@ -71,32 +71,32 @@ module.exports = {
             }
 
             if (player.queue && !player.queue.current) {
-                if (message.guild.me.voice.channel) {
+                if (message.guild.members.me.voice.channel) {
                     try {
                         client.channels.cache
                             .get(player.textChannel)
                             .messages.fetch(player.get("currentmsg"))
                             .then(msg => {
-                                const row = new MessageActionRow().addComponents([
-                                    new MessageButton()
+                                const row = new ActionRowBuilder().addComponents([
+                                    new ButtonBuilder()
                                         .setCustomId("1")
                                         .setEmoji("⏭")
                                         .setLabel("Skip")
                                         .setStyle(ButtonStyle.Secondary)
                                         .setDisabled(true),
-                                    new MessageButton()
+                                    new ButtonBuilder()
                                         .setCustomId("2")
                                         .setEmoji("⏹️")
                                         .setLabel("Stop")
                                         .setStyle(ButtonStyle.Secondary)
                                         .setDisabled(true),
-                                    new MessageButton()
+                                    new ButtonBuilder()
                                         .setCustomId("3")
                                         .setEmoji("⏸")
                                         .setLabel("Pause")
                                         .setStyle(ButtonStyle.Secondary)
                                         .setDisabled(true),
-                                    new MessageButton()
+                                    new ButtonBuilder()
                                         .setCustomId("4")
                                         .setEmoji("🔁")
                                         .setLabel("Autoplay")
@@ -114,19 +114,19 @@ module.exports = {
                             });
                     } catch {}
                     try {
-                        message.guild.me.voice.disconnect();
+                        message.guild.members.me.voice.disconnect();
                     } catch {}
                     try {
                         player.destroy();
                     } catch {}
                     return interaction?.reply({
-                        embeds: [new MessageEmbed().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
+                        embeds: [new EmbedBuilder().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
                     });
                 }
                 return interaction?.reply({
                     ephemeral: true,
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["stop"]["variable3"])),
                     ],
@@ -139,26 +139,26 @@ module.exports = {
                     .get(player.textChannel)
                     .messages.fetch(player.get("currentmsg"))
                     .then(msg => {
-                        const row = new MessageActionRow().addComponents([
-                            new MessageButton()
+                        const row = new ActionRowBuilder().addComponents([
+                            new ButtonBuilder()
                                 .setCustomId("1")
                                 .setEmoji("⏭")
                                 .setLabel("Skip")
                                 .setStyle(ButtonStyle.Secondary)
                                 .setDisabled(true),
-                            new MessageButton()
+                            new ButtonBuilder()
                                 .setCustomId("2")
                                 .setEmoji("⏹️")
                                 .setLabel("Stop")
                                 .setStyle(ButtonStyle.Secondary)
                                 .setDisabled(true),
-                            new MessageButton()
+                            new ButtonBuilder()
                                 .setCustomId("3")
                                 .setEmoji("⏸")
                                 .setLabel("Pause")
                                 .setStyle(ButtonStyle.Secondary)
                                 .setDisabled(true),
-                            new MessageButton()
+                            new ButtonBuilder()
                                 .setCustomId("4")
                                 .setEmoji("🔁")
                                 .setLabel("Autoplay")
@@ -181,7 +181,7 @@ module.exports = {
             } catch {}
             //React with the emoji
             return interaction?.reply({
-                embeds: [new MessageEmbed().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
+                embeds: [new EmbedBuilder().setTitle(client.la[ls].cmds.music.skip.title).setColor(es.color)],
             });
         } catch (e) {
             console.log(String(e.stack).dim.bgRed);

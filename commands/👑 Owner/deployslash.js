@@ -1,7 +1,5 @@
 const {
-    EmbedBuilder,
-    splitMessage,
-} = require("discord.js");
+    EmbedBuilder} = require("discord.js");
 var Discord = require(`discord.js`);
 var config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require(`discord.js`);
+const { EmbedBuilder } = require(`discord.js`);
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -19,7 +19,7 @@ module.exports = {
             return interaction?.reply({
                 ephemeral: true,
                 embed: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -32,7 +32,7 @@ module.exports = {
             player.queue.clear();
             //Send Success Message
             interaction?.reply({
-                embeds: [new MessageEmbed().setTitle(client.la[ls].cmds.music.clearqueue.title).setColor(es.color)],
+                embeds: [new EmbedBuilder().setTitle(client.la[ls].cmds.music.clearqueue.title).setColor(es.color)],
             });
         } catch (e) {
             console.log(String(e.stack).dim.bgRed);

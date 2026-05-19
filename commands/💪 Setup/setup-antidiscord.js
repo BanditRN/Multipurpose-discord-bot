@@ -78,7 +78,7 @@ module.exports = {
                         emoji: allEmojis.msg.cancel,
                     },
                 ];
-                let Selection = new MessageSelectMenu()
+                let Selection = new StringSelectMenuBuilder()
                     .setPlaceholder("Click me to setup the Anti-Discord-Links System!")
                     .setCustomId("MenuSelection")
                     .setMaxValues(1)

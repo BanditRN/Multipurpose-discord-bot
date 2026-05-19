@@ -2,6 +2,7 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
+    ChannelType,
     Collection,
     EmbedBuilder,
     PermissionFlagsBits,
@@ -157,7 +158,7 @@ module.exports = client => {
 
                             if (closedParent) {
                                 let ticketCh = msg.guild.channels.cache.get(closedParent);
-                                if (ticketCh && ticketCh.type == "GUILD_CATEGORY") {
+                                if (ticketCh && ticketCh.type == ChannelType.GuildCategory) {
                                     if (ticketCh.children.size < 50) {
                                         await msg.channel
                                             .setParent(ticketCh.id, { lockPermissions: false })
@@ -1715,7 +1716,7 @@ module.exports = client => {
                     try {
                         var cat = guild.channels.cache.get(settings.data[index].category);
                         if (cat) {
-                            if (cat.type == "GUILD_CATEGORY") {
+                            if (cat.type == ChannelType.GuildCategory) {
                                 if (cat.children.size < 50) {
                                     await ch.setParent(String(cat.id)).catch(() => {});
                                 }

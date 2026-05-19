@@ -45,7 +45,7 @@ module.exports = client => {
                             if (currentSongPlayMsg?.embeds?.[0]) {
                                 const orig = currentSongPlayMsg.embeds[0];
                                 const embed = EmbedBuilder.from(orig);
-                                if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || null });
+                                if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || undefined });
                                 embed.setFooter({ text: (orig.footer?.text || "") + "\n\n⛔️ SONG & QUEUE ENDED! | Player got DESTROYED (stopped)" });
                                 currentSongPlayMsg.edit({ embeds: [embed], components: [] }).catch(() => {});
                             }
@@ -105,8 +105,8 @@ module.exports = client => {
                     if (guild && channel && messageId) {
                         let message = channel.messages.cache.get(messageId);
                         if (!message) message = await channel.messages.fetch(messageId).catch(() => null);
-                        //edit the message so that it's right!
-                        var data = require("./musicsystem").generateQueueEmbed(client, player.guild, true);
+                        //edit the message so that it's right — leave=false so it shows now-playing state
+                        var data = require("./musicsystem").generateQueueEmbed(client, player.guild, false);
                         message?.edit(data).catch(() => null);
                         if (channel.id == player.textChannel) {
                             return;
@@ -129,7 +129,7 @@ module.exports = client => {
                                 if (currentSongPlayMsg?.embeds?.[0]) {
                                     const orig = currentSongPlayMsg.embeds[0];
                                     const embed = EmbedBuilder.from(orig);
-                                    if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || null });
+                                    if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || undefined });
                                     embed.setFooter({ text: (orig.footer?.text || "") + "\n⛔️ SONG ENDED!" });
                                     currentSongPlayMsg.edit({ embeds: [embed], components: [] }).catch(() => {});
                                 }
@@ -485,7 +485,7 @@ module.exports = client => {
                             if (currentSongPlayMsg?.embeds?.[0]) {
                                 const orig = currentSongPlayMsg.embeds[0];
                                 const embed = EmbedBuilder.from(orig);
-                                if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || null });
+                                if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || undefined });
                                 embed.setFooter({ text: (orig.footer?.text || "") + "\n⚠️⚠️⚠️ SONG STUCKED ⚠️⚠️!" });
                                 currentSongPlayMsg.edit({ embeds: [embed], components: [] }).catch(() => {});
                             }
@@ -524,7 +524,7 @@ module.exports = client => {
                             if (currentSongPlayMsg?.embeds?.[0]) {
                                 const orig = currentSongPlayMsg.embeds[0];
                                 const embed = EmbedBuilder.from(orig);
-                                if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || null });
+                                if (orig.author) embed.setAuthor({ name: orig.author.name || "", iconURL: "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", url: orig.author.url || undefined });
                                 embed.setFooter({ text: (orig.footer?.text || "") + "\n⚠️⚠️⚠️ SONG CRASHED ⚠️⚠️!" });
                                 currentSongPlayMsg.edit({ embeds: [embed], components: [] }).catch(() => {});
                             }
@@ -607,7 +607,7 @@ function generateQueueEmbed(client, player, track) {
             name: `${track.title}`,
             iconURL:
                 "https://images-ext-1.discordapp.net/external/DkPCBVBHBDJC8xHHCF2G7-rJXnTwj_qs78udThL8Cy0/%3Fv%3D1/https/cdn.discordapp.com/emojis/859459305152708630.gif",
-            url: track.uri || null,
+            url: track.uri || undefined,
         })
         .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`)
         .setFooter(client.getFooter(`Requested by: ${requesterTag}`, requesterAvatar));

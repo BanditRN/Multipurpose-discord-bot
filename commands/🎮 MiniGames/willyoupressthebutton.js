@@ -1,4 +1,3 @@
-const { WillYouPressTheButton } = require("@m3rcena/weky");
 const {
     EmbedBuilder,
 } = require("discord.js");
@@ -28,6 +27,7 @@ module.exports = {
                     )
             );
         }
+        const { WillYouPressTheButton } = await import("@m3rcena/weky");
         await WillYouPressTheButton({
             interaction: message,
             embed: {

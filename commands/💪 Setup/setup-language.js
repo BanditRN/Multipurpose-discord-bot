@@ -67,7 +67,7 @@ module.exports = {
                         emoji: allEmojis.msg.cancel,
                     },
                 ];
-                let Selection = new MessageSelectMenu()
+                let Selection = new StringSelectMenuBuilder()
                     .setPlaceholder("Click me to setup the Language!")
                     .setCustomId("MenuSelection")
                     .setMaxValues(1)

@@ -59,7 +59,7 @@ module.exports = {
                         .setThumbnail(client.user.displayAvatarURL())
                         .setTitle(eval(client.la[ls]["cmds"]["info"]["help"]["variable1"]))
                         .setDescription(items.join("︲"))
-                        .setFooter(handlemsg(client.la[ls].cmds.info.help.nocustom), client.user.displayAvatarURL());
+                        .setFooter({ text: handlemsg(client.la[ls].cmds.info.help.nocustom), iconURL: client.user.displayAvatarURL() });
 
                     message.reply({ embeds: [embed] });
                     return;
@@ -92,10 +92,7 @@ module.exports = {
                         )
                         .setThumbnail(client.user.displayAvatarURL())
                         .setTitle(eval(client.la[ls]["cmds"]["info"]["help"]["variable2"]))
-                        .setFooter(
-                            handlemsg(client.la[ls].cmds.info.help.nocustom, { prefix: prefix }),
-                            client.user.displayAvatarURL()
-                        );
+                        .setFooter({ text: handlemsg(client.la[ls].cmds.info.help.nocustom, { prefix: prefix }), iconURL: client.user.displayAvatarURL() });
                     let embeds = allotherembeds_eachcategory();
                     if (cat == "🔰 Info") return message.reply({ embeds: [embeds[0]] });
                     if (cat == "💸 Economy") return message.reply({ embeds: [embeds[1]] });
@@ -140,19 +137,19 @@ module.exports = {
                 else embed.addFields({ name: handlemsg(client.la[ls].cmds.info.help.detail.cooldown), value: `\`\`\`3 Seconds\`\`\`` });
                 if (cmd.usage) {
                     embed.addFields({ name: handlemsg(client.la[ls].cmds.info.help.detail.usage), value: `\`\`\`${prefix}${cmd.usage}\`\`\`` });
-                    embed.setFooter(
-                        handlemsg(client.la[ls].cmds.info.help.detail.syntax),
-                        es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
+                    embed.setFooter({
+                        text: handlemsg(client.la[ls].cmds.info.help.detail.syntax),
+                        iconURL: es.footericon && (es.footericon.includes("http://") || es.footericon.includes("https://"))
                             ? es.footericon
-                            : client.user.displayAvatarURL()
-                    );
+                            : client.user.displayAvatarURL(),
+                    });
                 }
                 return message.reply({ embeds: [embed] });
             }
             let button_back = new ButtonBuilder()
                 .setStyle(ButtonStyle.Success)
                 .setCustomId("1")
-                .setEmoji("833802907509719130")
+                .setEmoji("⬅️")
                 .setLabel(handlemsg(client.la[ls].cmds.info.help.buttons.back));
             let button_home = new ButtonBuilder()
                 .setStyle(ButtonStyle.Danger)
@@ -162,18 +159,18 @@ module.exports = {
             let button_forward = new ButtonBuilder()
                 .setStyle(ButtonStyle.Success)
                 .setCustomId("3")
-                .setEmoji("832598861813776394")
+                .setEmoji("➡️")
                 .setLabel(handlemsg(client.la[ls].cmds.info.help.buttons.forward));
             let button_tutorial = new ButtonBuilder()
                 .setStyle(ButtonStyle.Link)
-                .setEmoji("840260133686870036")
+                .setEmoji("📺")
                 .setLabel("Tutorial")
                 .setURL("https://youtu.be/E0R7d8gS908");
             let menuOptions = [
                 {
                     label: "Overview",
                     value: "Overview",
-                    emoji: "833101995723194437",
+                    emoji: "🏠",
                     description: "My Overview of me!",
                 },
                 {
@@ -325,7 +322,7 @@ module.exports = {
                             : client.user.displayAvatarURL()
                         : null
                 )
-                //.setFooter("Page Overview\n"+ client.user.username, client.user.displayAvatarURL())
+                //.setFooter({ text: "Page Overview\n"+ client.user.username, iconURL: client.user.displayAvatarURL() })
                 .setFooter({ text: "Page Overview\n" + client.user.username, iconURL: client.user.displayAvatarURL() })
                 .setTitle(`Information about __${client.user.username}__`)
                 .addFields({ name: ":muscle: **__My Features__**", value: `>>> **58+ Systems**, like: ${allEmojis.msg.twitter} **Twitter-** & ${allEmojis.msg.youtube} **Youtube-Auto-Poster**

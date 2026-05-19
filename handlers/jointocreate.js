@@ -33,7 +33,7 @@ module.exports = function (client) {
         "America/Los_Angeles"
     );
 
-    client.on("ready", () => {
+    client.on("clientReady", () => {
         check_voice_channels(client);
         check_created_voice_channels(client);
         client.JobJointocreate.start();

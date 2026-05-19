@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -47,16 +47,12 @@ module.exports = {
                     content: client.la[ls].cmds.info.color.invalid + `\n\`\`\`fix\n${json.error}\n\`\`\``,
                     ephemeral: true,
                 });
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
                 .setTitle(eval(client.la[ls]["cmds"]["info"]["color"]["variable1"]))
-                .addField("<:arrow:832598861813776394> **Name**", json.name, true)
-                .addField("<:arrow:832598861813776394> **Hex**", json.hex, true)
-                .addField("<:arrow:832598861813776394> **RGB**", json.rgb, true)
-                .addField(
-                    `<:arrow:832598861813776394> **${client.la[ls].cmds.info.color.brightershade}**`,
-                    json.brightened,
-                    true
-                )
+                .addFields({ name: "<:arrow:832598861813776394> **Name**", value: json.name, inline: true })
+                .addFields({ name: "<:arrow:832598861813776394> **Hex**", value: json.hex, inline: true })
+                .addFields({ name: "<:arrow:832598861813776394> **RGB**", value: json.rgb, inline: true })
+                .addFields({ name: `<:arrow:832598861813776394> **${client.la[ls].cmds.info.color.brightershade}**`, value: json.brightened, inline: true })
                 .setThumbnail(json.color_image)
                 .setColor(json.hex);
             interaction?.reply({

@@ -2536,6 +2536,7 @@ function change_status(client) {
 }
 
 async function check_voice_channels(client) {
+    if (!client.jtcsettings) return;
     let guilds = client.guilds.cache.map(guild => guild.id);
     for (let i = 0; i < guilds.length; i++) {
         try {
@@ -2554,7 +2555,7 @@ async function check_voice_channels(client) {
                 jointocreate.push(client.jtcsettings.get(guild.id, `jtcsettings${i}.channel`));
             }
             await guild.channels.cache
-                .filter(ch => ch.type == "GUILD_VOICE" && jointocreate.includes(ch.id))
+                .filter(ch => ch.type == ChannelType.GuildVoice && jointocreate.includes(ch.id))
                 .each(async (channel, j) => {
                     try {
                         let members = channel.members.map(this_Code_is_by_Tomato_6966 => this_Code_is_by_Tomato_6966);
@@ -2578,13 +2579,14 @@ async function check_voice_channels(client) {
 }
 
 async function check_created_voice_channels(client) {
+    if (!client.jointocreatemap) return;
     let guilds = client.guilds.cache.map(guild => guild.id);
     for (let i = 0; i < guilds.length; i++) {
         try {
             let guild = client.guilds.cache.get(guilds[i]);
             if (guild) {
                 guild.channels.cache
-                    .filter(ch => ch.type == "GUILD_VOICE")
+                    .filter(ch => ch.type == ChannelType.GuildVoice)
                     .each(async vc => {
                         try {
                             if (client.jointocreatemap.get(`tempvoicechannel_${vc.guild.id}_${vc.id}`) == vc.id) {

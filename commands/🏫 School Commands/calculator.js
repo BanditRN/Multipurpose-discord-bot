@@ -9,7 +9,6 @@ const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 
-const { Calculator } = require("@m3rcena/weky");
 module.exports = {
     name: "calculator",
     aliases: ["ti82", "taschenrechner"],
@@ -36,6 +35,7 @@ module.exports = {
                 ],
             });
         }
+        const { Calculator } = await import("@m3rcena/weky");
         await Calculator({
             interaction: message,
             embed: {

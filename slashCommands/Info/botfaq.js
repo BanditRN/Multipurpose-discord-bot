@@ -3,7 +3,7 @@ const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
 const { duration, handlemsg } = require(`${process.cwd()}/handlers/functions`);
-const { MessageActionRow, MessageSelectMenu } = require("discord.js");
+const { ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
 module.exports = {
     name: "botfaq",
     description: "Frequently Asked Questions, about me!",
@@ -91,8 +91,8 @@ module.exports = {
                 },
             ];
             //define the selection
-            let Selection = new MessageActionRow().addComponents(
-                new MessageSelectMenu()
+            let Selection = new ActionRowBuilder().addComponents(
+                new StringSelectMenuBuilder()
                     .setCustomId("Botfaq-SlashCmd")
                     .setPlaceholder(client.la[ls].cmds.info.botfaq.placeholder)
                     .addOptions(
@@ -107,13 +107,9 @@ module.exports = {
                     )
             );
             //define the embed
-            let MenuEmbed = new Discord.MessageEmbed()
+            let MenuEmbed = new Discord.EmbedBuilder()
                 .setColor(es.color)
-                .setAuthor(
-                    client.la[ls].cmds.info.botfaq.menuembed.title,
-                    client.user.displayAvatarURL(),
-                    "https://discord.gg/milrato"
-                )
+                .setAuthor({ name: client.la[ls].cmds.info.botfaq.menuembed.title, iconURL: client.user.displayAvatarURL() || undefined, url: "https://discord.gg/milrato" || undefined })
                 .setDescription(client.la[ls].cmds.info.botfaq.menuembed.description);
             //send the menu msg
             await interaction?.reply({ embeds: [MenuEmbed], components: [Selection], ephemeral: true });
@@ -122,13 +118,9 @@ module.exports = {
                 let menuoptiondata = menuoptions.find(v => v.value.substring(0, 25) == interaction?.values[0]);
                 interaction?.reply({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new Discord.EmbedBuilder()
                             .setColor(es.color)
-                            .setAuthor(
-                                client.la[ls].cmds.info.botfaq.menuembed.title,
-                                client.user.displayAvatarURL(),
-                                "https://discord.gg/milrato"
-                            )
+                            .setAuthor({ name: client.la[ls].cmds.info.botfaq.menuembed.title, iconURL: client.user.displayAvatarURL() || undefined, url: "https://discord.gg/milrato" || undefined })
                             .setDescription(menuoptiondata.replymsg),
                     ],
                     ephemeral: true,

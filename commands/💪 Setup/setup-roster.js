@@ -56,7 +56,7 @@ module.exports = {
                 }
 
                 let row1 = new ActionRowBuilder().addComponents(
-                    new MessageSelectMenu()
+                    new StringSelectMenuBuilder()
                         .setCustomId("MenuSelection")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                         .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -74,7 +74,7 @@ module.exports = {
                         )
                 );
                 let row2 = new ActionRowBuilder().addComponents(
-                    new MessageSelectMenu()
+                    new StringSelectMenuBuilder()
                         .setCustomId("MenuSelection2")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                         .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -92,7 +92,7 @@ module.exports = {
                         )
                 );
                 let row3 = new ActionRowBuilder().addComponents(
-                    new MessageSelectMenu()
+                    new StringSelectMenuBuilder()
                         .setCustomId("MenuSelection3")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                         .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -110,7 +110,7 @@ module.exports = {
                         )
                 );
                 let row4 = new ActionRowBuilder().addComponents(
-                    new MessageSelectMenu()
+                    new StringSelectMenuBuilder()
                         .setCustomId("MenuSelection4")
                         .setMaxValues(1) //OPTIONAL, this is how many values you can have at each selection
                         .setMinValues(1) //OPTIONAL , this is how many values you need to have at each selection
@@ -239,7 +239,7 @@ module.exports = {
                     },
                 ];
                 //define the selection
-                let Selection = new MessageSelectMenu()
+                let Selection = new StringSelectMenuBuilder()
                     .setCustomId("MenuSelection")
                     .setMaxValues(1)
                     .setMinValues(1)

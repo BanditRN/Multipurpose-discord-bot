@@ -33,7 +33,7 @@ module.exports = client => {
     /**
      * FETCH THE INVITES OF ALL GUILDS
      */
-    client.on("ready", async () => {
+    client.on("clientReady", async () => {
         for (const guild of [...client.guilds.cache.values()]) {
             let fetchedInvites = null;
             if (guild.members.me?.permissions.has(PermissionFlagsBits.ManageGuild)) {

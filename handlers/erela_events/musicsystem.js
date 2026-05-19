@@ -593,7 +593,7 @@ function generateQueueEmbed(client, guildId, leave) {
                 name: `${cur.title}`,
                 iconURL:
                     "https://images-ext-1.discordapp.net/external/DkPCBVBHBDJC8xHHCF2G7-rJXnTwj_qs78udThL8Cy0/%3Fv%3D1/https/cdn.discordapp.com/emojis/859459305152708630.gif",
-                url: cur.uri || null,
+                url: cur.uri || undefined,
             })
             .addFields(
                 { name: `${emoji?.msg.time} Duration: `, value: `\`${format(cur.duration).split(" | ")[0]}\` | \`${format(cur.duration).split(" | ")[1]}\``, inline: true },
@@ -605,19 +605,18 @@ function generateQueueEmbed(client, guildId, leave) {
         var maxTracks = 10; //tracks / Queue Page
         //get an array of quelist where 10 tracks is one index in the array
         var songs = tracks.slice(0, maxTracks);
+        const queueDesc = String(
+            songs
+                .map(
+                    (track, index) =>
+                        `**\` ${++index}. \` ${track.uri ? `[${track.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${track.uri})` : track.title}** - \`${track.isStream ? `LIVE STREAM` : format(track.duration).split(` | `)[0]}\`\n> *Requested by: __${track.requester?.tag || track.requester?.username || "Unknown"}__*`
+                )
+                .join(`\n`)
+        ).substring(0, 2048) || `*No upcoming tracks in queue.*`;
         embeds[0] = new EmbedBuilder()
             .setTitle(`📃 Queue of __${guild.name}__  -  [ ${player.queue.length} Tracks ]`)
             .setColor(es.color)
-            .setDescription(
-                String(
-                    songs
-                        .map(
-                            (track, index) =>
-                                `**\` ${++index}. \` ${track.uri ? `[${track.title.substring(0, 60).replace(/\[/giu, "\\[").replace(/\]/giu, "\\]")}](${track.uri})` : track.title}** - \`${track.isStream ? `LIVE STREAM` : format(track.duration).split(` | `)[0]}\`\n> *Requested by: __${track.requester?.tag || track.requester?.username || "Unknown"}__*`
-                        )
-                        .join(`\n`)
-                ).substring(0, 2048)
-            );
+            .setDescription(queueDesc);
         const queueFields = [];
         if (player.queue.length > 10)
             queueFields.push({

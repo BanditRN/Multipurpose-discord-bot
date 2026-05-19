@@ -2,7 +2,7 @@ const {
     ChannelType,
 } = require("discord.js");
 module.exports = client => {
-    client.once("ready", () => {
+    client.once("clientReady", () => {
         client.manager.init(client.user.id);
     });
 
@@ -37,7 +37,7 @@ module.exports = client => {
         }
     });
     client.on("voiceStateUpdate", async (oS, nS) => {
-        if (nS.channelId && nS.channel?.type == "GUILD_STAGE_VOICE" && nS.guild.members.me?.voice?.suppress) {
+        if (nS.channelId && nS.channel?.type == ChannelType.GuildStageVoice && nS.guild.members.me?.voice?.suppress) {
             try {
                 await nS.guild.members.me?.voice?.setSuppressed(false);
             } catch (e) {

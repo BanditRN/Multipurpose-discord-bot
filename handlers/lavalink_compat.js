@@ -113,6 +113,7 @@ class CompatPlayer {
 
     async pause(toggle = true) {
         this.paused = Boolean(toggle);
+        this.playing = !this.paused; // keep in sync — !playing is what all embed checks use to show "Resume"
         // lavalink-client has separate pause()/resume() methods with state-checks that throw
         // if already in the target state. Use updatePlayer() directly to avoid that.
         if (this._rawPlayer?.node) {
@@ -339,8 +340,12 @@ class CompatManager {
         };
         const prefix = source ? (SOURCE_MAP[source.toLowerCase()] ?? source) : null;
         // URLs are passed as-is; text queries get the search prefix prepended.
+        // If no source is given, fall back to "ytsearch" so Lavalink knows which
+        // platform to search — without a prefix, Lavalink treats the string as a URL
+        // and returns empty results for plain song name queries.
+        const DEFAULT_PREFIX = "ytsearch";
         const isUrl = /^https?:\/\//.test(q);
-        const finalQuery = (!isUrl && prefix) ? `${prefix}:${q}` : q;
+        const finalQuery = isUrl ? q : `${prefix ?? DEFAULT_PREFIX}:${q}`;
 
         // Use the first connected node's rawRequest() — this uses the library's own HTTP
         // client with correct host/port/auth/version path, no node.info validation needed.

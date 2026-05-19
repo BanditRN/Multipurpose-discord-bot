@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -54,14 +54,10 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
         }
         if (customavatar) {
-            let embed = new MessageEmbed()
-                .setAuthor(
-                    handlemsg(client.la[ls].cmds.info.avatar.author, {
+            let embed = new EmbedBuilder()
+                .setAuthor({ name: handlemsg(client.la[ls].cmds.info.avatar.author, {
                         usertag: user.tag,
-                    }),
-                    customavatar,
-                    "https://discord.gg/milrato"
-                )
+                    }), iconURL: customavatar || undefined, url: "https://discord.gg/milrato" || undefined })
                 .setColor(es.color)
                 .setThumbnail(
                     es.thumb
@@ -70,17 +66,9 @@ module.exports = {
                             : client.user.displayAvatarURL()
                         : null
                 )
-                .addField("<:arrow:832598861813776394> PNG", `[\`LINK\`](${customavatar})`, true)
-                .addField(
-                    "<:arrow:832598861813776394> JPEG",
-                    `[\`LINK\`](${customavatar.replace("png", "jpg").replace("gif", "jpg")})`,
-                    true
-                )
-                .addField(
-                    "<:arrow:832598861813776394> WEBP",
-                    `[\`LINK\`](${customavatar.replace("png", "webp").replace("gif", "webp")})`,
-                    true
-                )
+                .addFields({ name: "<:arrow:832598861813776394> PNG", value: `[\`LINK\`](${customavatar})`, inline: true })
+                .addFields({ name: "<:arrow:832598861813776394> JPEG", value: `[\`LINK\`](${customavatar.replace("png", "jpg").replace("gif", "jpg")})`, inline: true })
+                .addFields({ name: "<:arrow:832598861813776394> WEBP", value: `[\`LINK\`](${customavatar.replace("png", "webp").replace("gif", "webp")})`, inline: true })
                 .setURL(customavatar)
                 .setFooter(client.getFooter(es))
                 .setImage(customavatar);
@@ -89,16 +77,12 @@ module.exports = {
                 ephemeral: true,
             });
         } else {
-            let embed = new MessageEmbed()
-                .setAuthor(
-                    handlemsg(client.la[ls].cmds.info.avatar.author, {
+            let embed = new EmbedBuilder()
+                .setAuthor({ name: handlemsg(client.la[ls].cmds.info.avatar.author, {
                         usertag: user.tag,
-                    }),
-                    user.displayAvatarURL({
+                    }), iconURL: user.displayAvatarURL({
                         dynamic: true,
-                    }),
-                    "https://discord.gg/milrato"
-                )
+                    }) || undefined, url: "https://discord.gg/milrato" || undefined })
                 .setColor(es.color)
                 .setThumbnail(
                     es.thumb
@@ -107,17 +91,9 @@ module.exports = {
                             : client.user.displayAvatarURL()
                         : null
                 )
-                .addField("<:arrow:832598861813776394> PNG", `[\`LINK\`](${user.displayAvatarURL({ format: "png" })})`, true)
-                .addField(
-                    "<:arrow:832598861813776394> JPEG",
-                    `[\`LINK\`](${user.displayAvatarURL({ format: "jpg" })})`,
-                    true
-                )
-                .addField(
-                    "<:arrow:832598861813776394> WEBP",
-                    `[\`LINK\`](${user.displayAvatarURL({ format: "webp" })})`,
-                    true
-                )
+                .addFields({ name: "<:arrow:832598861813776394> PNG", value: `[\`LINK\`](${user.displayAvatarURL({ format: "png" })})`, inline: true })
+                .addFields({ name: "<:arrow:832598861813776394> JPEG", value: `[\`LINK\`](${user.displayAvatarURL({ format: "jpg" })})`, inline: true })
+                .addFields({ name: "<:arrow:832598861813776394> WEBP", value: `[\`LINK\`](${user.displayAvatarURL({ format: "webp" })})`, inline: true })
                 .setURL(
                     user.displayAvatarURL({
                         dynamic: true,

@@ -173,7 +173,7 @@ module.exports = async client => {
         "America/Los_Angeles"
     );
 
-    client.on("ready", () => {
+    client.on("clientReady", () => {
         client.Jobmute.start();
         client.Jobremind.start();
     });

@@ -5,9 +5,8 @@ const {
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const canvacord = require("canvacord");
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
-const request = require("request");
+const axios = require("axios");
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
-const got = require("got");
 const path = require("path");
 module.exports = {
     name: path.parse(__filename).name,
@@ -35,9 +34,9 @@ module.exports = {
             });
         }
         try {
-            got("https://www.reddit.com/r/jokes/random/.json")
+            axios.get("https://www.reddit.com/r/jokes/random/.json")
                 .then(response => {
-                    let content = JSON.parse(response.body);
+                    let content = response.data;
                     var title = content[0].data.children[0].data.title;
                     var joke = content[0].data.children[0].data.selftext;
                     let jokeembed = new EmbedBuilder()

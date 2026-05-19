@@ -3,6 +3,7 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
+    ChannelType,
     EmbedBuilder,
     PermissionFlagsBits,
 } = require("discord.js");
@@ -120,7 +121,7 @@ module.exports = (client, preindex) => {
         try {
             var cat = guild.channels.cache.get(ticket.parentid);
             if (cat) {
-                if (cat.type == "GUILD_CATEGORY") {
+                if (cat.type == ChannelType.GuildCategory) {
                     if (cat.children.size < 50) {
                         optionsData.parent = String(cat.id);
                     }

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require(`discord.js`);
+const { EmbedBuilder } = require(`discord.js`);
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -20,7 +20,7 @@ module.exports = {
             return interaction?.reply({
                 ephemeral: true,
                 embed: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -34,7 +34,7 @@ module.exports = {
             if (!args[0])
                 return interaction?.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(
                                 handlemsg(client.la[ls].cmds.music.forward.allowed, {
@@ -54,7 +54,7 @@ module.exports = {
             //Send Success Message
             return interaction?.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(client.la[ls].cmds.music.forward.title)
                         .setDescription(
                             handlemsg(client.la[ls].cmds.music.forward.description, {
@@ -62,7 +62,7 @@ module.exports = {
                                 time: format(Number(player.position)),
                             })
                         )
-                        .addField(client.la[ls].cmds.music.forward.field, createBar(player))
+                        .addFields({ name: client.la[ls].cmds.music.forward.field, value: createBar(player) })
                         .setColor(es.color),
                 ],
             });

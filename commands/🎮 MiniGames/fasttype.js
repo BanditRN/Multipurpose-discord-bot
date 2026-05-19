@@ -2,7 +2,6 @@ const Canvas = require("canvas");
 const {
     EmbedBuilder,
 } = require("discord.js");
-const { FastType } = require("@m3rcena/weky");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const Discord = require(`discord.js`);
@@ -1170,6 +1169,7 @@ module.exports = {
                     )
             );
         }
+        const { FastType } = await import("@m3rcena/weky");
         await FastType({
             interaction: message,
             embed: {

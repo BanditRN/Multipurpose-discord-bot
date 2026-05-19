@@ -87,10 +87,14 @@ Object.freeze(client.la);
 
 /**********************************************************
  * @param {6} Raise_the_Max_Listeners (default 10)
- * Using 25 instead of 0 to keep memory leak detection active
+ * Using 25 instead of 0 to keep memory leak detection active.
+ * process gets 60: each of the ~33 Enmap instances registers its own
+ * process.on('exit') listener to close its SQLite connection, plus
+ * Node internals and lavalink-client add several more.
  *********************************************************/
 client.setMaxListeners(25);
 Events.defaultMaxListeners = 25;
+process.setMaxListeners(60);
 process.env.UV_THREADPOOL_SIZE = OS.cpus().length;
 
 /**********************************************************
@@ -107,19 +111,49 @@ client.ad = {
  * @param {8} LOAD_the_BOT_Functions
  *********************************************************/
 //those are must haves, they load the dbs, events and commands and important other stuff
-function requirehandlers() {
-    ["extraevents", "clientvariables", "command", "loaddb", "events", "erelahandler", "slashCommands"].forEach(handler => {
+async function requirehandlers() {
+    // Phase 1: Sync setup — collections and client properties must exist before anything else
+    for (const handler of ["extraevents", "clientvariables"]) {
         try {
             require(`./handlers/${handler}`)(client);
         } catch (e) {
-            if (handler === "ranking") {
-                console.log(`[WARN] Skipping handler "${handler}" due to startup dependency timing issue.`.yellow);
-                console.log(e.stack ? String(e.stack).grey : String(e).grey);
-                return;
-            }
             console.log(e.stack ? String(e.stack).grey : String(e).grey);
         }
-    });
+    }
+
+    // Phase 2: Parallel — command loading (100+ file reads) and database init (20+ SQLite opens)
+    // are fully independent; run them together to cut their combined cost down to max(cmd, db).
+    await Promise.all([
+        (async () => {
+            try {
+                await require(`./handlers/command`)(client);
+            } catch (e) {
+                console.log(e.stack ? String(e.stack).grey : String(e).grey);
+            }
+        })(),
+        (async () => {
+            try {
+                await require(`./handlers/loaddb`)(client);
+            } catch (e) {
+                console.log(e.stack ? String(e.stack).grey : String(e).grey);
+            }
+        })(),
+    ]);
+
+    // Phase 3: Core Discord handlers — must be registered before the WebSocket opens
+    for (const handler of ["events", "erelahandler", "slashCommands"]) {
+        try {
+            require(`./handlers/${handler}`)(client);
+        } catch (e) {
+            console.log(e.stack ? String(e.stack).grey : String(e).grey);
+        }
+    }
+
+    // Phase 4: Login now — Discord WebSocket handshake (~200–500 ms) overlaps with Phase 5 below
+    client.login(process.env.token || config.token);
+
+    // Phase 5: Non-critical handlers — only need to be ready before real user traffic arrives.
+    // Running after login means these ~34 require() calls no longer block the connection.
     ["twitterfeed", /*"twitterfeed2",*/ "livelog", "youtube", "tiktok"].forEach(handler => {
         try {
             require(`./social_log/${handler}`)(client);
@@ -175,8 +209,6 @@ function requirehandlers() {
         }
     });
 }
-requirehandlers();
-
 process.on("unhandledRejection", reason => {
     console.log("=== UNHANDLED REJECTION ===".red);
     if (reason instanceof Error) {
@@ -198,9 +230,10 @@ process.on("uncaughtException", err => {
 });
 
 /**********************************************************
- * @param {9} Login_to_the_Bot
+ * @param {9} Login_to_the_Bot — triggered from inside requirehandlers (Phase 4)
+ *   after databases + critical events are ready but before non-critical handlers.
  *********************************************************/
-client.login(process.env.token || config.token);
+requirehandlers();
 
 /**********************************************************
  * @INFO

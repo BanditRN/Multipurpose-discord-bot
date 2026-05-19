@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder , ChannelType } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -62,14 +62,10 @@ module.exports = {
             interaction?.reply({
                 ephemeral: true,
                 embeds: [
-                    new Discord.MessageEmbed()
-                        .setAuthor(
-                            client.la[ls].cmds.info.serverinfo.author + " " + message.guild.name,
-                            message.guild.iconURL({
+                    new Discord.EmbedBuilder()
+                        .setAuthor({ name: client.la[ls].cmds.info.serverinfo.author + " " + message.guild.name, iconURL: message.guild.iconURL({
                                 dynamic: true,
-                            }),
-                            "https://discord.com/api/oauth2/authorize?client_id=734513783338434591&permissions=8&scope=bot%20applications.commands"
-                        )
+                            }) || undefined, url: "https://discord.com/api/oauth2/authorize?client_id=734513783338434591&permissions=8&scope=bot%20applications.commands" || undefined })
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -78,101 +74,47 @@ module.exports = {
                                     : client.user.displayAvatarURL()
                                 : null
                         )
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field1,
-                            `${message.guild.owner}\n\`${message.guild.owner.tag}\``,
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field2,
-                            "`" +
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field1, value: `${message.guild.owner}\n\`${message.guild.owner.tag}\``, inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field2, value: "`" +
                                 moment(message.guild.createdTimestamp).format("DD/MM/YYYY") +
                                 "`\n" +
                                 "`" +
                                 moment(message.guild.createdTimestamp).format("hh:mm:ss") +
-                                "`",
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field3,
-                            "`" +
+                                "`", inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field3, value: "`" +
                                 moment(message.member.joinedTimestamp).format("DD/MM/YYYY") +
                                 "`\n" +
                                 "`" +
                                 moment(message.member.joinedTimestamp).format("hh:mm:ss") +
-                                "`",
-                            true
-                        )
+                                "`", inline: true })
 
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field4,
-                            "👁‍🗨 `" + message.guild.channels.cache.size + "`",
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field5,
-                            "💬 `" + message.guild.channels.cache.filter(channel => channel.type == "GUILD_TEXT").size + "`",
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field6,
-                            "🔈 `" +
-                                message.guild.channels.cache.filter(channel => channel.type == "GUILD_VOICE").size +
-                                "`",
-                            true
-                        )
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field4, value: "👁‍🗨 `" + message.guild.channels.cache.size + "`", inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field5, value: "💬 `" + message.guild.channels.cache.filter(channel => channel.type == ChannelType.GuildText).size + "`", inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field6, value: "🔈 `" +
+                                message.guild.channels.cache.filter(channel => channel.type == ChannelType.GuildVoice).size +
+                                "`", inline: true })
 
-                        .addField(client.la[ls].cmds.info.serverinfo.field7, "😀 `" + message.guild.memberCount + "`", true)
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field8,
-                            "👤 `" + message.guild.members.cache.filter(member => !member.user.bot).size + "`",
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field9,
-                            "🤖 `" + message.guild.members.cache.filter(member => member.user.bot).size + "`",
-                            true
-                        )
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field7, value: "😀 `" + message.guild.memberCount + "`", inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field8, value: "👤 `" + message.guild.members.cache.filter(member => !member.user.bot).size + "`", inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field9, value: "🤖 `" + message.guild.members.cache.filter(member => member.user.bot).size + "`", inline: true })
 
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field10,
-                            "🟢 `" +
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field10, value: "🟢 `" +
                                 message.guild.members.cache.filter(
                                     member => member.presence && member.presence.status != "offline"
                                 ).size +
-                                "`",
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field11,
-                            ":black_circle:`" +
+                                "`", inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field11, value: ":black_circle:`" +
                                 message.guild.members.cache.filter(
                                     member => !member.presence || member.presence.status == "offline"
                                 ).size +
-                                "`",
-                            true
-                        )
+                                "`", inline: true })
 
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field12,
-                            "<a:nitro_logo:833402717950836806> `" + message.guild.premiumSubscriptionCount + "`",
-                            true
-                        )
-                        .addField(
-                            client.la[ls].cmds.info.serverinfo.field13,
-                            "<a:nitro:833402717506502707> `" + boostlevel + "`",
-                            true
-                        )
-                        .addField(client.la[ls].cmds.info.serverinfo.field14, "👾 `" + maxbitrate + " kbps`", true)
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field12, value: "<a:nitro_logo:833402717950836806> `" + message.guild.premiumSubscriptionCount + "`", inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field13, value: "<a:nitro:833402717506502707> `" + boostlevel + "`", inline: true })
+                        .addFields({ name: client.la[ls].cmds.info.serverinfo.field14, value: "👾 `" + maxbitrate + " kbps`", inline: true })
 
-                        .addField(
-                            eval(client.la[ls]["cmds"]["info"]["serverinfo"]["variablex_1"]),
-                            eval(client.la[ls]["cmds"]["info"]["serverinfo"]["variable1"])
-                        )
-                        .addField(
-                            eval(client.la[ls]["cmds"]["info"]["serverinfo"]["variablex_2"]),
-                            eval(client.la[ls]["cmds"]["info"]["serverinfo"]["variable1"])
-                        )
+                        .addFields({ name: eval(client.la[ls]["cmds"]["info"]["serverinfo"]["variablex_1"]), value: eval(client.la[ls]["cmds"]["info"]["serverinfo"]["variable1"]) })
+                        .addFields({ name: eval(client.la[ls]["cmds"]["info"]["serverinfo"]["variablex_2"]), value: eval(client.la[ls]["cmds"]["info"]["serverinfo"]["variable1"]) })
                         .setThumbnail(
                             message.guild.iconURL({
                                 dynamic: true,

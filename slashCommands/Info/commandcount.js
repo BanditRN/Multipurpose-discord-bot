@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 var ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -28,16 +28,14 @@ module.exports = {
         try {
             await interaction?.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setFooter(client.getFooter("It could take up to 30 Seconds ...", client.user.displayAvatarURL()))
-                        .setAuthor(
-                            client.getAuthor(
+                        .setAuthor({ name: client.getAuthor(
                                 handlemsg(client.la[ls].cmds.info.commandcount.tempmsg),
                                 "https://cdn.discordapp.com/emojis/756773010123522058.gif",
                                 "https://discord.gg/milrato"
-                            )
-                        ),
+                            ) }),
                 ],
                 ephemeral: true,
             });
@@ -71,7 +69,7 @@ module.exports = {
 
             await interaction?.editReply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.color)
                         .setThumbnail(
                             es.thumb
@@ -96,7 +94,7 @@ module.exports = {
             console.log(String(e.stack).grey.bgRed);
             return message.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.erroroccur)

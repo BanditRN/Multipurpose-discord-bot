@@ -137,11 +137,12 @@ module.exports = {
                 embeduserinfo.addFields({ name: client.la[ls].cmds.info.userinfo.field9, value: `> \`${member.user.bot ? "✔️" : "❌"}\``, inline: true });
                 var userstatus = client.la[ls].cmds.info.userinfo.nostatus;
                 if (activity) {
-                    if (activity.type === "CUSTOM") {
+                    if (activity.type === Discord.ActivityType.Custom) {
                         let emoji = `${activity.emoji ? (activity.emoji?.id ? `<${activity.emoji?.animated ? "a" : ""}:${activity.emoji?.name}:${activity.emoji?.id}>` : activity.emoji?.name) : ""}`;
                         userstatus = `${emoji} \`${activity.state || client.la[ls].cmds.info.userinfo.nostatus}\``;
                     } else {
-                        userstatus = `\`${activity.type.toLowerCase().charAt(0).toUpperCase() + activity.type.toLowerCase().slice(1)} ${activity.name}\``;
+                        const actTypeNames = ["Playing", "Streaming", "Listening", "Watching", "Custom", "Competing"];
+                        userstatus = `\`${actTypeNames[activity.type] || "Playing"} ${activity.name}\``;
                     }
                 }
                 embeduserinfo.addFields({ name: client.la[ls].cmds.info.userinfo.field10, value: `> ${userstatus}` });

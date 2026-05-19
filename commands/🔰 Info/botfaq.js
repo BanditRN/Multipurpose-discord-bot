@@ -87,7 +87,7 @@ module.exports = {
             ];
             //define the selection
             let Selection = new ActionRowBuilder().addComponents(
-                new MessageSelectMenu()
+                new StringSelectMenuBuilder()
                     .setCustomId("MenuSelection")
                     .setPlaceholder(client.la[ls].cmds.info.botfaq.placeholder)
                     .addOptions(

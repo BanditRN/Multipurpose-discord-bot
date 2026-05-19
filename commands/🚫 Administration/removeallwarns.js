@@ -1,6 +1,5 @@
 const {
     EmbedBuilder,
-    MessageEmbedn,
     PermissionFlagsBits,
 } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);

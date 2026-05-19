@@ -178,7 +178,7 @@ module.exports = client => {
                             const code = content.split("discord.gg/")[1];
                             const isOurInvite = await isInvite(guild, code);
                             if (!isOurInvite) {
-                                if (message.deleted) return;
+                                if (!message.channel) return;
                                 if (autowarn.antidiscord) {
                                     client.userProfiles.ensure(message.author.id, {
                                         id: message.author.id,

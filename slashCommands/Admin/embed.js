@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const settings = require("../../botconfig/settings.json");
@@ -60,7 +60,7 @@ module.exports = {
                 )
                     ? ChannelOption
                     : guild.channels.cache.get(channelId);
-            let embed = new MessageEmbed()
+            let embed = new EmbedBuilder()
                 .setColor(EmbedColor ? EmbedColor : es.color)
                 .setTitle(String(EmbedTitle).substring(0, 256))
                 .setDescription(String(EmbedDescription).substring(0, 2048).split("+n+").join("\n"))

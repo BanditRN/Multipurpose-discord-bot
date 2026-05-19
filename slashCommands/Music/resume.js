@@ -1,4 +1,4 @@
-const { MessageEmbed } = require(`discord.js`);
+const { EmbedBuilder } = require(`discord.js`);
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const ee = require(`${process.cwd()}/botconfig/embed.json`);
 const emoji = require(`${process.cwd()}/botconfig/emojis.json`);
@@ -21,7 +21,7 @@ module.exports = {
         if (!client.settings.get(message.guild.id, "MUSIC")) {
             return interaction?.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setColor(es.wrongcolor)
                         .setFooter(client.getFooter(es))
                         .setTitle(client.la[ls].common.disabled.title)
@@ -35,7 +35,7 @@ module.exports = {
                 return interaction?.reply({
                     ephemeral: true,
                     embed: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setColor(es.wrongcolor)
                             .setTitle(eval(client.la[ls]["cmds"]["music"]["resume"]["variable1"]))
                             .setDescription(eval(client.la[ls]["cmds"]["music"]["resume"]["variable2"])),
@@ -45,7 +45,7 @@ module.exports = {
             player.pause(false);
             //send success message
             interaction?.reply({
-                embeds: [new MessageEmbed().setColor(es.color).setTitle(`${emoji?.msg.resume} Resumed the Track!`)],
+                embeds: [new EmbedBuilder().setColor(es.color).setTitle(`${emoji?.msg.resume} Resumed the Track!`)],
             });
         } catch (e) {
             console.log(String(e.stack).dim.bgRed);

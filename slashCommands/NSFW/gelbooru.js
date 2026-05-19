@@ -3,7 +3,7 @@ const request = require("node-fetch");
 const fs = require("fs");
 const config = require(`${process.cwd()}/botconfig/config.json`);
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const booru = require("booru");
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
     ],
     run: async (client, interaction, cmduser, es, ls, prefix, player, message) => {
         if (!client.settings.get(message.guild.id, "NSFW")) {
-            const x = new MessageEmbed()
+            const x = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setFooter(client.getFooter(es))
                 .setTitle(client.la[ls].common.disabled.title)

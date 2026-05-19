@@ -52,7 +52,7 @@ module.exports = async client => {
         "America/Los_Angeles"
     );
 
-    client.on("ready", async () => {
+    client.on("clientReady", async () => {
         client.Joblivelog.start();
         client.Joblivelog2.start();
         UpdateAuthConfig();

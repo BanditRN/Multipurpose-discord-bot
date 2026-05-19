@@ -15,7 +15,7 @@ module.exports = client => {
         "Europe/Berlin"
     );
 
-    client.on("ready", () => {
+    client.on("clientReady", () => {
         client.Jobtwitterfeed.start();
     });
 };

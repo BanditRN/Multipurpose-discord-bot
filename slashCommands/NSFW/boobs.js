@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 
 const rp = require("request-promise-native");
 const config = require(`${process.cwd()}/botconfig/config.json`);
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { EmbedBuilder, MessageAttachment } = require("discord.js");
 module.exports = {
     name: "boobs",
     description: "Get an Boobs",
@@ -18,7 +18,7 @@ module.exports = {
     ],
     run: async (client, interaction, cmduser, es, ls, prefix, player, message) => {
         if (!client.settings.get(message.guild.id, "NSFW")) {
-            const x = new MessageEmbed()
+            const x = new EmbedBuilder()
                 .setColor(es.wrongcolor)
                 .setFooter(client.getFooter(es))
                 .setTitle(client.la[ls].common.disabled.title)
