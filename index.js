@@ -87,10 +87,14 @@ Object.freeze(client.la);
 
 /**********************************************************
  * @param {6} Raise_the_Max_Listeners (default 10)
- * Using 25 instead of 0 to keep memory leak detection active
+ * Using 25 instead of 0 to keep memory leak detection active.
+ * process gets 60: each of the ~33 Enmap instances registers its own
+ * process.on('exit') listener to close its SQLite connection, plus
+ * Node internals and lavalink-client add several more.
  *********************************************************/
 client.setMaxListeners(25);
 Events.defaultMaxListeners = 25;
+process.setMaxListeners(60);
 process.env.UV_THREADPOOL_SIZE = OS.cpus().length;
 
 /**********************************************************
@@ -108,33 +112,48 @@ client.ad = {
  *********************************************************/
 //those are must haves, they load the dbs, events and commands and important other stuff
 async function requirehandlers() {
-    // Run sync handlers before the database is ready
-    for (const handler of ["extraevents", "clientvariables", "command"]) {
+    // Phase 1: Sync setup — collections and client properties must exist before anything else
+    for (const handler of ["extraevents", "clientvariables"]) {
         try {
             require(`./handlers/${handler}`)(client);
         } catch (e) {
             console.log(e.stack ? String(e.stack).grey : String(e).grey);
         }
     }
-    // loaddb uses dynamic import (ESM enmap) and must be awaited so that
-    // client.stats, client.jtcsettings, etc. exist before 'ready' fires
-    try {
-        await require(`./handlers/loaddb`)(client);
-    } catch (e) {
-        console.log(e.stack ? String(e.stack).grey : String(e).grey);
-    }
-    ["events", "erelahandler", "slashCommands"].forEach(handler => {
-        try {
-            require(`./handlers/${handler}`)(client);
-        } catch (e) {
-            if (handler === "ranking") {
-                console.log(`[WARN] Skipping handler "${handler}" due to startup dependency timing issue.`.yellow);
+
+    // Phase 2: Parallel — command loading (100+ file reads) and database init (20+ SQLite opens)
+    // are fully independent; run them together to cut their combined cost down to max(cmd, db).
+    await Promise.all([
+        (async () => {
+            try {
+                await require(`./handlers/command`)(client);
+            } catch (e) {
                 console.log(e.stack ? String(e.stack).grey : String(e).grey);
-                return;
             }
+        })(),
+        (async () => {
+            try {
+                await require(`./handlers/loaddb`)(client);
+            } catch (e) {
+                console.log(e.stack ? String(e.stack).grey : String(e).grey);
+            }
+        })(),
+    ]);
+
+    // Phase 3: Core Discord handlers — must be registered before the WebSocket opens
+    for (const handler of ["events", "erelahandler", "slashCommands"]) {
+        try {
+            require(`./handlers/${handler}`)(client);
+        } catch (e) {
             console.log(e.stack ? String(e.stack).grey : String(e).grey);
         }
-    });
+    }
+
+    // Phase 4: Login now — Discord WebSocket handshake (~200–500 ms) overlaps with Phase 5 below
+    client.login(process.env.token || config.token);
+
+    // Phase 5: Non-critical handlers — only need to be ready before real user traffic arrives.
+    // Running after login means these ~34 require() calls no longer block the connection.
     ["twitterfeed", /*"twitterfeed2",*/ "livelog", "youtube", "tiktok"].forEach(handler => {
         try {
             require(`./social_log/${handler}`)(client);
@@ -211,11 +230,10 @@ process.on("uncaughtException", err => {
 });
 
 /**********************************************************
- * @param {9} Login_to_the_Bot — after databases are ready
+ * @param {9} Login_to_the_Bot — triggered from inside requirehandlers (Phase 4)
+ *   after databases + critical events are ready but before non-critical handlers.
  *********************************************************/
-requirehandlers().then(() => {
-    client.login(process.env.token || config.token);
-});
+requirehandlers();
 
 /**********************************************************
  * @INFO

@@ -1,4 +1,3 @@
-const { ChaosWords } = require("@m3rcena/weky");
 const {
     EmbedBuilder,
 } = require("discord.js");
@@ -29,6 +28,7 @@ module.exports = {
         }
         var randomWords = require("random-words");
         const words = randomWords(args[0] && !isNaN(args[0]) && Number(args[0]) > 0 ? Number(args[0]) : 3); // generating 3 words
+        const { ChaosWords } = await import("@m3rcena/weky");
         await ChaosWords({
             interaction: message,
             client: client,

@@ -1988,7 +1988,7 @@ module.exports = function (client) {
     });
     let voiceStates = {};
 
-    client.on("ready", () => {
+    client.on("clientReady", () => {
         if (client.points) {
             client.points.ensure("Voicerank", { voicerank: {} });
             voiceStates = client.points.get("Voicerank", "voicerank");

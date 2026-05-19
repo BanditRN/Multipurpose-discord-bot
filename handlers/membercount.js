@@ -28,7 +28,7 @@ module.exports = function (client, options) {
         "America/Los_Angeles"
     );
 
-    client.on("ready", async () => {
+    client.on("clientReady", async () => {
         //get all guilds which are setupped
         var guilds = Array.from(client.setups.keys()).filter(guildId => {
             const v = client.setups.get(guildId);

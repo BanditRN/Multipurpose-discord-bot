@@ -1,4 +1,3 @@
-const { LieSwatter } = require("@m3rcena/weky");
 const {
     EmbedBuilder,
 } = require("discord.js");
@@ -26,6 +25,7 @@ module.exports = {
                     )
             );
         }
+        const { LieSwatter } = await import("@m3rcena/weky");
         await LieSwatter({
             interaction: message,
             client: client,

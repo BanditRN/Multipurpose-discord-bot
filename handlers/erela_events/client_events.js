@@ -2,7 +2,7 @@ const {
     ChannelType,
 } = require("discord.js");
 module.exports = client => {
-    client.once("ready", () => {
+    client.once("clientReady", () => {
         client.manager.init(client.user.id);
     });
 

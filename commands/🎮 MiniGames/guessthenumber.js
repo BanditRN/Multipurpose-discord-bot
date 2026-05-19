@@ -1,4 +1,3 @@
-const { GuessTheNumber } = require("@m3rcena/weky");
 const {
     EmbedBuilder,
 } = require("discord.js");
@@ -28,6 +27,7 @@ module.exports = {
                     )
             );
         }
+        const { GuessTheNumber } = await import("@m3rcena/weky");
         await GuessTheNumber({
             interaction: message,
             embed: {

@@ -15,7 +15,7 @@ module.exports = client => {
         "America/Los_Angeles"
     );
 
-    client.on("ready", () => {
+    client.on("clientReady", () => {
         client.Jobyoutube.start(); //start the JOB
     });
 

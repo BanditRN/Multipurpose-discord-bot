@@ -1,4 +1,3 @@
-const { WouldYouRather } = require("@m3rcena/weky");
 const {
     EmbedBuilder,
 } = require("discord.js");
@@ -28,6 +27,7 @@ module.exports = {
                     )
             );
         }
+        const { WouldYouRather } = await import("@m3rcena/weky");
         await WouldYouRather({
             interaction: message,
             embed: {
