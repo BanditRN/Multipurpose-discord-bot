@@ -33,10 +33,11 @@ module.exports = {
                 if (e) {
                     return console.log(e.stack ? String(e.stack).grey : String(e).grey);
                 }
+                try {
                 let connectedchannelsamount = 0;
                 let guilds = client.guilds.cache.map(guild => guild);
                 for (let i = 0; i < guilds.length; i++) {
-                    if (guilds[i].me.voice.channel) connectedchannelsamount += 1;
+                    if (guilds[i].members.me?.voice?.channel) connectedchannelsamount += 1;
                 }
                 const totalGuilds = client.guilds.cache.size;
                 const totalMembers = client.users.cache.size;
@@ -71,6 +72,9 @@ module.exports = {
                         }) })
                     .setFooter(client.getFooter(es));
                 tempmsg.edit({ embeds: [botinfo] });
+                } catch (err) {
+                    console.log(err.stack ? String(err.stack).grey : String(err).grey);
+                }
             });
         } catch (e) {
             console.log(String(e.stack).grey.bgRed);

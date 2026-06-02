@@ -297,9 +297,9 @@ module.exports = {
                                 edited = true;
                                 helpmsg.edit({
                                     content: `Time has ended type ${prefix}setup-language again!`,
-                                    embeds: helpmsg.embeds[0],
+                                    embeds: helpmsg.embeds,
                                     components: alldisabledbuttons,
-                                });
+                                }).catch(() => {});
                             }
                         });
                         collector.on("end", collected => {
@@ -307,9 +307,9 @@ module.exports = {
                                 edited = true;
                                 helpmsg.edit({
                                     content: `Time has ended type ${prefix}setup-language again!`,
-                                    embeds: helpmsg.embeds[0],
+                                    embeds: helpmsg.embeds,
                                     components: alldisabledbuttons,
-                                });
+                                }).catch(() => {});
                             }
                         });
                         setTimeout(() => {
@@ -317,9 +317,9 @@ module.exports = {
                                 edited = true;
                                 helpmsg.edit({
                                     content: `Time has ended type ${prefix}setup-language again!`,
-                                    embeds: helpmsg.embeds[0],
+                                    embeds: helpmsg.embeds,
                                     components: alldisabledbuttons,
-                                });
+                                }).catch(() => {});
                             }
                         }, 180e3 + 150);
                         return;

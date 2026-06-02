@@ -14,6 +14,9 @@ module.exports = {
     usage: "giveaway <start/end/reroll/edit/delete/list>",
     type: "server",
     run: async (client, message, args, cmduser, text, prefix) => {
+        if (!client.giveawaysManager) {
+            return message.reply({ content: "⚠️ Giveaways are not available on this bot version." });
+        }
         let es = client.settings.get(message.guild.id, "embed");
         let ls = client.settings.get(message.guild.id, "language");
         let adminroles = client.settings.get(message.guild.id, "adminroles");
