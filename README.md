@@ -1,7 +1,14 @@
 # FORK 2026
 This fork was made to revive the project using ai tools to update apis and add support to DAVE protocol and lavalink v4
 Alot of the classes are still unsupported. They throw exceptions during init anyway so they have been skipped.
-There are minor issues including multiple "Nothing found messages" and the static music channel request is not properly handled
+There are minor issues including multiple "Nothing found messages" and the static music channel request is not properly handled.
+
+**npm i** only works with node version 20 you can use [nvm](https://github.com/nvm-sh/nvm) to install it.
+```
+nvm install 20 \ 
+&& nvm use 20 \
+&& npm i
+```
 # INFO 2025
 
 Check the [new_2025](https://github.com/Tomato6966/Multipurpose-discord-bot/tree/new_2025) branch for a 2025 working version!
