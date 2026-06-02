@@ -147,18 +147,18 @@ module.exports = {
                 if (!edited)
                     awaitedmsg.edit({
                         content: "TIME HAS ENDED!",
-                        embeds: awaitedmsg.embeds[0],
-                        buttons: [approve.setDisabled(true), deny.setDisabled(true)],
-                    });
+                        embeds: awaitedmsg.embeds,
+                        components: [],
+                    }).catch(() => {});
                 edited = true;
             });
             setTimeout(() => {
                 if (!edited)
                     awaitedmsg.edit({
                         content: "TIME HAS ENDED!",
-                        embeds: awaitedmsg.embeds[0],
-                        buttons: [approve.setDisabled(true), deny.setDisabled(true)],
-                    });
+                        embeds: awaitedmsg.embeds,
+                        components: [],
+                    }).catch(() => {});
                 edited = true;
             }, 30e3 + 150);
 

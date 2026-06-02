@@ -204,8 +204,8 @@ module.exports = {
                     button?.message.edit({ content: `Canceling...`, components: null });
 
                     setTimeout(async () => {
-                        let message = await button?.channel.messages.fetch(button?.message.id).catch(() => {});
-                        message.delete();
+                        const fetched = await button?.channel?.messages.fetch(button?.message.id).catch(() => {});
+                        fetched?.delete().catch(() => {});
                     }, 3000);
 
                     await client.removeListener("interactionCreate", buttonEvent);
@@ -228,7 +228,7 @@ module.exports = {
                 }
 
                 setTimeout(() => {
-                    button?.message.edit({ embeds: [embedToBuild], components: null });
+                    button?.message.edit({ embeds: [embedToBuild], components: [] }).catch(() => {});
                     client.removeListener("interactionCreate", buttonEvent);
                 }, 300000);
             };

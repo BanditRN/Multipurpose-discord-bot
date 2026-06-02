@@ -52,11 +52,7 @@ module.exports = async client => {
         console.log("[WARN] discord-giveaways is not compatible with this Discord.js major. Skipping giveaways init.".yellow);
     }
     client.giveawayDB = new Enmap({ name: "giveaways", dataDir: "./databases" });
-    // discord-giveaways v5 requires Discord.Intents which was removed in discord.js v14.
-    // Detect the incompatibility here so we never attempt to extend or instantiate the class.
-    const { Intents: _Intents } = require("discord.js");
-    if (!GiveawaysManager || !_Intents) {
-        console.log("[WARN] discord-giveaways is not compatible with this Discord.js version. Skipping giveaways.".yellow);
+    if (!GiveawaysManager) {
         console.log(
             `[x] :: `.magenta +
                 `LOADED THE ${client.commands.size} COMMANDS after: `.brightGreen +
